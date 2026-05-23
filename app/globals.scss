@@ -1,0 +1,113 @@
+@use "../styles/mixins" as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --bg: #b8c1f5;
+  --text-primary: #1a1a1a;
+  --text-secondary: #6b6b6b;
+  --border: #e8e8e4;
+  --accent-purple: #534ab7;
+  --accent-teal: #0f6e56;
+  --btn-primary-bg: #1a1a1a;
+  --btn-primary-text: #fafaf8;
+  --transition-theme: 300ms ease;
+}
+
+[data-theme="dark"] body {
+  background-image: none;
+}
+
+[data-theme="dark"] {
+  --bg: #111110;
+  --text-primary: #f0efe9;
+  --text-secondary: #9a9a94;
+  --border: #2c2c2a;
+  --accent-purple: #afa9ec;
+  --accent-teal: #5dcaa5;
+  --btn-primary-bg: #f0efe9;
+  --btn-primary-text: #111110;
+}
+
+@for $i from 0 through 3 {
+  [data-era="#{$i}"] {
+    @if $i == 0 {
+      --bg: #d5bdf8;
+    } @else if $i == 1 {
+      --bg: #b8c1f5;
+    } @else if $i == 2 {
+      --bg: #94bdf7;
+    } @else {
+      --bg: #b8c1f5;
+    }
+  }
+
+  [data-theme="dark"][data-era="#{$i}"] {
+    @if $i == 0 {
+      --bg: #111110;
+    } @else if $i == 1 {
+      --bg: #121110;
+    } @else if $i == 2 {
+      --bg: #101211;
+    } @else {
+      --bg: #111210;
+    }
+  }
+}
+
+body {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg);
+  background-image: linear-gradient(
+    270deg,
+    #d5bdf8,
+    #b8c1f5,
+    #94bdf7,
+    #b8c1f5,
+    #d5bdf8
+  );
+  transition:
+    background-color 600ms ease,
+    color var(--transition-theme),
+    border-color var(--transition-theme);
+  -webkit-font-smoothing: antialiased;
+
+  &,
+  * {
+    transition:
+      background-color var(--transition-theme),
+      color var(--transition-theme),
+      border-color var(--transition-theme);
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}

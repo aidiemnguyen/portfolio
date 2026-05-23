@@ -1,0 +1,79 @@
+@use "../../styles/mixins" as *;
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    105deg,
+    color-mix(in srgb, var(--bg) 92%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 50%, transparent) 42%,
+    transparent 68%
+  );
+
+  [data-theme="dark"] & {
+    background: linear-gradient(
+      105deg,
+      color-mix(in srgb, var(--bg) 94%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 55%, transparent) 42%,
+      transparent 68%
+    );
+  }
+}
+
+.typoWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-top: clamp(2.5rem, 8vh, 4.5rem);
+  padding-right: 48px;
+
+  @include until-md {
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: clamp(2rem, 7vh, 3.5rem);
+  }
+}
+
+.typoBlock {
+  will-change: transform;
+}
+
+.cursor {
+  display: inline-block;
+  width: 3px;
+  height: 0.78em;
+  margin-left: 0.06em;
+  vertical-align: -0.06em;
+  background: color-mix(in srgb, var(--accent-purple) 80%, var(--text-primary));
+  animation: cursorBlink 0.95s step-end infinite;
+}
+
+@keyframes cursorBlink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.ruleStatic::after {
+  display: none;
+  animation: none;
+}
+
+@include reduced-motion {
+  .cursor {
+    animation: none;
+    opacity: 0.6;
+  }
+}

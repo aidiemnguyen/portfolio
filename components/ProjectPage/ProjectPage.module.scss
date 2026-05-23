@@ -1,0 +1,162 @@
+@use "../../styles/mixins" as *;
+
+.page {
+  min-height: 100vh;
+  padding-bottom: 4rem;
+}
+
+.pageTeal {
+  --page-accent: var(--accent-teal);
+}
+
+.pagePurple {
+  --page-accent: var(--accent-purple);
+}
+
+.inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 0;
+
+  @include from-md {
+    padding: 2.5rem 3rem 0;
+  }
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  transition: color var(--transition-theme);
+
+  &:hover {
+    color: var(--page-accent);
+  }
+}
+
+.backArrow {
+  transition: transform 0.2s ease;
+}
+
+.back:hover .backArrow {
+  transform: translateX(-3px);
+}
+
+.hero {
+  margin-bottom: 2.5rem;
+}
+
+.chapterMeta {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--page-accent);
+}
+
+.yearWatermark {
+  font-size: clamp(4rem, 18vw, 7rem);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  opacity: 0.08;
+  margin-top: 0.5rem;
+}
+
+.title {
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-top: -2.5rem;
+  line-height: 1.15;
+}
+
+.section {
+  margin-bottom: 2.5rem;
+}
+
+.sectionLabel {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.context {
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+.narrativeBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.narrativeItem {
+  padding-left: 1rem;
+  border-left: 2px solid var(--border);
+}
+
+.narrativeValue {
+  font-size: 1.0625rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin-top: 0.25rem;
+}
+
+.insight {
+  font-size: 1.125rem;
+  color: var(--text-primary);
+  line-height: 1.65;
+  padding: 1.25rem 0 1.25rem 1.25rem;
+  border-left: 3px solid var(--page-accent);
+}
+
+.demoWrap {
+  margin-bottom: 2.5rem;
+}
+
+.techList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.techTag {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  padding-top: 1rem;
+}
+
+.link {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--page-accent);
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}

@@ -1,0 +1,316 @@
+@use "../../styles/mixins" as *;
+
+.map {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  padding: 0 0 1rem;
+}
+
+.intro {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  padding: 0.25rem 1.25rem 0.75rem;
+
+  @include from-md {
+    padding: 0.5rem 2.5rem 1rem;
+  }
+}
+
+.role {
+  padding-top: 3rem;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.35rem;
+}
+
+.title {
+  font-size: clamp(1.35rem, 3.5vw, 3rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: 0.65rem;
+}
+
+.accent {
+  color: var(--accent-purple);
+}
+
+.eyebrow {
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.pickTitle {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  margin-top: 0.25rem;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.scene {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 0 1.5rem;
+  isolation: isolate;
+
+  @include from-md {
+    padding: 3rem 0 1.75rem;
+  }
+}
+
+.svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: clamp(160px, 30vh, 240px);
+  max-height: min(38vh, 300px);
+  overflow: visible;
+
+  @include from-md {
+    min-height: clamp(180px, 34vh, 280px);
+    max-height: min(42vh, 340px);
+  }
+}
+
+.pathGlow {
+  stroke: color-mix(in srgb, var(--accent-purple) 50%, transparent);
+  stroke-width: 40;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  filter: blur(10px);
+}
+
+.pathShadow {
+  stroke: color-mix(in srgb, var(--text-primary) 14%, transparent);
+  stroke-width: 36;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  filter: blur(8px);
+}
+
+.path {
+  stroke: url(#roadStroke);
+  stroke-width: 28;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.pathDash {
+  stroke: color-mix(in srgb, var(--text-primary) 28%, transparent);
+  stroke-width: 3;
+  stroke-dasharray: 10 14;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.pathDashAnimated {
+  animation: roadDashFlow 1.1s linear infinite;
+}
+
+@keyframes roadDashFlow {
+  to {
+    stroke-dashoffset: -48;
+  }
+}
+
+.travelerGlow {
+  fill: color-mix(in srgb, var(--accent-teal) 35%, transparent);
+  filter: blur(2px);
+}
+
+.traveler {
+  fill: var(--accent-teal);
+  filter: drop-shadow(
+    0 0 6px color-mix(in srgb, var(--accent-teal) 70%, transparent)
+  );
+}
+
+.stops {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  list-style: none;
+  margin: 0;
+  padding: 0 0.5rem;
+  pointer-events: none;
+
+  @include from-md {
+    padding: 0 1.25rem;
+  }
+}
+
+.stopItem {
+  position: absolute;
+  left: var(--stop-x);
+  top: var(--stop-y);
+  pointer-events: auto;
+}
+
+.stopAbove {
+  transform: translate(-50%, -100%);
+  padding-bottom: 0.65rem;
+
+  .stop {
+    flex-direction: column-reverse;
+    align-items: center;
+    text-align: center;
+  }
+
+  .pinWrap {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.stopBelow {
+  transform: translate(-50%, 0%);
+  padding-top: 0.65rem;
+
+  .stop {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .pinWrap {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.stop {
+  display: flex;
+  gap: 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 14px;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    background: color-mix(in srgb, var(--text-primary) 7%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent-purple);
+    outline-offset: 4px;
+  }
+
+  @include until-md {
+    white-space: normal;
+    max-width: min(32vw, 9rem);
+  }
+}
+
+.pinWrap {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(36px, 5vw, 48px);
+  height: clamp(36px, 5vw, 48px);
+}
+
+.pinRing {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent-purple) 18%, var(--bg));
+  border: 2px solid color-mix(in srgb, var(--accent-purple) 45%, transparent);
+  box-shadow: 0 4px 16px
+    color-mix(in srgb, var(--text-primary) 12%, transparent);
+  transform-origin: center center;
+}
+
+.pinRipple {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--accent-purple) 50%, transparent);
+  transform-origin: center center;
+  pointer-events: none;
+}
+
+.pin {
+  position: relative;
+  z-index: 1;
+  width: clamp(14px, 2vw, 18px);
+  height: clamp(14px, 2vw, 18px);
+  border-radius: 50%;
+  background: var(--accent-purple);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--bg) 90%, transparent);
+}
+
+.stopBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+  min-width: 0;
+}
+
+.district {
+  font-size: clamp(0.625rem, 1.2vw, 0.6875rem);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-teal);
+}
+
+.stopLabel {
+  font-size: clamp(1rem, 2.4vw, 1.25rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  text-transform: lowercase;
+}
+
+.hint {
+  font-size: clamp(0.6875rem, 1.4vw, 0.75rem);
+  color: var(--text-secondary);
+  margin-top: 0.1rem;
+
+  @include until-md {
+    display: none;
+  }
+}
+
+@include reduced-motion {
+  .pathDashAnimated {
+    animation: none;
+  }
+}

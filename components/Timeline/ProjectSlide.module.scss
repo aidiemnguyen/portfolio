@@ -1,0 +1,187 @@
+@use "../../styles/mixins" as *;
+
+.slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.bgDark {
+  position: absolute;
+  inset: 0;
+  width: 52%;
+  background: #141414;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: clamp(1.5rem, 6vw, 4rem);
+
+  [data-theme="dark"] & {
+    background: #0a0a0a;
+  }
+}
+
+.watermark {
+  font-size: clamp(5rem, 18vw, 11rem);
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: #fff;
+  opacity: 0.12;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  user-select: none;
+}
+
+.bgLight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 58%;
+  height: 100%;
+  background: color-mix(in srgb, #e6e6e2 90%, var(--bg));
+
+  [data-theme="dark"] & {
+    background: color-mix(in srgb, #2a2a28 85%, var(--bg));
+  }
+}
+
+.lightBeam {
+  position: absolute;
+  inset: -20% -30% -20% 10%;
+  background: linear-gradient(
+    118deg,
+    transparent 36%,
+    color-mix(in srgb, var(--text-primary) 14%, transparent) 48%,
+    transparent 58%
+  );
+  transform: skewX(-12deg);
+}
+
+.center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: min(92vw, 440px);
+  transform: translate(-50%, -50%);
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.labelArrow {
+  font-size: 0.875rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  width: 100%;
+  padding: 1.75rem 1.5rem;
+  border-radius: 4px;
+  color: #fafaf8;
+  text-align: left;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease;
+
+  &Teal {
+    background: color-mix(in srgb, var(--accent-teal) 78%, #1a3d34);
+  }
+
+  &Purple {
+    background: color-mix(in srgb, var(--accent-purple) 72%, #2a2858);
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -16px color-mix(in srgb, #000 35%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--text-primary);
+    outline-offset: 4px;
+  }
+}
+
+.slideActive .card {
+  box-shadow: 0 24px 48px -20px color-mix(in srgb, #000 40%, transparent);
+}
+
+.cardChapter {
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.cardQuote {
+  font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+
+.cardInsight {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  opacity: 0.88;
+}
+
+.cardCta {
+  margin-top: 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@include until-md {
+  .bgDark {
+    width: 100%;
+    height: 38%;
+    inset: auto 0 auto 0;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .watermark {
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-size: 4rem;
+  }
+
+  .bgLight {
+    width: 100%;
+    height: 62%;
+    top: auto;
+    bottom: 0;
+  }
+
+  .center {
+    width: min(88vw, 400px);
+  }
+}

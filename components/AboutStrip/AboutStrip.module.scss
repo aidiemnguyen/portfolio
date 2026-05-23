@@ -1,0 +1,128 @@
+@use "../../styles/mixins" as *;
+
+.about {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+
+  @include from-md {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem 1rem;
+  border-radius: 12px;
+  background: color-mix(in srgb, white 70%, var(--bg));
+  border: 1.5px solid color-mix(in srgb, var(--accent-purple) 30%, var(--border));
+  box-shadow:
+    0 4px 20px color-mix(in srgb, var(--text-primary) 8%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 85%, transparent);
+
+  [data-theme="dark"] & {
+    background: color-mix(in srgb, var(--text-primary) 6%, var(--bg));
+    border-color: color-mix(in srgb, var(--accent-purple) 45%, var(--border));
+    box-shadow:
+      0 4px 18px color-mix(in srgb, black 30%, transparent),
+      inset 0 1px 0 color-mix(in srgb, white 5%, transparent);
+  }
+}
+
+.statValue {
+  display: block;
+  font-size: clamp(2.5rem, 7vw, 3.75rem);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--accent-purple);
+  font-variant-numeric: tabular-nums;
+}
+
+.statLabel {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text-primary);
+}
+
+.skills {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bg) 55%, white);
+  border: 1px solid color-mix(in srgb, var(--accent-purple) 22%, var(--border));
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--text-primary) 8%, transparent);
+
+  [data-theme="dark"] & {
+    background: color-mix(in srgb, var(--accent-purple) 10%, var(--bg));
+    border-color: color-mix(in srgb, var(--accent-purple) 35%, var(--border));
+    box-shadow: 0 8px 28px color-mix(in srgb, black 35%, transparent);
+  }
+}
+
+.skillGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.skillCategory {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-teal);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tags li {
+  list-style: none;
+}
+
+.tag {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 0.5rem 0.9rem;
+  border: 1.5px solid
+    color-mix(in srgb, var(--accent-purple) 40%, var(--border));
+  border-radius: 100px;
+  color: var(--text-primary);
+  background: color-mix(in srgb, white 72%, var(--bg));
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--text-primary) 10%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 80%, transparent);
+
+  [data-theme="dark"] & {
+    background: color-mix(in srgb, var(--text-primary) 8%, var(--bg));
+    border-color: color-mix(in srgb, var(--accent-purple) 55%, var(--border));
+    box-shadow:
+      0 1px 3px color-mix(in srgb, black 25%, transparent),
+      inset 0 1px 0 color-mix(in srgb, white 6%, transparent);
+  }
+}
+
+.bio {
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--text-primary);
+}

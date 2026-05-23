@@ -1,0 +1,173 @@
+@use "../../styles/mixins" as *;
+
+.scroller {
+  position: relative;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.stickyInner,
+.fallback {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  background: #0c0c0c;
+  color: #f5f5f2;
+
+  @include from-md {
+    padding: 3rem;
+  }
+}
+
+.fallback {
+  scroll-snap-align: start;
+}
+
+.panel {
+  background: #0c0c0c;
+  color: #f5f5f2;
+}
+
+.panelInner {
+  padding: 0;
+  min-height: auto;
+  display: block;
+  background: transparent;
+  color: inherit;
+}
+
+.form {
+  width: 100%;
+  max-width: 52rem;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 6vh, 3.5rem);
+}
+
+.line {
+  will-change: transform, opacity;
+}
+
+.sentence {
+  margin: 0;
+  font-size: clamp(1.5rem, 4.5vw, 3.25rem);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: -0.03em;
+  color: #f5f5f2;
+}
+
+.input {
+  flex: 1 1 8rem;
+  min-width: min(100%, 10rem);
+  max-width: 14rem;
+  padding: 0.15em 0 0.35em;
+  font: inherit;
+  color: #f5f5f2;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid color-mix(in srgb, #f5f5f2 55%, transparent);
+  outline: none;
+
+  &::placeholder {
+    color: color-mix(in srgb, #f5f5f2 38%, transparent);
+  }
+
+  &:focus {
+    border-bottom-color: #afa9ec;
+  }
+}
+
+.pillGroup {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45em 0.9em;
+  font: inherit;
+  font-size: 0.72em;
+  line-height: 1.2;
+  color: #f5f5f2;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, #f5f5f2 70%, transparent);
+  border-radius: 100px;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    border-color: #f5f5f2;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #afa9ec;
+    outline-offset: 3px;
+  }
+}
+
+.pillActive {
+  background: color-mix(in srgb, #f5f5f2 12%, transparent);
+  border-color: #f5f5f2;
+}
+
+.sendRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.sendBtn {
+  padding: 0.875rem 1.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #0c0c0c;
+  background: #f5f5f2;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.88;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #afa9ec;
+    outline-offset: 4px;
+  }
+}
+
+.footer {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, #f5f5f2 45%, transparent);
+}
+
+@include reduced-motion {
+  .line {
+    will-change: auto;
+  }
+}

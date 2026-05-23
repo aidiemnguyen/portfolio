@@ -1,0 +1,107 @@
+@use "../../styles/mixins" as *;
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+
+  &:focus {
+    position: fixed;
+    left: 1rem;
+    top: 1rem;
+    z-index: 300;
+    width: auto;
+    height: auto;
+    padding: 0.5rem 1rem;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    font-size: 0.8125rem;
+    border-radius: 4px;
+  }
+}
+
+.navbar {
+  position: sticky;
+  top: 2px;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1.5rem;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  @include from-md {
+    padding: 1rem 3rem;
+    gap: 2rem;
+  }
+
+  @include until-md {
+    .links {
+      display: none;
+    }
+  }
+}
+
+.logo {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+}
+
+.link {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  transition: color var(--transition-theme);
+  background: none;
+  border: none;
+  padding: 0.25rem 0;
+  font-family: inherit;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  color: var(--text-primary);
+  transition: background-color var(--transition-theme);
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--border) 50%, transparent);
+  }
+}
+
+.icon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
