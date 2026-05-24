@@ -20,7 +20,7 @@ function CategoryContent({ stopId }: { stopId: RoadStopId }) {
     case "about":
       return <AboutStrip />;
     case "projects":
-      return <ProjectsHorizontalScroll layout="panel" />;
+      return <ProjectsHorizontalScroll layout="overlay" />;
     case "approach":
       return <Approach />;
     case "stack":
@@ -36,11 +36,12 @@ export function CategoryScreen({ stopId, onBack }: CategoryScreenProps) {
   const { dictionary } = useLocaleContext();
   const { road, nav } = dictionary;
   const title = nav[stopId];
+  const isProjects = stopId === "projects";
 
   return (
     <AnimatePresence>
       <motion.div
-        className={styles.screen}
+        className={`${styles.screen} ${isProjects ? styles.screenProjects : ""}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="category-title"
@@ -49,16 +50,33 @@ export function CategoryScreen({ stopId, onBack }: CategoryScreenProps) {
         exit={{ opacity: 0, y: 16 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       >
-        <header className={styles.header}>
-          <button type="button" className={styles.back} onClick={onBack}>
+        {isProjects ? (
+          <button
+            type="button"
+            className={styles.backFloating}
+            onClick={onBack}
+          >
             <span aria-hidden>←</span> {road.back}
           </button>
-          <p className={styles.district}>{road.stops[stopId].district}</p>
-          <h2 id="category-title" className={styles.title}>
+        ) : (
+          <header className={styles.header}>
+            <button type="button" className={styles.back} onClick={onBack}>
+              <span aria-hidden>←</span> {road.back}
+            </button>
+            <p className={styles.district}>{road.stops[stopId].district}</p>
+            <h2 id="category-title" className={styles.title}>
+              {title}
+            </h2>
+          </header>
+        )}
+        {isProjects && (
+          <h2 id="category-title" className={styles.srOnly}>
             {title}
           </h2>
-        </header>
-        <div className={styles.body}>
+        )}
+        <div
+          className={`${styles.body} ${isProjects ? styles.bodyProjects : ""}`}
+        >
           <CategoryContent stopId={stopId} />
         </div>
       </motion.div>

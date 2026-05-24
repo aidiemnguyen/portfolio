@@ -151,17 +151,10 @@ const pl: Dictionary = {
       tags: ["WebRTC", "React", "TypeScript", "Node.js"],
       accent: "teal",
       detail: {
-        company: "Startup technologiczny · Remote",
+        company: "Lecle Vietnam",
         role: "Frontend Engineer",
         team: "4 inżynierów · 1 designer · wspólna warstwa mediów",
-        technologies: [
-          "WebRTC",
-          "React",
-          "TypeScript",
-          "Node.js",
-          "Socket.io",
-          "Adaptacyjne pasmo",
-        ],
+        technologies: ["WebRTC", "React", "TypeScript", "Node.js", "Socket.io"],
         demoType: "video-call",
         demo: {
           title: "Rozmowa grupowa pod obciążeniem",
@@ -223,17 +216,10 @@ const pl: Dictionary = {
       tags: ["Next.js", "SSE", "React", "TypeScript"],
       accent: "teal",
       detail: {
-        company: "Startup produktu AI",
+        company: "Lecle Vietnam",
         role: "Frontend Engineer · lead doświadczenia czatu",
         team: "6 inżynierów · ścisła współpraca z ML i produktem",
-        technologies: [
-          "Next.js",
-          "Server-Sent Events",
-          "React",
-          "TypeScript",
-          "Pipeline Markdown",
-          "Framer Motion",
-        ],
+        technologies: ["Next.js", "Server-Sent Events", "React", "TypeScript"],
         demoType: "ai-stream",
         demo: {
           title: "Przepływ streamowanej odpowiedzi",

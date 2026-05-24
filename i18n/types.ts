@@ -8,7 +8,6 @@ export type DemoAnimationType =
   | "relocation";
 
 export interface EraDetail {
-  company: string;
   role: string;
   team: string;
   technologies: string[];
@@ -18,6 +17,7 @@ export interface EraDetail {
   };
   demoType: DemoAnimationType;
   links?: { label: string; href: string }[];
+  company?: string;
 }
 
 export interface EraTranslation {

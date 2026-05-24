@@ -62,10 +62,7 @@ export function ProjectPage({ era, locale, chapter }: ProjectPageProps) {
     >
       <div className={styles.inner}>
         <motion.div variants={section}>
-          <Link
-            href={`/${locale}#timeline`}
-            className={styles.back}
-          >
+          <Link href={`/${locale}#timeline`} className={styles.back}>
             <span className={styles.backArrow} aria-hidden>
               ←
             </span>
@@ -102,18 +99,24 @@ export function ProjectPage({ era, locale, chapter }: ProjectPageProps) {
           className={`${styles.section} ${styles.narrativeBlock}`}
           variants={section}
         >
-          <div className={styles.narrativeItem}>
-            <span className={styles.sectionLabel}>{chapter.company}</span>
-            <p className={styles.narrativeValue}>{era.detail.company}</p>
-          </div>
-          <div className={styles.narrativeItem}>
-            <span className={styles.sectionLabel}>{chapter.role}</span>
-            <p className={styles.narrativeValue}>{era.detail.role}</p>
-          </div>
-          <div className={styles.narrativeItem}>
-            <span className={styles.sectionLabel}>{chapter.team}</span>
-            <p className={styles.narrativeValue}>{era.detail.team}</p>
-          </div>
+          {era.detail.company && (
+            <div className={styles.narrativeItem}>
+              <span className={styles.sectionLabel}>{chapter.company}</span>
+              <p className={styles.narrativeValue}>{era.detail.company}</p>
+            </div>
+          )}
+          {era.detail.role && (
+            <div className={styles.narrativeItem}>
+              <span className={styles.sectionLabel}>{chapter.role}</span>
+              <p className={styles.narrativeValue}>{era.detail.role}</p>
+            </div>
+          )}
+          {era.detail.team && (
+            <div className={styles.narrativeItem}>
+              <span className={styles.sectionLabel}>{chapter.team}</span>
+              <p className={styles.narrativeValue}>{era.detail.team}</p>
+            </div>
+          )}
         </motion.section>
 
         <motion.blockquote className={styles.insight} variants={section}>
