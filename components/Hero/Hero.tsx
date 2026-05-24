@@ -3,6 +3,7 @@
 import { HeroScrollBackdrop } from "@/components/Hero/HeroScrollBackdrop";
 import { useLocaleContext } from "@/contexts/LocaleContext";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useRef } from "react";
 import styles from "./Hero.module.scss";
 
@@ -38,7 +39,13 @@ export function Hero() {
           </motion.p>
           <motion.div className={styles.titleContainer} variants={fadeUp}>
             <motion.figure className={styles.image} variants={fadeUp}>
-              <img src="/avatar.jpg" alt="Hero Image" />
+              <Image
+                src="/avatar.jpg"
+                alt="Hero Image"
+                width={200}
+                height={200}
+                priority
+              />
             </motion.figure>
             <motion.h1 className={styles.title} variants={fadeUp}>
               {hero.titleLine1}

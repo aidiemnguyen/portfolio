@@ -25,19 +25,16 @@ export function StatValue({ value, delay = 0, className }: StatValueProps) {
     () => parseStatValue(value),
     [value]
   );
-  const [count, setCount] = useState(reduceMotion ? target : 0);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (reduceMotion) {
-      setCount(target);
-      return;
-    }
+    if (reduceMotion) return;
 
-    setCount(0);
     const delayMs = delay * 1000;
     const durationMs = 1400;
 
     const delayTimer = window.setTimeout(() => {
+      setCount(0);
       const start = performance.now();
 
       const frame = (now: number) => {
@@ -57,10 +54,12 @@ export function StatValue({ value, delay = 0, className }: StatValueProps) {
     return () => window.clearTimeout(delayTimer);
   }, [target, delay, reduceMotion]);
 
+  const displayCount = reduceMotion ? target : count;
+
   return (
     <span className={className}>
       {prefix}
-      {count}
+      {displayCount}
       {suffix}
     </span>
   );

@@ -22,9 +22,9 @@ export function RoadTypoBackdrop() {
   const reduceMotion = usePrefersReducedMotion();
   const [front, setFront] = useState(reduceMotion ? LINE_FRONT : "");
   const [name, setName] = useState(reduceMotion ? LINE_NAME : "");
-  const [showRule, setShowRule] = useState(reduceMotion);
   const [phase, setPhase] = useState<Phase>(reduceMotion ? "hold" : "front");
   const [cycle, setCycle] = useState(0);
+  const showRule = reduceMotion || phase !== "front";
 
   useEffect(() => {
     if (reduceMotion) return;
@@ -42,7 +42,6 @@ export function RoadTypoBackdrop() {
     }
 
     if (phase === "rule") {
-      setShowRule(true);
       const timer = window.setTimeout(() => setPhase("name"), 220);
       return () => window.clearTimeout(timer);
     }
@@ -63,7 +62,6 @@ export function RoadTypoBackdrop() {
       const timer = window.setTimeout(() => {
         setFront("");
         setName("");
-        setShowRule(false);
         setPhase("front");
         setCycle((c) => c + 1);
       }, PAUSE_BEFORE_ERASE_MS);

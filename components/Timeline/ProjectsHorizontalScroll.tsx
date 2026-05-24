@@ -11,7 +11,6 @@ import {
 import {
   useCallback,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -218,19 +217,14 @@ function ProjectsOverlayCarousel() {
 
 function ProjectsScrollDriven() {
   const targetRef = useRef<HTMLDivElement>(null);
-  const [ready, setReady] = useState(false);
   const { dictionary, locale } = useLocaleContext();
   const { timeline, eras } = dictionary;
   const [activeEra, setActiveEra] = useState(0);
 
   const slideCount = eras.length;
 
-  useLayoutEffect(() => {
-    setReady(true);
-  }, []);
-
   const { scrollYProgress } = useScroll({
-    target: ready ? targetRef : undefined,
+    target: targetRef,
     offset: ["start start", "end end"],
   });
 
