@@ -20,3 +20,14 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run build
+
+  # Production deploy only after verify passes (push to main).
+  deploy:
+    needs: verify
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel production deploy
+        run: curl -fsS -X POST "$VERCEL_DEPLOY_HOOK"
+        env:
+          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}

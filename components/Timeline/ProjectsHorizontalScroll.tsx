@@ -15,6 +15,13 @@ import {
   useRef,
   useState,
 } from "react";
+import {
+  VOICE_PENDING_CHAPTER_KEY,
+  VOICE_PROJECTS_CHAPTER_EVENT,
+  VOICE_PROJECT_STEP_EVENT,
+  type VoiceProjectsChapterDetail,
+  type VoiceProjectStepDetail,
+} from "@/lib/voice-navigation";
 import { ProjectSlide } from "./ProjectSlide";
 import styles from "./ProjectsHorizontalScroll.module.scss";
 
@@ -156,6 +163,39 @@ function ProjectsOverlayCarousel() {
       window.removeEventListener("resize", onScrollEnd);
     };
   }, [slideCount, step]);
+
+  useEffect(() => {
+    const onChapter = (e: Event) => {
+      const { index } = (e as CustomEvent<VoiceProjectsChapterDetail>).detail;
+      if (typeof index === "number") goTo(index);
+    };
+
+    window.addEventListener(VOICE_PROJECTS_CHAPTER_EVENT, onChapter);
+    return () =>
+      window.removeEventListener(VOICE_PROJECTS_CHAPTER_EVENT, onChapter);
+  }, [goTo]);
+
+  useEffect(() => {
+    try {
+      const pending = sessionStorage.getItem(VOICE_PENDING_CHAPTER_KEY);
+      if (pending === null) return;
+      sessionStorage.removeItem(VOICE_PENDING_CHAPTER_KEY);
+      const index = Number.parseInt(pending, 10);
+      if (!Number.isNaN(index)) goTo(index);
+    } catch {
+      sessionStorage.removeItem(VOICE_PENDING_CHAPTER_KEY);
+    }
+  }, [goTo]);
+
+  useEffect(() => {
+    const onStep = (e: Event) => {
+      const { direction } = (e as CustomEvent<VoiceProjectStepDetail>).detail;
+      if (direction === 1 || direction === -1) step(direction);
+    };
+
+    window.addEventListener(VOICE_PROJECT_STEP_EVENT, onStep);
+    return () => window.removeEventListener(VOICE_PROJECT_STEP_EVENT, onStep);
+  }, [step]);
 
   return (
     <section

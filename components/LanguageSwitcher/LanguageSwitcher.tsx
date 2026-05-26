@@ -1,6 +1,7 @@
 "use client";
 
 import { localeLabels, locales, type Locale } from "@/i18n/config";
+import { pathForLocale } from "@/lib/locale-path";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLocaleContext } from "@/contexts/LocaleContext";
@@ -11,13 +12,7 @@ export function LanguageSwitcher() {
   const pathname = usePathname();
 
   function hrefFor(target: Locale) {
-    if (!pathname) return `/${target}`;
-    const segments = pathname.split("/");
-    if (locales.includes(segments[1] as Locale)) {
-      segments[1] = target;
-      return segments.join("/") || `/${target}`;
-    }
-    return `/${target}${pathname}`;
+    return pathForLocale(pathname ?? "", target);
   }
 
   return (

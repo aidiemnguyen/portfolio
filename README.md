@@ -1,5 +1,27 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Voice assistant (Anthropic API)
+
+The API key stays **only on the server** (`app/api/voice/route.ts`). The browser calls `/api/voice` and never sees the key.
+
+1. Copy the env template and add your key from [Anthropic Console](https://console.anthropic.com/):
+
+```bash
+cp .env.example .env.local
+```
+
+2. Edit `.env.local`:
+
+```bash
+ANTHROPIC_API_KEY=sk-ant-api03-...
+```
+
+3. Restart the dev server (`npm run dev`).
+
+**Deploy (Vercel):** Project → Settings → Environment Variables → add `ANTHROPIC_API_KEY` → redeploy.
+
+**Cost:** Each question sends a compact system prompt + your message. Default model is `claude-haiku-4-5-20251001` with prompt caching (~$0.001–0.003/request typical). Set `VOICE_MODEL=claude-sonnet-4-20250514` in `.env.local` for better answers at higher cost.
+
 ## Getting Started
 
 First, run the development server:

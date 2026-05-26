@@ -1,5 +1,6 @@
 import { LocaleProvider } from "@/contexts/LocaleContext";
 import { ThemeProvider } from "@/components/ThemeProvider/ThemeProvider";
+import { VoiceAssistant } from "@/components/VoiceAssistant/VoiceAssistant";
 import { locales, isValidLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import type { Metadata } from "next";
@@ -64,6 +65,7 @@ export default async function LocaleLayout({
         <ThemeProvider initialTheme={theme}>
           <LocaleProvider locale={locale} dictionary={dictionary}>
             {children}
+            <VoiceAssistant />
           </LocaleProvider>
         </ThemeProvider>
       </body>
