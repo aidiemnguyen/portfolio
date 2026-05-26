@@ -5,7 +5,6 @@ import { parseLocalVoiceCommand } from "@/lib/voice-commands";
 import { pathForLocale } from "@/lib/locale-path";
 import type { Locale } from "@/i18n/config";
 import {
-  canExecuteFromParsed,
   chapterIndexForProjectSlug,
   dispatchVoiceNavigate,
   dispatchVoiceProjectStep,
@@ -14,6 +13,7 @@ import {
   isActionOnlyResponse,
   isRoadAction,
   parseVoiceResponse,
+  shouldExecuteVoiceAction,
   VOICE_PENDING_NAV_KEY,
   type ParsedVoiceResponse,
   type VoiceNavigateDetail,
@@ -285,9 +285,9 @@ export function VoiceAssistant() {
 
       const scheduleExecution = (parsed: ParsedVoiceResponse) => {
         if (
-          !canExecuteFromParsed(parsed) ||
           execScheduledRef.done ||
-          isActionOnlyResponse(parsed)
+          !shouldExecuteVoiceAction(parsed, trimmed) ||
+          isActionOnlyResponse(parsed, trimmed)
         ) {
           return;
         }
@@ -335,7 +335,7 @@ export function VoiceAssistant() {
 
         const parsed = parseVoiceResponse(accumulated);
 
-        if (isActionOnlyResponse(parsed)) {
+        if (isActionOnlyResponse(parsed, trimmed)) {
           executeVoiceAction(parsed);
           closeOverlay();
           return;

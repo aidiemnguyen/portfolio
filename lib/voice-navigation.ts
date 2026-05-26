@@ -1,5 +1,10 @@
 import type { RoadStopId } from "@/data/road-stops";
 import type { Locale } from "@/i18n/config";
+import {
+  isVoiceIntent,
+  looksLikeUserQuestion,
+  type VoiceIntent,
+} from "@/lib/voice-intent";
 
 export const VOICE_PROJECT_SLUGS = [
   "webrtc-video",
@@ -75,6 +80,7 @@ export interface VoiceProjectStepDetail {
 }
 
 export interface ParsedVoiceResponse {
+  intent: VoiceIntent | undefined;
   text: string;
   action: VoiceAction;
   project: VoiceProjectSlug | null | undefined;
@@ -227,6 +233,12 @@ function parseStepFromPartial(
   return undefined;
 }
 
+function parseIntentFromPartial(raw: string): VoiceIntent | undefined {
+  const m = raw.match(/"intent"\s*:\s*"(command|answer|both)"/);
+  if (m?.[1] && isVoiceIntent(m[1])) return m[1];
+  return undefined;
+}
+
 function isValidProjectSlug(value: unknown): value is VoiceProjectSlug {
   return (
     typeof value === "string" &&
@@ -239,6 +251,7 @@ export function parseVoiceResponse(raw: string): ParsedVoiceResponse {
 
   try {
     const json = JSON.parse(trimmed) as {
+      intent?: string;
       text?: string;
       action?: string;
       project?: string | null;
@@ -254,6 +267,7 @@ export function parseVoiceResponse(raw: string): ParsedVoiceResponse {
         action = json.action as VoiceSystemAction;
       }
       return {
+        intent: isVoiceIntent(json.intent) ? json.intent : undefined,
         text: cleanVoiceText(json.text),
         action,
         project: isValidProjectSlug(json.project)
@@ -286,6 +300,7 @@ export function parseVoiceResponse(raw: string): ParsedVoiceResponse {
   }
 
   const fromField = extractTextFieldFromJson(trimmed);
+  const intent = parseIntentFromPartial(trimmed);
   const action = parseActionFromPartial(trimmed);
   const project = parseProjectFromPartial(trimmed);
   const locale = parseLocaleFromPartial(trimmed);
@@ -294,6 +309,7 @@ export function parseVoiceResponse(raw: string): ParsedVoiceResponse {
 
   if (
     fromField ||
+    intent !== undefined ||
     action !== undefined ||
     project !== undefined ||
     locale !== undefined ||
@@ -301,6 +317,7 @@ export function parseVoiceResponse(raw: string): ParsedVoiceResponse {
     step !== undefined
   ) {
     return {
+      intent,
       text: fromField ? trimTruncatedTail(fromField) : "",
       action: action ?? null,
       project,
@@ -311,6 +328,7 @@ export function parseVoiceResponse(raw: string): ParsedVoiceResponse {
   }
 
   return {
+    intent: undefined,
     text: "",
     action: null,
     project: undefined,
@@ -320,9 +338,34 @@ export function parseVoiceResponse(raw: string): ParsedVoiceResponse {
   };
 }
 
-/** Pure command — run UI action and close overlay; no spoken or typed reply. */
-export function isActionOnlyResponse(parsed: ParsedVoiceResponse): boolean {
-  return canExecuteFromParsed(parsed) && parsed.text.trim().length === 0;
+/** Silent UI-only turn: AI said command, or legacy empty text without question phrasing. */
+export function isActionOnlyResponse(
+  parsed: ParsedVoiceResponse,
+  userMessage: string,
+): boolean {
+  if (!canExecuteFromParsed(parsed)) return false;
+  if (parsed.intent === "answer" || parsed.intent === "both") return false;
+  if (looksLikeUserQuestion(userMessage)) return false;
+
+  if (parsed.intent === "command") {
+    return parsed.text.trim().length === 0;
+  }
+
+  return parsed.text.trim().length === 0;
+}
+
+/** Whether to run site action after the user has heard/read the reply. */
+export function shouldExecuteVoiceAction(
+  parsed: ParsedVoiceResponse,
+  userMessage: string,
+): boolean {
+  if (!canExecuteFromParsed(parsed)) return false;
+  if (parsed.intent === "answer") return false;
+  if (parsed.intent === "command" || parsed.intent === "both") return true;
+  if (looksLikeUserQuestion(userMessage) && parsed.text.trim().length === 0) {
+    return false;
+  }
+  return true;
 }
 
 /** Stream has enough fields to run the chosen action. */
