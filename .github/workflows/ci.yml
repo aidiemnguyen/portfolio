@@ -28,6 +28,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Vercel production deploy
-        run: curl -fsS -X POST "$VERCEL_DEPLOY_HOOK"
+        run: |
+          if [ -z "${VERCEL_DEPLOY_HOOK:-}" ]; then
+            echo "::warning::VERCEL_DEPLOY_HOOK is not set in repository secrets — skipping deploy hook."
+            exit 0
+          fi
+          curl -fsS -X POST "$VERCEL_DEPLOY_HOOK"
         env:
           VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
