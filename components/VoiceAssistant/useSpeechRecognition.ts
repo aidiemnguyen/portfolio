@@ -134,7 +134,7 @@ export function useSpeechRecognition(
       setError("Could not start listening.");
       setIsListening(false);
     }
-  }, [clearSilenceTimer, resetSilenceTimer, stopListening]);
+  }, [resetSilenceTimer, stopListening]);
 
   useEffect(() => {
     return () => {

@@ -38,6 +38,13 @@ const API_ERROR_MESSAGE =
 
 type AssistantPhase = "idle" | "listening" | "thinking" | "responding";
 
+type VoiceHandlers = {
+  sendMessage: (message: string) => Promise<void>;
+  closeOverlay: () => void;
+  resumeListening: () => void;
+  runLocalCommand: () => void;
+};
+
 export function VoiceAssistant() {
   const router = useRouter();
   const pathname = usePathname();
@@ -52,11 +59,12 @@ export function VoiceAssistant() {
 
   const navTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const abortRef = useRef<AbortController | null>(null);
-  const sendMessageRef = useRef<(message: string) => Promise<void>>(
-    async () => {},
-  );
-  const closeOverlayRef = useRef<() => void>(() => {});
-  const resumeListeningRef = useRef<() => void>(() => {});
+  const handlersRef = useRef<VoiceHandlers>({
+    sendMessage: async () => {},
+    closeOverlay: () => {},
+    resumeListening: () => {},
+    runLocalCommand: () => {},
+  });
   const overlayOpenRef = useRef(false);
   const phaseRef = useRef<AssistantPhase>("idle");
   const hasHadTurnRef = useRef(false);
@@ -75,39 +83,26 @@ export function VoiceAssistant() {
     }
   }, []);
 
-  const resumeListening = useCallback(() => {
-    if (!overlayOpenRef.current || showTextInputRef.current) return;
-    setAssistantPhase("listening");
-    setTranscript("");
-    startListeningRef.current();
-  }, [setAssistantPhase]);
-
-  const finishTurn = useCallback(() => {
-    if (overlayOpenRef.current) {
-      resumeListeningRef.current();
-    }
-  }, []);
-
   const onListeningEnd = useCallback((text: string) => {
     if (!overlayOpenRef.current) return;
 
     const trimmed = text.trim();
     if (trimmed) {
       if (parseLocalVoiceCommand(trimmed)) {
-        runLocalCommandRef.current();
+        handlersRef.current.runLocalCommand();
         return;
       }
       if (phaseRef.current !== "listening") return;
-      void sendMessageRef.current(trimmed);
+      void handlersRef.current.sendMessage(trimmed);
       return;
     }
 
     if (phaseRef.current !== "listening") return;
 
     if (hasHadTurnRef.current) {
-      resumeListeningRef.current();
+      handlersRef.current.resumeListening();
     } else {
-      closeOverlayRef.current();
+      handlersRef.current.closeOverlay();
     }
   }, []);
 
@@ -121,8 +116,6 @@ export function VoiceAssistant() {
     setTranscript,
   } = useSpeechRecognition(onListeningEnd);
 
-  const startListeningRef = useRef(startListening);
-
   const { speak, cancel, isSpeaking, spokenCharIndex } = useSpeechSynthesis();
 
   const locale = (pathname.split("/").filter(Boolean)[0] ?? "en") as Locale;
@@ -132,20 +125,12 @@ export function VoiceAssistant() {
     !isSupported || micError === "Microphone permission denied.";
 
   useEffect(() => {
-    startListeningRef.current = startListening;
-  }, [startListening]);
-
-  useEffect(() => {
     showTextInputRef.current = showTextInput;
   }, [showTextInput]);
 
   useEffect(() => {
     overlayOpenRef.current = overlayOpen;
   }, [overlayOpen]);
-
-  useEffect(() => {
-    resumeListeningRef.current = resumeListening;
-  }, [resumeListening]);
 
   const closeOverlay = useCallback(() => {
     clearNavTimer();
@@ -159,6 +144,19 @@ export function VoiceAssistant() {
     hasHadTurnRef.current = false;
     turnIdRef.current += 1;
   }, [cancel, clearNavTimer, setAssistantPhase, stopListening]);
+
+  const resumeListening = useCallback(() => {
+    if (!overlayOpenRef.current || showTextInputRef.current) return;
+    setAssistantPhase("listening");
+    setTranscript("");
+    startListening();
+  }, [setAssistantPhase, setTranscript, startListening]);
+
+  const finishTurn = useCallback(() => {
+    if (overlayOpenRef.current) {
+      resumeListening();
+    }
+  }, [resumeListening]);
 
   const runRoadNavigation = useCallback(
     (parsed: ParsedVoiceResponse) => {
@@ -239,12 +237,6 @@ export function VoiceAssistant() {
     clearNavTimer();
     closeOverlay();
   }, [cancel, clearNavTimer, closeOverlay, stopListening]);
-
-  const runLocalCommandRef = useRef(runLocalCommand);
-
-  useEffect(() => {
-    runLocalCommandRef.current = runLocalCommand;
-  }, [runLocalCommand]);
 
   const sendMessage = useCallback(
     async (message: string) => {
@@ -379,12 +371,13 @@ export function VoiceAssistant() {
   );
 
   useEffect(() => {
-    sendMessageRef.current = sendMessage;
-  }, [sendMessage]);
-
-  useEffect(() => {
-    closeOverlayRef.current = closeOverlay;
-  }, [closeOverlay]);
+    handlersRef.current = {
+      sendMessage,
+      closeOverlay,
+      resumeListening,
+      runLocalCommand,
+    };
+  }, [sendMessage, closeOverlay, resumeListening, runLocalCommand]);
 
   const openOverlay = useCallback(() => {
     hasHadTurnRef.current = false;
