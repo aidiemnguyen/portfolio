@@ -119,9 +119,9 @@ export interface Dictionary {
     countryPlaceholder: string;
     topicBefore: string;
     topics: { id: string; label: string }[];
-    channelBefore: string;
-    channels: { id: string; label: string }[];
+    emailBefore: string;
     sendLabel: string;
+    socialBefore: string;
     linkedIn: string;
     github: string;
     email: string;

@@ -80,6 +80,20 @@
   }
 }
 
+.screenContact {
+  background: #070b12;
+  color: #e6edf3;
+}
+
+.bodyContact {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .backFloating {
   position: absolute;
   top: 1rem;

@@ -37,11 +37,13 @@ export function CategoryScreen({ stopId, onBack }: CategoryScreenProps) {
   const { road, nav } = dictionary;
   const title = nav[stopId];
   const isProjects = stopId === "projects";
+  const isContact = stopId === "contact";
+  const isFullBleed = isProjects || isContact;
 
   return (
     <AnimatePresence>
       <motion.div
-        className={`${styles.screen} ${isProjects ? styles.screenProjects : ""}`}
+        className={`${styles.screen} ${isProjects ? styles.screenProjects : ""} ${isContact ? styles.screenContact : ""}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="category-title"
@@ -50,7 +52,7 @@ export function CategoryScreen({ stopId, onBack }: CategoryScreenProps) {
         exit={{ opacity: 0, y: 16 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       >
-        {isProjects ? (
+        {isFullBleed ? (
           <button
             type="button"
             className={styles.backFloating}
@@ -69,13 +71,13 @@ export function CategoryScreen({ stopId, onBack }: CategoryScreenProps) {
             </h2>
           </header>
         )}
-        {isProjects && (
+        {isFullBleed && (
           <h2 id="category-title" className={styles.srOnly}>
             {title}
           </h2>
         )}
         <div
-          className={`${styles.body} ${isProjects ? styles.bodyProjects : ""}`}
+          className={`${styles.body} ${isProjects ? styles.bodyProjects : ""} ${isContact ? styles.bodyContact : ""}`}
         >
           <CategoryContent stopId={stopId} />
         </div>
