@@ -94,6 +94,20 @@
   flex-direction: column;
 }
 
+.screenApproach {
+  background: #0a0812;
+  color: #ece8f4;
+}
+
+.bodyApproach {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .backFloating {
   position: absolute;
   top: 1rem;

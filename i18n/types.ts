@@ -88,6 +88,9 @@ export interface Dictionary {
   };
   approach: {
     title: string;
+    introLabel: string;
+    intro: string;
+    subintro: string;
     meTitle: string;
     otherTitle: string;
     me: string[];

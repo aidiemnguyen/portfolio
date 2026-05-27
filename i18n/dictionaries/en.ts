@@ -97,6 +97,10 @@ const en: Dictionary = {
   },
   approach: {
     title: "approach",
+    introLabel: "// approach.md",
+    intro:
+      "This portfolio is a road map — real projects, real stack, no template filler.",
+    subintro: "Working with me vs. the rush you might know elsewhere:",
     meTitle: "How I work",
     otherTitle: "The usual rush",
     me: [

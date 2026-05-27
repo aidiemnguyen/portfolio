@@ -104,6 +104,10 @@ const pl: Dictionary = {
   },
   approach: {
     title: "podejście",
+    introLabel: "// podejscie.md",
+    intro:
+      "To portfolio to mapa drogi — prawdziwe projekty, stack i zero szablonu.",
+    subintro: "Współpraca ze mną vs. pośpiech, który możesz znać:",
     meTitle: "Jak pracuję",
     otherTitle: "Zwykły pośpiech",
     me: [

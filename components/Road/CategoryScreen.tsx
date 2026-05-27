@@ -38,12 +38,13 @@ export function CategoryScreen({ stopId, onBack }: CategoryScreenProps) {
   const title = nav[stopId];
   const isProjects = stopId === "projects";
   const isContact = stopId === "contact";
-  const isFullBleed = isProjects || isContact;
+  const isApproach = stopId === "approach";
+  const isFullBleed = isProjects || isContact || isApproach;
 
   return (
     <AnimatePresence>
       <motion.div
-        className={`${styles.screen} ${isProjects ? styles.screenProjects : ""} ${isContact ? styles.screenContact : ""}`}
+        className={`${styles.screen} ${isProjects ? styles.screenProjects : ""} ${isContact ? styles.screenContact : ""} ${isApproach ? styles.screenApproach : ""}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="category-title"
@@ -77,7 +78,7 @@ export function CategoryScreen({ stopId, onBack }: CategoryScreenProps) {
           </h2>
         )}
         <div
-          className={`${styles.body} ${isProjects ? styles.bodyProjects : ""} ${isContact ? styles.bodyContact : ""}`}
+          className={`${styles.body} ${isProjects ? styles.bodyProjects : ""} ${isContact ? styles.bodyContact : ""} ${isApproach ? styles.bodyApproach : ""}`}
         >
           <CategoryContent stopId={stopId} />
         </div>
