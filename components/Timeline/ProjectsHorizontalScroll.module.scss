@@ -4,7 +4,7 @@
 .scroller {
   position: relative;
   scroll-snap-align: start;
-  scroll-snap-stop: always;
+  scroll-snap-stop: normal;
 }
 
 .sticky {
@@ -12,126 +12,222 @@
   top: 0;
   height: 100vh;
   height: 100dvh;
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
-  background: var(--bg);
+  background: #060807;
 }
 
-.hud {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1.5rem;
-  padding: 1.25rem 1.5rem 0.75rem;
-  pointer-events: none;
+.timelineLayout {
+  display: grid;
+  grid-template-columns: minmax(9.5rem, 13.5rem) minmax(0, 1fr);
+  gap: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
 
   @include from-md {
-    padding: 1.5rem 3rem 1rem;
+    grid-template-columns: minmax(11rem, 16rem) minmax(0, 1fr);
   }
 }
 
-.hudEyebrow {
-  font-size: 0.6875rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.25rem;
-  max-width: 20rem;
-  line-height: 1.4;
-}
-
-.hudTitle {
-  @include section-display-title;
-  font-size: clamp(2rem, 6vw, 3.5rem);
-  pointer-events: auto;
-}
-
-.hudProgress {
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  color: var(--text-primary);
-  flex-shrink: 0;
-}
-
-.hudProgressNow {
-  color: var(--accent-purple);
-}
-
-.hudProgressSep {
-  margin: 0 0.15em;
-  color: var(--text-secondary);
-}
-
-.viewport {
+/* —— Timeline spine —— */
+.spine {
   position: relative;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 1.25rem 0.75rem 1.25rem 1.25rem;
+  border-right: 1px solid rgb(255 255 255 / 0.08);
+  background: linear-gradient(
+    90deg,
+    rgb(6 8 7 / 0.98) 0%,
+    rgb(6 8 7 / 0.85) 100%
+  );
+
+  @include from-md {
+    padding: 1.5rem 1rem 1.5rem 2rem;
+  }
+}
+
+.spineHeader {
+  flex-shrink: 0;
+  margin-bottom: 1.25rem;
+  padding-right: 0.5rem;
+}
+
+.spineTitle {
+  @include section-display-title;
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  color: #f4f3ef;
+  text-transform: lowercase;
+}
+
+.spineRange {
+  margin-top: 0.35rem;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgb(244 243 239 / 0.45);
+}
+
+.spineNav {
+  position: relative;
+  display: flex;
   flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 0;
+  padding: 0.25rem 0;
+}
+
+.spineTrack {
+  position: absolute;
+  left: 0.4rem;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  width: 2px;
+  border-radius: 1px;
+  background: rgb(255 255 255 / 0.1);
+  pointer-events: none;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: calc(var(--spine-progress, 0) * 100%);
+    border-radius: inherit;
+    background: var(--accent-teal);
+    transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+.spineStop {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  width: 100%;
+  padding: 0.35rem 0.35rem 0.35rem 0;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.25s ease;
+
+  &:not(.spineStopActive) {
+    opacity: 0.42;
+
+    &:hover {
+      opacity: 0.72;
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent-teal);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+}
+
+.spineDot {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  margin-top: 0.35rem;
+  border-radius: 50%;
+  border: 2px solid rgb(255 255 255 / 0.25);
+  background: #060807;
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.spineStopActive .spineDot {
+  border-color: var(--accent-teal);
+  background: var(--accent-teal);
+  transform: scale(1.15);
+  box-shadow: 0 0 12px rgb(93 202 165 / 0.45);
+}
+
+.spineStopText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.spineYear {
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: #f4f3ef;
+  transition: color 0.3s ease;
+}
+
+.spineStopActive .spineYear {
+  color: var(--accent-teal);
+}
+
+.spineLabel {
+  font-size: 0.625rem;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+  color: rgb(244 243 239 / 0.5);
+}
+
+.spineStopActive .spineLabel {
+  color: rgb(244 243 239 / 0.82);
+}
+
+/* —— Content pane —— */
+.contentPane {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
   min-height: 0;
   overflow: hidden;
 }
 
-.track {
-  display: flex;
-  height: 100%;
-  will-change: transform;
-  backface-visibility: hidden;
+.contentSub {
+  flex-shrink: 0;
+  padding: 1.25rem 1.25rem 0.5rem;
+  font-size: 0.6875rem;
+  line-height: 1.45;
+  color: rgb(244 243 239 / 0.5);
+  max-width: 24rem;
+
+  @include from-md {
+    padding: 1.5rem 2rem 0.65rem;
+  }
 }
 
-.panel {
-  flex: 0 0 100%;
-  width: 100%;
-  height: 100%;
-  min-width: 0;
-}
-
-.dots {
+.contentStage {
   position: relative;
-  z-index: 3;
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem 1.25rem;
+  flex: 1;
+  min-height: 0;
 }
 
-.dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--border);
-  transition:
-    transform 0.3s ease,
-    background-color 0.3s ease;
+.contentReveal {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
 }
 
-.dotActive {
-  transform: scale(1.35);
-  background: var(--accent-purple);
-}
-
-/* Reduced motion: vertical stack */
+/* —— Reduced motion fallback —— */
 .fallback {
   scroll-snap-align: start;
   padding-bottom: 4rem;
-}
-
-.panel {
-  scroll-snap-align: none;
-  padding-bottom: 0;
-
-  .fallbackHeader {
-    padding-top: 0;
-    padding-bottom: 1.25rem;
-  }
-
-  .fallbackList {
-    gap: 1.25rem;
-  }
-
-  .fallbackList .slide {
-    min-height: auto;
-  }
+  background: #060807;
 }
 
 .fallbackHeader {
@@ -142,11 +238,12 @@
 
 .fallbackTitle {
   @include section-display-title;
+  color: #f4f3ef;
 }
 
 .fallbackSub {
   margin-top: 0.75rem;
-  color: var(--text-secondary);
+  color: rgb(244 243 239 / 0.55);
   max-width: 28rem;
 }
 
@@ -154,135 +251,125 @@
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  padding: 0 1.25rem 2rem;
+
+  @include from-md {
+    padding: 0 3rem 3rem;
+  }
+}
+
+.fallbackItem {
+  display: grid;
+  gap: 0.75rem;
+
+  @include from-md {
+    grid-template-columns: 5rem 1fr;
+    align-items: start;
+  }
+}
+
+.fallbackYear {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--accent-teal);
 }
 
 .fallbackList .slide {
-  min-height: 70vh;
-  flex: none;
-  width: 100%;
-}
-
-/* Overlay: native horizontal carousel */
-.overlay {
-  position: relative;
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
+  min-height: 65vh;
+  border-radius: 12px;
   overflow: hidden;
-  background: var(--bg);
 }
 
-.overlayScroller {
-  flex: 1;
-  min-height: 0;
-  min-width: 0;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x proximity;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-  scrollbar-width: none;
+/* —— Mobile: spine on top —— */
+@include until-md {
+  .timelineLayout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
 
-  &::-webkit-scrollbar {
+  .spine {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border-right: none;
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+  }
+
+  .spineHeader {
+    margin-bottom: 0;
+    padding-right: 0;
+    border-right: 1px solid rgb(255 255 255 / 0.08);
+    padding-right: 0.75rem;
+  }
+
+  .spineTitle {
+    font-size: 1.1rem;
+  }
+
+  .spineRange {
+    display: none;
+  }
+
+  .spineNav {
+    flex: 1;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.35rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 0;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .spineTrack {
+    display: none;
+  }
+
+  .spineStop {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    width: auto;
+    flex-shrink: 0;
+    padding: 0.25rem 0.5rem;
+    opacity: 1;
+
+    &:not(.spineStopActive) {
+      opacity: 0.5;
+    }
+  }
+
+  .spineDot {
+    margin-top: 0;
+    width: 6px;
+    height: 6px;
+  }
+
+  .spineStopText {
+    align-items: center;
+  }
+
+  .spineYear {
+    font-size: 0.75rem;
+  }
+
+  .spineLabel {
+    display: none;
+  }
+
+  .contentSub {
     display: none;
   }
 }
 
-.overlayScrollerInstant {
-  scroll-behavior: auto;
-}
-
-.carouselSlide {
-  flex: 0 0 100%;
-  width: 100%;
-  min-width: 100%;
-  height: 100%;
-  min-height: 0;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-}
-
-.hudOverlay {
-  position: absolute;
-  top: 1rem;
-  right: 1.25rem;
-  z-index: 5;
-  pointer-events: none;
-
-  @include from-md {
-    top: 1.25rem;
-    right: 2rem;
-  }
-
-  .hudProgress {
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
-    color: rgb(255 255 255 / 0.92);
-    text-shadow: 0 2px 16px rgb(0 0 0 / 45%);
-  }
-
-  .hudProgressNow {
-    color: #fff;
-  }
-
-  .hudProgressSep {
-    color: rgb(255 255 255 / 0.45);
-  }
-}
-
-.dotsOverlay {
-  position: absolute;
-  bottom: 1.25rem;
-  left: 0;
-  right: 0;
-  z-index: 5;
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  pointer-events: auto;
-
-  .dotBtn {
-    background: rgb(255 255 255 / 0.28);
-  }
-
-  .dotBtn.dotActive {
-    background: #fff;
-  }
-}
-
-.dotBtn {
-  width: 6px;
-  height: 6px;
-  padding: 0;
-  border: none;
-  border-radius: 50%;
-  background: var(--border);
-  cursor: pointer;
-  transition:
-    transform 0.3s ease,
-    background-color 0.3s ease;
-
-  &:focus-visible {
-    outline: 2px solid var(--accent-purple);
-    outline-offset: 3px;
-  }
-}
-
-.dotBtn.dotActive {
-  transform: scale(1.35);
-  background: var(--accent-purple);
-}
-
 @include reduced-motion {
-  .track {
-    will-change: auto;
-  }
-
-  .overlayScroller {
-    scroll-behavior: auto;
+  .spineTrack::after {
+    transition: none;
   }
 }

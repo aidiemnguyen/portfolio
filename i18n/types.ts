@@ -53,7 +53,6 @@ export interface Dictionary {
     skipToContent: string;
     about: string;
     projects: string;
-    approach: string;
     stack: string;
     contact: string;
     mainNav: string;
@@ -83,18 +82,8 @@ export interface Dictionary {
   about: {
     title: string;
     stats: { value: string; label: string }[];
-    skillGroups: { label: string; items: string[] }[];
     bio: string;
-  };
-  approach: {
-    title: string;
-    introLabel: string;
-    intro: string;
-    subintro: string;
-    meTitle: string;
-    otherTitle: string;
-    me: string[];
-    other: string[];
+    skillGroups?: { label: string; items: string[] }[];
   };
   timeline: {
     heading: string;
@@ -113,7 +102,16 @@ export interface Dictionary {
   eras: EraTranslation[];
   stack: {
     heading: string;
-    tools: { label: string; symbol: string }[];
+    manifestTitle: string;
+    manifestHint: string;
+    groups: {
+      label: string;
+      featured?: boolean;
+      items: {
+        label: string;
+        eraTag?: { text: string; chapterIndex: number };
+      }[];
+    }[];
   };
   contact: {
     greetBefore: string;

@@ -4,15 +4,14 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher/LanguageSwitcher
 import { useLocaleContext } from "@/contexts/LocaleContext";
 import { useTheme } from "@/components/ThemeProvider/ThemeProvider";
 import type { RoadStopId } from "@/data/road-stops";
+import type { FullPageSectionId } from "@/lib/section-scroll";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { useSyncExternalStore } from "react";
 import styles from "./Navbar.module.scss";
 
 const roadNavKeys: { key: RoadStopId; navKey: RoadStopId }[] = [
   { key: "about", navKey: "about" },
   { key: "projects", navKey: "projects" },
-  { key: "approach", navKey: "approach" },
   { key: "stack", navKey: "stack" },
   { key: "contact", navKey: "contact" },
 ];
@@ -49,18 +48,25 @@ function MoonIcon() {
 }
 
 interface NavbarProps {
-  onSelectStop?: (id: RoadStopId) => void;
+  onScrollToSection?: (id: RoadStopId) => void;
+  onScrollToRoad?: () => void;
+  activeSection?: FullPageSectionId;
   showRoadLinks?: boolean;
 }
 
-export function Navbar({ onSelectStop, showRoadLinks }: NavbarProps) {
-  const { locale, dictionary } = useLocaleContext();
+export function Navbar({
+  onScrollToSection,
+  onScrollToRoad,
+  activeSection,
+  showRoadLinks,
+}: NavbarProps) {
+  const { dictionary } = useLocaleContext();
   const { nav } = dictionary;
   const { resolvedTheme, setTheme } = useTheme();
   const mounted = useSyncExternalStore(
     () => () => {},
     () => true,
-    () => false
+    () => false,
   );
 
   const theme = resolvedTheme ?? "light";
@@ -68,7 +74,7 @@ export function Navbar({ onSelectStop, showRoadLinks }: NavbarProps) {
 
   return (
     <>
-      <a href="#main-content" className={styles.skip}>
+      <a href="#road" className={styles.skip} onClick={() => onScrollToRoad?.()}>
         {nav.skipToContent}
       </a>
       <motion.header
@@ -77,17 +83,22 @@ export function Navbar({ onSelectStop, showRoadLinks }: NavbarProps) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
       >
-        <Link href={`/${locale}`} className={styles.logo}>
+        <button
+          type="button"
+          className={styles.logo}
+          onClick={() => onScrollToRoad?.()}
+        >
           {nav.logo}
-        </Link>
-        {showRoadLinks && onSelectStop ? (
+        </button>
+        {showRoadLinks && onScrollToSection ? (
           <nav className={styles.links} aria-label={nav.mainNav}>
             {roadNavKeys.map(({ key, navKey }) => (
               <button
                 key={key}
                 type="button"
-                className={styles.link}
-                onClick={() => onSelectStop(navKey)}
+                className={`${styles.link} ${activeSection === navKey ? styles.linkActive : ""}`}
+                onClick={() => onScrollToSection(navKey)}
+                aria-current={activeSection === navKey ? "true" : undefined}
               >
                 {nav[navKey]}
               </button>

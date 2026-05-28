@@ -33,13 +33,6 @@ const statContainer = {
   },
 };
 
-const tagContainer = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.04 },
-  },
-};
-
 export function AboutStrip() {
   const { dictionary } = useLocaleContext();
   const { about } = dictionary;
@@ -50,7 +43,7 @@ export function AboutStrip() {
       <div className={styles.about}>
         <Mission embedded />
         <div className={styles.stats}>
-          {about.stats.map((stat, index) => (
+          {about?.stats?.map((stat, index) => (
             <div key={stat.label} className={styles.stat}>
               <StatValue
                 value={stat.value}
@@ -59,20 +52,6 @@ export function AboutStrip() {
               />
               <span className={styles.statLabel}>{stat.label}</span>
             </div>
-          ))}
-        </div>
-        <div className={styles.skills}>
-          {about.skillGroups.map((group) => (
-            <section key={group.label} className={styles.skillGroup}>
-              <h3 className={styles.skillCategory}>{group.label}</h3>
-              <ul className={styles.tags}>
-                {group.items.map((item) => (
-                  <li key={item} className={styles.tag}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </section>
           ))}
         </div>
         <p className={styles.bio}>{about.bio}</p>
@@ -105,26 +84,6 @@ export function AboutStrip() {
             />
             <span className={styles.statLabel}>{stat.label}</span>
           </motion.div>
-        ))}
-      </motion.div>
-
-      <motion.div className={styles.skills} variants={fadeUp}>
-        {about.skillGroups.map((group) => (
-          <section key={group.label} className={styles.skillGroup}>
-            <h3 className={styles.skillCategory}>{group.label}</h3>
-            <motion.ul
-              className={styles.tags}
-              variants={tagContainer}
-              initial="hidden"
-              animate="visible"
-            >
-              {group.items.map((item) => (
-                <motion.li key={item} className={styles.tag} variants={fadeUp}>
-                  {item}
-                </motion.li>
-              ))}
-            </motion.ul>
-          </section>
         ))}
       </motion.div>
 

@@ -11,6 +11,7 @@ interface ProjectSlideProps {
   locale: Locale;
   openLabel: string;
   isActive: boolean;
+  layout?: "full" | "timeline";
 }
 
 export function ProjectSlide({
@@ -19,15 +20,17 @@ export function ProjectSlide({
   locale,
   openLabel,
   isActive,
+  layout = "full",
 }: ProjectSlideProps) {
   const accentClass =
     era.accent === "teal" ? styles.slideTeal : styles.slidePurple;
   const chapterNum = String(index + 1).padStart(2, "0");
   const href = `/${locale}/projects/${era.slug}`;
+  const isTimeline = layout === "timeline";
 
   return (
     <article
-      className={`${styles.slide} ${accentClass} ${isActive ? styles.slideActive : ""}`}
+      className={`${styles.slide} ${accentClass} ${isTimeline ? styles.slideTimeline : ""} ${isActive ? styles.slideActive : ""}`}
       data-era-index={index}
       aria-hidden={!isActive}
     >
@@ -40,15 +43,22 @@ export function ProjectSlide({
         aria-hidden
       />
 
-      <span className={styles.yearGhost} aria-hidden>
-        {era.year}
-      </span>
+      {!isTimeline && (
+        <span className={styles.yearGhost} aria-hidden>
+          {era.year}
+        </span>
+      )}
 
-      <div className={styles.content}>
+      <div
+        className={`${styles.content} ${isTimeline ? styles.contentTimeline : ""}`}
+      >
         <div className={styles.meta}>
           <span className={styles.chapter}>
             {openLabel} · {chapterNum}
           </span>
+          {era.detail.company && (
+            <span className={styles.company}>{era.detail.company}</span>
+          )}
           <ul className={styles.tags} aria-label="Technologies">
             {era.tags.slice(0, 3).map((tag) => (
               <li key={tag}>{tag}</li>

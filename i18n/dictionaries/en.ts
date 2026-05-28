@@ -9,7 +9,7 @@ const en: Dictionary = {
   road: {
     eyebrow: "My road",
     title: "Pick a stop",
-    subtitle: "One road · five chapters · tap a pin to open it full screen.",
+    subtitle: "One road · four chapters · tap a pin to open it full screen.",
     back: "Back to the road",
     mapAria: "Portfolio road map — choose a category",
     stops: {
@@ -21,12 +21,8 @@ const en: Dictionary = {
         district: "District II",
         hint: "Work through time",
       },
-      approach: {
-        district: "District III",
-        hint: "How I ship",
-      },
       stack: {
-        district: "District IV",
+        district: "District III",
         hint: "Tools I reach for",
       },
       contact: {
@@ -43,7 +39,6 @@ const en: Dictionary = {
     skipToContent: "Skip to main content",
     about: "about",
     projects: "projects",
-    approach: "approach",
     stack: "stack",
     contact: "contact",
     mainNav: "Main navigation",
@@ -79,46 +74,7 @@ const en: Dictionary = {
       { value: "50+", label: "Engineers using my design system" },
       { value: "3", label: "Products sharing 1 shared module system" },
     ],
-    skillGroups: [
-      {
-        label: "the basics, done well",
-        items: ["React.js", "Next.js", "TypeScript"],
-      },
-      {
-        label: "where i go deeper",
-        items: ["WebRTC", "WebSockets", "SSR/SSG"],
-      },
-      {
-        label: "how i think about scale",
-        items: ["Storybook", "Turborepo", "Micro-frontends"],
-      },
-    ],
     bio: "I ♡ clean code, honest feedback & knowing why we're building this in the first place.",
-  },
-  approach: {
-    title: "approach",
-    introLabel: "// approach.md",
-    intro:
-      "This portfolio is a road map — real projects, real stack, no template filler.",
-    subintro: "Working with me vs. the rush you might know elsewhere:",
-    meTitle: "How I work",
-    otherTitle: "The usual rush",
-    me: [
-      "Pixel-perfect where it matters",
-      "Stable support after launch",
-      "Fixed scope, clear updates",
-      "Motion with purpose",
-      "Better than the Figma handoff",
-      "Fast, human replies",
-    ],
-    other: [
-      "Near enough layout",
-      "Silence after deploy",
-      "Scope creep & surprise invoices",
-      "Animation for show",
-      "Worse than the mockup",
-      "Days between messages",
-    ],
   },
   timeline: {
     heading: "projects",
@@ -270,16 +226,45 @@ const en: Dictionary = {
   ],
   stack: {
     heading: "stack",
-    tools: [
-      { label: "React / Next.js", symbol: "⚛" },
-      { label: "TypeScript", symbol: "TS" },
-      { label: "CSS / TailwindCSS", symbol: "◈" },
-      { label: "WebRTC", symbol: "◎" },
-      { label: "Storybook", symbol: "▣" },
-      { label: "Jest / Playwright", symbol: "✓" },
-      { label: "Framer Motion", symbol: "→" },
-      { label: "Figma", symbol: "◇" },
-      { label: "Docker", symbol: "⬡" },
+    manifestTitle: "stack.manifest",
+    manifestHint: "Tools I ship with — grouped by how often they show up.",
+    groups: [
+      {
+        label: "I reach for every day",
+        featured: true,
+        items: [
+          { label: "React / Next.js" },
+          { label: "TypeScript" },
+          { label: "TailwindCSS" },
+          { label: "CSS / SCSS" },
+        ],
+      },
+      {
+        label: "I go deep when needed",
+        items: [
+          {
+            label: "WebRTC",
+            eraTag: { text: "↗ 2020", chapterIndex: 0 },
+          },
+          { label: "WebSockets" },
+          { label: "SSR / SSG" },
+          { label: "GraphQL" },
+          { label: "REST APIs" },
+        ],
+      },
+      {
+        label: "I think in these at scale",
+        items: [
+          {
+            label: "Storybook",
+            eraTag: { text: "↗ 2022", chapterIndex: 1 },
+          },
+          { label: "Micro-frontends" },
+          { label: "Turborepo" },
+          { label: "Jest / Playwright" },
+          { label: "Docker" },
+        ],
+      },
     ],
   },
   contact: {

@@ -50,7 +50,6 @@ const CHAPTER_BY_SLUG: Record<VoiceProjectSlug, number> = {
 const ROAD_ACTIONS = new Set<string>([
   "about",
   "projects",
-  "approach",
   "stack",
   "contact",
 ]);

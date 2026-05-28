@@ -2,9 +2,8 @@
 
 import { ContactLine } from "@/components/Contact/ContactLine";
 import { useLocaleContext } from "@/contexts/LocaleContext";
-import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import { useScroll, useMotionValue, type MotionValue } from "framer-motion";
-import { useMemo, useRef, useState } from "react";
+import { useMotionValue, type MotionValue } from "framer-motion";
+import { useMemo, useState } from "react";
 import styles from "./Contact.module.scss";
 
 const LINE_COUNT = 5;
@@ -12,10 +11,6 @@ const LINE_COUNT = 5;
 const LINKEDIN_URL =
   "https://www.linkedin.com/in/thi-ai-diem-nguyen-408878194";
 const GITHUB_URL = "https://github.com/aidiemnguyen";
-
-interface ContactProps {
-  layout?: "scroll" | "panel";
-}
 
 interface ContactFormProps {
   scrollYProgress: MotionValue<number>;
@@ -167,59 +162,12 @@ function ContactForm({ scrollYProgress }: ContactFormProps) {
   );
 }
 
-/** Scroll-driven lines — ref must stay on this subtree for useScroll. */
-function ContactScroller() {
-  const containerRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-  const scrollerHeight = useMemo(() => `${LINE_COUNT * 100}dvh`, []);
-
-  return (
-    <section
-      ref={containerRef}
-      id="contact"
-      className={styles.scroller}
-      style={{ height: scrollerHeight }}
-    >
-      <div className={styles.sticky}>
-        <div className={styles.stickyInner}>
-          <ContactForm scrollYProgress={scrollYProgress} />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/** Panel / reduced-motion — no useScroll target. */
-function ContactStatic({ variant }: { variant: "panel" | "fallback" }) {
+export function Contact() {
   const scrollYProgress = useMotionValue(1);
 
   return (
-    <section
-      id="contact"
-      className={variant === "panel" ? styles.panel : styles.fallback}
-    >
-      <div
-        className={
-          variant === "panel" ? styles.panelInner : styles.stickyInner
-        }
-      >
-        <ContactForm scrollYProgress={scrollYProgress} />
-      </div>
-    </section>
+    <div className={styles.panelInner}>
+      <ContactForm scrollYProgress={scrollYProgress} />
+    </div>
   );
-}
-
-export function Contact({ layout = "scroll" }: ContactProps) {
-  const reduceMotion = usePrefersReducedMotion();
-
-  if (layout === "panel" || reduceMotion) {
-    return (
-      <ContactStatic variant={layout === "panel" ? "panel" : "fallback"} />
-    );
-  }
-
-  return <ContactScroller />;
 }

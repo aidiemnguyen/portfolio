@@ -56,8 +56,8 @@ export default async function ProjectRoute({ params }: PageProps) {
 
   return (
     <>
-      <Navbar />
       <main>
+        <Navbar />
         <ProjectPage
           era={result.era}
           locale={result.locale}

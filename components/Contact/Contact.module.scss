@@ -10,47 +10,6 @@ $font-code:
   ui-monospace, "Cascadia Code", "SF Mono", "Fira Code", Menlo, Consolas,
   monospace;
 
-.scroller {
-  position: relative;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-}
-
-.sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100dvh;
-  overflow: hidden;
-}
-
-.stickyInner,
-.fallback,
-.panel {
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 1.5rem;
-  background: $contact-bg;
-  color: $contact-fg;
-  font-family: $font-code;
-
-  @include from-md {
-    padding: 3rem 2.5rem;
-  }
-}
-
-.fallback {
-  scroll-snap-align: start;
-}
-
-.panel {
-  min-height: 100%;
-  width: 100%;
-}
-
 .panelInner {
   width: 100%;
   max-width: 52rem;
@@ -60,9 +19,12 @@ $font-code:
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent;
-  color: inherit;
-  font-family: inherit;
+  color: $contact-fg;
+  font-family: $font-code;
+
+  @include from-md {
+    padding: 3rem 2.5rem;
+  }
 }
 
 .form {

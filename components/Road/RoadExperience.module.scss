@@ -1,13 +1,43 @@
+@use "../../styles/mixins" as *;
+
 .shell {
   position: relative;
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: 100dvh;
   overflow: hidden;
 }
 
-.main {
+.scrollRoot {
+  height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-y: auto;
+}
+
+.section {
   position: relative;
-  height: calc(100dvh - 3.25rem);
+  height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+.sectionRoad {
+  overflow: hidden;
+}
+
+.roadPage {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.roadBody {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   min-height: 0;
   overflow: hidden;
 }
@@ -15,6 +45,60 @@
 .roadLayer {
   position: relative;
   z-index: 1;
-  height: 100%;
+  flex: 1;
   min-height: 0;
+}
+
+.sectionAbout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: visible;
+  overscroll-behavior: auto;
+}
+
+.sectionInner {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 2.5rem;
+
+  @include from-md {
+    padding: 2.5rem 3rem 3rem;
+  }
+}
+
+.sectionStack,
+.sectionContact {
+  overflow: visible;
+  overscroll-behavior: auto;
+}
+
+.sectionStack {
+  background: #0e0c14;
+}
+
+.sectionContact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #070b12;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@include reduced-motion {
+  .scrollRoot {
+    scroll-behavior: auto;
+  }
 }

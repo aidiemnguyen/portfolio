@@ -10,7 +10,7 @@ const pl: Dictionary = {
     eyebrow: "Moje przystanki",
     title: "Wybierz przystanek",
     subtitle:
-      "Jedna droga · pięć rozdziałów · kliknij pin, by otworzyć pełny ekran.",
+      "Jedna droga · cztery rozdziały · kliknij pin, by otworzyć pełny ekran.",
     back: "Wróć na mapę",
     mapAria: "Mapa portfolio — wybierz kategorię",
     stops: {
@@ -22,12 +22,8 @@ const pl: Dictionary = {
         district: "Dzielnica II",
         hint: "Praca w czasie",
       },
-      approach: {
-        district: "Dzielnica III",
-        hint: "Jak dowozę",
-      },
       stack: {
-        district: "Dzielnica IV",
+        district: "Dzielnica III",
         hint: "Narzędzia",
       },
       contact: {
@@ -44,7 +40,6 @@ const pl: Dictionary = {
     skipToContent: "Przejdź do treści",
     about: "o mnie",
     projects: "projekty",
-    approach: "podejście",
     stack: "stack",
     contact: "kontakt",
     mainNav: "Nawigacja główna",
@@ -86,46 +81,7 @@ const pl: Dictionary = {
         label: "Produkty, które korzystają z mojego systemu modułów",
       },
     ],
-    skillGroups: [
-      {
-        label: "podstawy, zrobione dobrze",
-        items: ["React.js", "Next.js", "TypeScript"],
-      },
-      {
-        label: "tu idę głębiej",
-        items: ["WebRTC", "WebSockets", "SSR/SSG"],
-      },
-      {
-        label: "jak myślę o skali",
-        items: ["Storybook", "Turborepo", "Micro-frontends"],
-      },
-    ],
     bio: "Kocham czysty kod, szczery feedback i designerów, którym zależy na siatce. Senior frontend — interfejsy, które w poniedziałek nadal mają sens.",
-  },
-  approach: {
-    title: "podejście",
-    introLabel: "// podejscie.md",
-    intro:
-      "To portfolio to mapa drogi — prawdziwe projekty, stack i zero szablonu.",
-    subintro: "Współpraca ze mną vs. pośpiech, który możesz znać:",
-    meTitle: "Jak pracuję",
-    otherTitle: "Zwykły pośpiech",
-    me: [
-      "Pixel-perfect tam, gdzie trzeba",
-      "Stabilne wsparcie po wdrożeniu",
-      "Jasny zakres i update'y",
-      "Animacja z celem",
-      "Lepsze niż handoff z Figmy",
-      "Szybkie, ludzkie odpowiedzi",
-    ],
-    other: [
-      "Layout „prawie”",
-      "Cisza po deployu",
-      "Scope creep i niespodzianki",
-      "Animacja dla efektu",
-      "Gorzej niż mockup",
-      "Dni bez wiadomości",
-    ],
   },
   timeline: {
     heading: "projekty",
@@ -278,16 +234,45 @@ const pl: Dictionary = {
   ],
   stack: {
     heading: "stack",
-    tools: [
-      { label: "React / Next.js", symbol: "⚛" },
-      { label: "TypeScript", symbol: "TS" },
-      { label: "CSS / TailwindCSS", symbol: "◈" },
-      { label: "WebRTC", symbol: "◎" },
-      { label: "Storybook", symbol: "▣" },
-      { label: "Jest / Playwright", symbol: "✓" },
-      { label: "Framer Motion", symbol: "→" },
-      { label: "Figma", symbol: "◇" },
-      { label: "Docker", symbol: "⬡" },
+    manifestTitle: "stack.manifest",
+    manifestHint: "Narzędzia, z których korzystam — pogrupowane jak często się pojawiają.",
+    groups: [
+      {
+        label: "Sięgam po to codziennie",
+        featured: true,
+        items: [
+          { label: "React / Next.js" },
+          { label: "TypeScript" },
+          { label: "TailwindCSS" },
+          { label: "CSS / SCSS" },
+        ],
+      },
+      {
+        label: "Zagłębiam się, gdy trzeba",
+        items: [
+          {
+            label: "WebRTC",
+            eraTag: { text: "↗ 2020", chapterIndex: 0 },
+          },
+          { label: "WebSockets" },
+          { label: "SSR / SSG" },
+          { label: "GraphQL" },
+          { label: "REST APIs" },
+        ],
+      },
+      {
+        label: "Myślę tym na skalę",
+        items: [
+          {
+            label: "Storybook",
+            eraTag: { text: "↗ 2022", chapterIndex: 1 },
+          },
+          { label: "Micro-frontends" },
+          { label: "Turborepo" },
+          { label: "Jest / Playwright" },
+          { label: "Docker" },
+        ],
+      },
     ],
   },
   contact: {

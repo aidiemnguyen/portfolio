@@ -11,6 +11,14 @@
   isolation: isolate;
 }
 
+.slideTimeline {
+  border-radius: 0;
+
+  @include from-md {
+    border-radius: 0 12px 12px 0;
+  }
+}
+
 .slideTeal {
   --slide-accent: #5dcaa5;
   --slide-accent-deep: #0f6e56;
@@ -116,12 +124,30 @@
   max-width: 920px;
 }
 
+.contentTimeline {
+  justify-content: center;
+  padding: 1.25rem 1.25rem 1.5rem;
+  max-width: none;
+
+  @include from-md {
+    padding: 1.5rem 2.5rem 2rem 2rem;
+  }
+}
+
 .meta {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem 1rem;
+}
+
+.company {
+  flex: 1 1 100%;
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  color: rgb(255 255 255 / 0.48);
+  max-width: 36ch;
 }
 
 .chapter {
@@ -232,6 +258,10 @@
 }
 
 @include until-md {
+  .contentTimeline {
+    padding: 1rem 1rem 1.25rem;
+  }
+
   .content {
     padding-bottom: 5rem;
     max-width: none;
