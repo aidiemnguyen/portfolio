@@ -17,9 +17,12 @@
 
 .section {
   position: relative;
-  height: 100dvh;
   scroll-snap-align: start;
   scroll-snap-stop: normal;
+  height: 100dvh;
+  @include until-md {
+    height: auto;
+  }
 }
 
 .sectionRoad {
