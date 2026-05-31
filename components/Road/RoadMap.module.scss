@@ -86,11 +86,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2.5rem 0 1.5rem;
+  padding: 5.5rem 0 2.5rem;
   isolation: isolate;
 
   @include from-md {
     padding: 3rem 0 1.75rem;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
   }
 }
 
@@ -182,14 +184,44 @@
 
 .stopItem {
   position: absolute;
-  left: var(--stop-x);
-  top: var(--stop-y);
   pointer-events: auto;
+
+  &[data-stop-id="about"] {
+    left: 10%;
+    top: 42.5%;
+
+    @include from-md {
+      left: 6.67%;
+    }
+  }
+
+  &[data-stop-id="projects"] {
+    left: 25%;
+    top: 32.5%;
+  }
+
+  &[data-stop-id="stack"] {
+    left: 60%;
+    top: 59.17%;
+  }
+
+  &[data-stop-id="contact"] {
+    right: 12%;
+    top: 47.5%;
+
+    @include from-md {
+      right: 5%;
+    }
+  }
 }
 
 .stopAbove {
   transform: translate(-50%, -100%);
   padding-bottom: 0.65rem;
+
+  &[data-stop-id="contact"] {
+    transform: translate(50%, -100%);
+  }
 
   .stop {
     flex-direction: column-reverse;

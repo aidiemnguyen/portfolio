@@ -7,7 +7,6 @@ import { RoadTraveler } from "@/components/Road/RoadTraveler";
 import { useLocaleContext } from "@/contexts/LocaleContext";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { motion } from "framer-motion";
-import type { CSSProperties } from "react";
 import styles from "./RoadMap.module.scss";
 
 interface RoadMapProps {
@@ -80,13 +79,8 @@ export function RoadMap({ onSelect }: RoadMapProps) {
             return (
               <li
                 key={stop.id}
+                data-stop-id={stop.id}
                 className={`${styles.stopItem} ${stop.lane === "above" ? styles.stopAbove : styles.stopBelow}`}
-                style={
-                  {
-                    "--stop-x": `${(stop.x / vbW) * 100}%`,
-                    "--stop-y": `${(stop.y / vbH) * 100}%`,
-                  } as CSSProperties
-                }
               >
                 <motion.button
                   type="button"
