@@ -75,12 +75,7 @@ export function RoadTypoBackdrop() {
     <div className={styles.backdrop} aria-hidden>
       <div className={styles.veil} />
       <div className={styles.typoWrap}>
-        <div
-          className={styles.typoBlock}
-          style={{
-            transform: "translateX(calc(clamp(1rem, 4vw, 3rem) - 1.5rem))",
-          }}
-        >
+        <div className={styles.typoBlock}>
           <span className={styles.lineFront}>
             {front}
             <Cursor active={!reduceMotion && cursorOnFront} />

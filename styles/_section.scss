@@ -13,7 +13,16 @@
 }
 
 @mixin section-display-title {
-  font-size: clamp(3rem, 10vw, 5.5rem);
+  font-size: 3rem;
+
+  @include from-sm {
+    font-size: 4rem;
+  }
+
+  @include from-md {
+    font-size: 5.5rem;
+  }
+
   font-weight: 500;
   line-height: 0.95;
   letter-spacing: -0.04em;

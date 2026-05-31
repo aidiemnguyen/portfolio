@@ -40,7 +40,11 @@
 
 .statValue {
   display: block;
-  font-size: clamp(2.5rem, 7vw, 3.75rem);
+  font-size: 2.5rem;
+
+  @include from-md {
+    font-size: 3.75rem;
+  }
   font-weight: 500;
   letter-spacing: -0.05em;
   line-height: 1;

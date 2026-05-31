@@ -59,7 +59,11 @@
 }
 
 .yearWatermark {
-  font-size: clamp(4rem, 18vw, 7rem);
+  font-size: 4rem;
+
+  @include from-md {
+    font-size: 7rem;
+  }
   font-weight: 500;
   line-height: 0.9;
   letter-spacing: -0.04em;
@@ -69,7 +73,11 @@
 }
 
 .title {
-  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-size: 2rem;
+
+  @include from-md {
+    font-size: 2.75rem;
+  }
   font-weight: 500;
   letter-spacing: -0.03em;
   color: var(--text-primary);
@@ -91,7 +99,11 @@
 }
 
 .context {
-  font-size: clamp(1.25rem, 4vw, 1.5rem);
+  font-size: 1.25rem;
+
+  @include from-md {
+    font-size: 1.5rem;
+  }
   font-style: italic;
   color: var(--text-secondary);
   line-height: 1.5;
