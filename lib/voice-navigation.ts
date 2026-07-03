@@ -1,5 +1,6 @@
 import type { RoadStopId } from "@/data/road-stops";
 import type { Locale } from "@/i18n/config";
+import type { FullPageSectionId } from "@/lib/section-scroll";
 import {
   isVoiceIntent,
   looksLikeUserQuestion,
@@ -90,6 +91,17 @@ export function isRoadAction(
   action: VoiceAction,
 ): action is VoiceRoadAction {
   return action !== null && ROAD_ACTIONS.has(action);
+}
+
+/** Full-page section to scroll to for a voice action, if any. */
+export function sectionForVoiceAction(
+  action: VoiceAction,
+): FullPageSectionId | null {
+  if (!action) return null;
+  if (action === "home" || action === "road_back") return "road";
+  if (isRoadAction(action)) return action;
+  if (action === "project_step") return "projects";
+  return null;
 }
 
 export function chapterIndexForProjectSlug(
@@ -358,6 +370,15 @@ export function shouldExecuteVoiceAction(
     return false;
   }
   return true;
+}
+
+/** Close overlay and show the reply in-page when navigation is needed. */
+export function shouldTransferVoiceToSection(
+  parsed: ParsedVoiceResponse,
+  userMessage: string,
+): boolean {
+  if (!shouldExecuteVoiceAction(parsed, userMessage)) return false;
+  return sectionForVoiceAction(parsed.action) !== null;
 }
 
 /** Stream has enough fields to run the chosen action. */

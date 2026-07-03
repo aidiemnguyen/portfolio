@@ -2,6 +2,7 @@
 
 import { useTheme } from "@/components/ThemeProvider/ThemeProvider";
 import { useLocaleContext } from "@/contexts/LocaleContext";
+import { useVoiceResponse } from "@/contexts/VoiceResponseContext";
 import { parseLocalVoiceCommand } from "@/lib/voice-commands";
 import { pathForLocale } from "@/lib/locale-path";
 import type { Locale } from "@/i18n/config";
@@ -14,7 +15,9 @@ import {
   isActionOnlyResponse,
   isRoadAction,
   parseVoiceResponse,
+  sectionForVoiceAction,
   shouldExecuteVoiceAction,
+  shouldTransferVoiceToSection,
   VOICE_PENDING_NAV_KEY,
   type ParsedVoiceResponse,
   type VoiceNavigateDetail,
@@ -26,6 +29,7 @@ import { useSpeechRecognition } from "./useSpeechRecognition";
 import { useSpeechSynthesis } from "./useSpeechSynthesis";
 import { VoiceFab } from "./VoiceFab";
 import { VoiceOverlay, type OverlayPhase } from "./VoiceOverlay";
+import { SectionVoiceReply } from "./SectionVoiceReply";
 import styles from "./VoiceAssistant.module.css";
 
 const TOOLTIP_STORAGE_KEY = "voice-assistant-tooltip-seen";
@@ -50,6 +54,14 @@ export function VoiceAssistant() {
   const pathname = usePathname();
   const { dictionary } = useLocaleContext();
   const { setTheme } = useTheme();
+  const {
+    activateSection,
+    setSectionPhase,
+    setSectionText,
+    syncSpeech,
+    clearSectionResponse,
+    isSectionReplyVisible,
+  } = useVoiceResponse();
 
   const [phase, setPhase] = useState<AssistantPhase>("idle");
   const [overlayOpen, setOverlayOpen] = useState(false);
@@ -71,6 +83,7 @@ export function VoiceAssistant() {
   const hasHadTurnRef = useRef(false);
   const turnIdRef = useRef(0);
   const showTextInputRef = useRef(false);
+  const sectionNavModeRef = useRef(false);
 
   const setAssistantPhase = useCallback((next: AssistantPhase) => {
     phaseRef.current = next;
@@ -134,6 +147,8 @@ export function VoiceAssistant() {
   }, [overlayOpen]);
 
   const closeOverlay = useCallback(() => {
+    sectionNavModeRef.current = false;
+    clearSectionResponse();
     clearNavTimer();
     abortRef.current?.abort();
     cancel();
@@ -144,7 +159,14 @@ export function VoiceAssistant() {
     setTextInput("");
     hasHadTurnRef.current = false;
     turnIdRef.current += 1;
-  }, [cancel, clearNavTimer, setAssistantPhase, stopListening]);
+  }, [cancel, clearNavTimer, clearSectionResponse, setAssistantPhase, stopListening]);
+
+  const dismissOverlayForSectionNav = useCallback(() => {
+    clearNavTimer();
+    stopListening(false);
+    setOverlayOpen(false);
+    setTextInput("");
+  }, [clearNavTimer, stopListening]);
 
   const resumeListening = useCallback(() => {
     if (!overlayOpenRef.current || showTextInputRef.current) return;
@@ -231,6 +253,32 @@ export function VoiceAssistant() {
     [dictionary.contact.email, homePath, pathname, router, runRoadNavigation, setTheme],
   );
 
+  const enterSectionNavMode = useCallback(
+    (parsed: ParsedVoiceResponse, streamTextValue: string) => {
+      const sectionId = sectionForVoiceAction(parsed.action);
+      if (!sectionId || sectionNavModeRef.current) return false;
+
+      sectionNavModeRef.current = true;
+      dismissOverlayForSectionNav();
+      activateSection(sectionId);
+      if (streamTextValue) {
+        setSectionPhase("responding");
+        setSectionText(streamTextValue);
+      } else {
+        setSectionPhase("thinking");
+      }
+      executeVoiceAction(parsed);
+      return true;
+    },
+    [
+      activateSection,
+      dismissOverlayForSectionNav,
+      executeVoiceAction,
+      setSectionPhase,
+      setSectionText,
+    ],
+  );
+
   const runLocalCommand = useCallback(() => {
     abortRef.current?.abort();
     cancel();
@@ -251,6 +299,8 @@ export function VoiceAssistant() {
 
       const thisTurn = ++turnIdRef.current;
       hasHadTurnRef.current = true;
+      sectionNavModeRef.current = false;
+      clearSectionResponse();
 
       abortRef.current?.abort();
       cancel();
@@ -320,8 +370,23 @@ export function VoiceAssistant() {
           if (thisTurn !== turnIdRef.current) return;
 
           accumulated += decoder.decode(value, { stream: true });
-          setStreamText(extractStreamingText(accumulated));
-          scheduleExecution(parseVoiceResponse(accumulated));
+          const parsed = parseVoiceResponse(accumulated);
+          const streamedText = extractStreamingText(accumulated);
+
+          if (
+            shouldTransferVoiceToSection(parsed, trimmed) &&
+            !sectionNavModeRef.current
+          ) {
+            if (enterSectionNavMode(parsed, streamedText)) {
+              execScheduledRef.done = true;
+            }
+          } else if (sectionNavModeRef.current) {
+            setSectionText(streamedText);
+            if (streamedText) setSectionPhase("responding");
+          } else {
+            setStreamText(streamedText);
+            scheduleExecution(parsed);
+          }
         }
 
         if (thisTurn !== turnIdRef.current) return;
@@ -334,7 +399,40 @@ export function VoiceAssistant() {
           return;
         }
 
+        if (isActionOnlyResponse(parsed, trimmed)) {
+          executeVoiceAction(parsed);
+          closeOverlay();
+          return;
+        }
+
         const answer = parsed.text || "…";
+
+        if (
+          !sectionNavModeRef.current &&
+          shouldTransferVoiceToSection(parsed, trimmed)
+        ) {
+          enterSectionNavMode(parsed, answer);
+        }
+
+        if (sectionNavModeRef.current) {
+          setSectionText(answer);
+          setSectionPhase("responding");
+
+          if (!answer || answer === "…") {
+            sectionNavModeRef.current = false;
+            clearSectionResponse();
+            return;
+          }
+
+          speak(answer, () => {
+            if (thisTurn === turnIdRef.current) {
+              sectionNavModeRef.current = false;
+              clearSectionResponse();
+            }
+          });
+          return;
+        }
+
         setStreamText(answer);
 
         if (!answer || answer === "…") {
@@ -361,11 +459,15 @@ export function VoiceAssistant() {
     [
       cancel,
       clearNavTimer,
+      clearSectionResponse,
       closeOverlay,
+      enterSectionNavMode,
       executeVoiceAction,
       finishTurn,
       runLocalCommand,
       setAssistantPhase,
+      setSectionPhase,
+      setSectionText,
       speak,
       stopListening,
     ],
@@ -418,6 +520,11 @@ export function VoiceAssistant() {
   }, []);
 
   useEffect(() => {
+    if (!sectionNavModeRef.current) return;
+    syncSpeech(isSpeaking, spokenCharIndex);
+  }, [isSpeaking, spokenCharIndex, syncSpeech]);
+
+  useEffect(() => {
     return () => {
       clearNavTimer();
       abortRef.current?.abort();
@@ -445,9 +552,11 @@ export function VoiceAssistant() {
         )}
       </AnimatePresence>
 
-      {!overlayOpen && (
+      {!overlayOpen && !isSectionReplyVisible && (
         <VoiceFab onClick={openOverlay} ariaLabel="Open voice assistant" />
       )}
+
+      <SectionVoiceReply />
 
       <VoiceOverlay
         open={overlayOpen}

@@ -23,11 +23,17 @@ import {
   dispatchProjectsChapter,
   type VoiceNavigateDetail,
 } from "@/lib/voice-navigation";
+import { useVoiceResponse } from "@/contexts/VoiceResponseContext";
 import { useCallback, useEffect, useState } from "react";
 import styles from "./RoadExperience.module.scss";
 
 export function RoadExperience() {
   const [activeSection, setActiveSection] = useState<FullPageSectionId>("road");
+  const { setActivePageSection } = useVoiceResponse();
+
+  useEffect(() => {
+    setActivePageSection(activeSection);
+  }, [activeSection, setActivePageSection]);
 
   const goToStop = useCallback((id: RoadStopId) => {
     scrollToSection(id);

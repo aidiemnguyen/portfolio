@@ -2,13 +2,21 @@
 
 import { useLocaleContext } from "@/contexts/LocaleContext";
 import type { Dictionary } from "@/i18n/types";
+import { useIsMobile, MOBILE_MQ } from "@/hooks/useIsMobile";
+import { useIsMounted } from "@/hooks/useIsMounted";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { scrollToSection } from "@/lib/section-scroll";
 import {
   VOICE_PENDING_CHAPTER_KEY,
   dispatchProjectsChapter,
 } from "@/lib/voice-navigation";
-import { motion, type Variants } from "framer-motion";
+import { motion, useInView, type Variants } from "framer-motion";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import styles from "./Stack.module.scss";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -134,9 +142,10 @@ interface StackTierProps {
   index: number;
   total: number;
   interactive: boolean;
+  animated: boolean;
 }
 
-function StackTier({ group, index, total, interactive }: StackTierProps) {
+function StackTier({ group, index, total, interactive, animated }: StackTierProps) {
   const featured = Boolean(group.featured);
   const tierNum = String(index + 1).padStart(2, "0");
 
@@ -184,7 +193,7 @@ function StackTier({ group, index, total, interactive }: StackTierProps) {
 
   const tierClass = `${styles.tier} ${featured ? styles.tierFeatured : ""}`;
 
-  if (!interactive) {
+  if (!animated) {
     return (
       <section className={tierClass} aria-labelledby={`stack-tier-${index}`}>
         {body}
@@ -229,10 +238,64 @@ function StackTier({ group, index, total, interactive }: StackTierProps) {
 }
 
 export function Stack() {
+  const shellRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const scrollSyncRef = useRef(false);
+  const shellInView = useInView(shellRef, { once: true, amount: 0.25 });
+  const mounted = useIsMounted();
+  const isMobile = useIsMobile();
   const { dictionary } = useLocaleContext();
   const { stack } = dictionary;
   const reduceMotion = usePrefersReducedMotion();
   const interactive = !reduceMotion;
+  const fadeIn = mounted && interactive && !isMobile;
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const scrollCarouselToIndex = useCallback(
+    (index: number, behavior: ScrollBehavior = "smooth") => {
+      const carousel = carouselRef.current;
+      if (!carousel || !window.matchMedia(MOBILE_MQ).matches) return;
+
+      scrollSyncRef.current = true;
+      carousel.scrollTo({
+        left: index * carousel.clientWidth,
+        behavior: reduceMotion ? "auto" : behavior,
+      });
+      window.setTimeout(() => {
+        scrollSyncRef.current = false;
+      }, reduceMotion ? 0 : 400);
+    },
+    [reduceMotion],
+  );
+
+  const scrollToIndex = useCallback(
+    (index: number) => {
+      const clamped = Math.max(0, Math.min(stack.groups.length - 1, index));
+      setActiveIndex(clamped);
+      scrollCarouselToIndex(clamped);
+    },
+    [scrollCarouselToIndex, stack.groups.length],
+  );
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    const onScroll = () => {
+      if (scrollSyncRef.current || !window.matchMedia(MOBILE_MQ).matches) return;
+
+      const slideWidth = carousel.clientWidth;
+      if (!slideWidth) return;
+
+      const index = Math.round(carousel.scrollLeft / slideWidth);
+      const clamped = Math.max(0, Math.min(stack.groups.length - 1, index));
+
+      setActiveIndex((prev) => (prev === clamped ? prev : clamped));
+    };
+
+    carousel.addEventListener("scroll", onScroll, { passive: true });
+    return () => carousel.removeEventListener("scroll", onScroll);
+  }, [stack.groups.length]);
 
   const tierList = (
     <div className={styles.timeline}>
@@ -243,13 +306,14 @@ export function Stack() {
           index={index}
           total={stack.groups.length}
           interactive={interactive}
+          animated={fadeIn}
         />
       ))}
     </div>
   );
 
   return (
-    <div className={styles.shell}>
+    <div ref={shellRef} className={styles.shell}>
       <div className={styles.glow} aria-hidden />
       <div className={styles.terminal}>
         <div className={styles.titleBar}>
@@ -262,12 +326,11 @@ export function Stack() {
         </div>
 
         <div className={styles.terminalBody}>
-          {interactive ? (
+          {fadeIn ? (
             <motion.header
               className={styles.intro}
               initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={shellInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={{ duration: 0.45, ease }}
             >
               <h2 className={styles.heading}>{stack.heading}</h2>
@@ -280,19 +343,45 @@ export function Stack() {
             </header>
           )}
 
-          {interactive ? (
-            <motion.div
-              className={styles.timelineWrap}
-              variants={groupsContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-40px" }}
+          <div className={styles.carouselStack}>
+            <div
+              ref={carouselRef}
+              className={styles.carousel}
+              aria-roledescription="carousel"
+              aria-label={stack.heading}
             >
-              {tierList}
-            </motion.div>
-          ) : (
-            tierList
-          )}
+              {fadeIn ? (
+                <motion.div
+                  className={styles.timelineWrap}
+                  variants={groupsContainer}
+                  initial="hidden"
+                  animate={shellInView ? "visible" : "hidden"}
+                >
+                  {tierList}
+                </motion.div>
+              ) : (
+                <div className={styles.timelineWrap}>{tierList}</div>
+              )}
+            </div>
+
+            <div
+              className={styles.pagination}
+              role="tablist"
+              aria-label={stack.heading}
+            >
+              {stack.groups.map((group, index) => (
+                <button
+                  key={group.label}
+                  type="button"
+                  role="tab"
+                  className={styles.pageDot}
+                  aria-selected={activeIndex === index}
+                  aria-label={group.label}
+                  onClick={() => scrollToIndex(index)}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

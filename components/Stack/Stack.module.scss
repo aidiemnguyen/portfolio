@@ -122,10 +122,13 @@ $font-code:
 }
 
 .manifestName {
-  font-size: 1.72rem;
+  font-size: 1.25rem;
   font-weight: 500;
   letter-spacing: 0.06em;
   color: rgb(236 232 248 / 0.55);
+  @include from-md {
+    font-size: 1.72rem;
+  }
 }
 
 .terminalBody {
@@ -168,22 +171,78 @@ $font-code:
 
 .timelineWrap {
   display: block;
+  height: 100%;
+
+  @include until-md {
+    height: 100%;
+  }
+}
+
+.carouselStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-height: 0;
+
+  @include until-md {
+    flex: 1;
+    min-height: 0;
+  }
+}
+
+.carousel {
+  @include until-md {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }
 
 .timeline {
   display: flex;
   flex-direction: column;
   gap: 0;
+
+  @include until-md {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    height: 100%;
+  }
 }
 
 .tier {
-  display: grid;
-  grid-template-columns: 3.25rem 1fr;
-  gap: var(--space-3) var(--space-4);
   padding: var(--space-5) 0;
 
   &:not(:last-child) {
     border-bottom: 1px solid rgb(255 255 255 / 0.05);
+  }
+
+  @include until-md {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    align-content: start;
+    height: min(75%, 26rem);
+    padding: var(--space-4) var(--space-2);
+    border-bottom: none;
+
+    &:not(:last-child) {
+      border-bottom: none;
+    }
+  }
+
+  @include from-md {
+    display: grid;
+    grid-template-columns: 3.25rem 1fr;
+    gap: var(--space-3) var(--space-4);
   }
 }
 
@@ -204,13 +263,22 @@ $font-code:
     border-bottom: none;
     margin-bottom: var(--space-1);
   }
+
+  @include until-md {
+    margin: 0;
+    margin-bottom: 0;
+    padding: var(--space-4) var(--space-2);
+  }
 }
 
 .tierRail {
-  display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100%;
+  display: none;
+  @include from-md {
+    display: flex;
+  }
 }
 
 .tierBadge {
@@ -246,6 +314,10 @@ $font-code:
     rgb(123 111 232 / 0.45),
     rgb(123 111 232 / 0.08)
   );
+
+  @include until-md {
+    display: none;
+  }
 }
 
 .tierBody {
@@ -254,12 +326,15 @@ $font-code:
 
 .tierLabel {
   margin: 0 0 var(--space-3);
-  font-size: 1.72rem;
+  font-size: 1.4rem;
   font-weight: 500;
   line-height: 1.45;
   letter-spacing: 0.04em;
   text-transform: none;
   color: $teal-bright;
+  @include from-md {
+    font-size: 1.72rem;
+  }
 }
 
 .tierComment {
@@ -277,7 +352,7 @@ $font-code:
   align-items: center;
   gap: var(--space-1);
   padding: var(--space-2) var(--space-2);
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 1.2;
   color: rgb(244 242 250 / 0.92);
   background: rgb(255 255 255 / 0.04);
@@ -293,6 +368,9 @@ $font-code:
     background: rgb(255 255 255 / 0.09);
     border-color: rgb(255 255 255 / 0.18);
     box-shadow: 0 4px 16px rgb(0 0 0 / 0.2);
+  }
+  @include from-md {
+    font-size: 1.2rem;
   }
 }
 
@@ -319,6 +397,10 @@ $font-code:
 
 .chipLabel {
   white-space: nowrap;
+
+  @include until-md {
+    white-space: normal;
+  }
 }
 
 .eraLink {
@@ -349,6 +431,40 @@ $font-code:
   }
 }
 
+.pagination {
+  display: none;
+  flex-shrink: 0;
+  justify-content: center;
+  gap: var(--space-2);
+
+  @include until-md {
+    display: flex;
+  }
+}
+
+.pageDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-full);
+  background: rgb(200 194 220 / 22%);
+  cursor: pointer;
+  transition:
+    background-color var(--motion-theme),
+    transform var(--motion-theme);
+
+  &[aria-selected="true"] {
+    background: $purple-bright;
+    transform: scale(1.2);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $teal-bright;
+    outline-offset: 3px;
+  }
+}
+
 .srOnly {
   position: absolute;
   width: 1px;
@@ -368,6 +484,14 @@ $font-code:
   }
 
   .chip {
+    transition: none;
+  }
+
+  .carousel {
+    scroll-behavior: auto;
+  }
+
+  .pageDot {
     transition: none;
   }
 }

@@ -2,6 +2,7 @@
 
 import { useLocaleContext } from "@/contexts/LocaleContext";
 import { useIsMounted } from "@/hooks/useIsMounted";
+import { useIsMobile, MOBILE_MQ } from "@/hooks/useIsMobile";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { getFullPageScrollRoot } from "@/lib/section-scroll";
 import {
@@ -11,7 +12,7 @@ import {
   type VoiceProjectsChapterDetail,
   type VoiceProjectStepDetail,
 } from "@/lib/voice-navigation";
-import { motion, type Variants } from "framer-motion";
+import { motion, useInView, type Variants } from "framer-motion";
 import {
   useCallback,
   useEffect,
@@ -21,7 +22,6 @@ import {
 import { ProjectSlide } from "./ProjectSlide";
 import styles from "./Projects.module.scss";
 
-const MOBILE_MQ = "(max-width: 768px)";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const listVariants: Variants = {
@@ -38,20 +38,6 @@ const cardVariants: Variants = {
     transition: { duration: 0.5, ease },
   },
 };
-
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia(MOBILE_MQ);
-    const update = () => setIsMobile(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, []);
-
-  return isMobile;
-}
 
 function useProjectsVoiceNavigation(
   activeIndex: number,
@@ -96,10 +82,13 @@ export function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const scrollSyncRef = useRef(false);
+  const sectionInView = useInView(sectionRef, { once: true, amount: 0.35 });
   const { dictionary, locale } = useLocaleContext();
   const { timeline, eras } = dictionary;
   const reduceMotion = usePrefersReducedMotion();
   const animate = mounted && !reduceMotion;
+  /** whileInView fails on mobile: the carousel list is ~300vw wide so IO never fires. */
+  const fadeIn = animate && !isMobile;
   const [raisedIndex, setRaisedIndex] = useState(eras.length - 1);
 
   const scrollCarouselToIndex = useCallback(
@@ -205,7 +194,7 @@ export function Projects() {
       );
     });
 
-  const listContent = renderCards(animate);
+  const listContent = renderCards(fadeIn);
   const listClass = styles.list;
 
   return (
@@ -231,13 +220,12 @@ export function Projects() {
             aria-roledescription="carousel"
             aria-label={timeline.heading}
           >
-            {animate ? (
+            {fadeIn ? (
               <motion.div
                 className={listClass}
                 variants={listVariants}
                 initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-8% 0px" }}
+                animate={sectionInView ? "visible" : "hidden"}
               >
                 {listContent}
               </motion.div>
