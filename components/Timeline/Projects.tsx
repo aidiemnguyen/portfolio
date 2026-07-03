@@ -21,6 +21,7 @@ import {
 import { ProjectSlide } from "./ProjectSlide";
 import styles from "./Projects.module.scss";
 
+const MOBILE_MQ = "(max-width: 768px)";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const listVariants: Variants = {
@@ -37,6 +38,20 @@ const cardVariants: Variants = {
     transition: { duration: 0.5, ease },
   },
 };
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia(MOBILE_MQ);
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  return isMobile;
+}
 
 function useProjectsVoiceNavigation(
   activeIndex: number,
@@ -77,32 +92,82 @@ function useProjectsVoiceNavigation(
 
 export function Projects() {
   const mounted = useIsMounted();
+  const isMobile = useIsMobile();
   const sectionRef = useRef<HTMLElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const scrollSyncRef = useRef(false);
   const { dictionary, locale } = useLocaleContext();
   const { timeline, eras } = dictionary;
   const reduceMotion = usePrefersReducedMotion();
   const animate = mounted && !reduceMotion;
   const [raisedIndex, setRaisedIndex] = useState(eras.length - 1);
 
+  const scrollCarouselToIndex = useCallback(
+    (index: number, behavior: ScrollBehavior = "smooth") => {
+      const carousel = carouselRef.current;
+      if (!carousel || !window.matchMedia(MOBILE_MQ).matches) return;
+
+      scrollSyncRef.current = true;
+      carousel.scrollTo({
+        left: index * carousel.clientWidth,
+        behavior: reduceMotion ? "auto" : behavior,
+      });
+      window.setTimeout(() => {
+        scrollSyncRef.current = false;
+      }, reduceMotion ? 0 : 400);
+    },
+    [reduceMotion],
+  );
+
   const scrollToIndex = useCallback(
     (index: number) => {
       const clamped = Math.max(0, Math.min(eras.length - 1, index));
       setRaisedIndex(clamped);
       document.documentElement.setAttribute("data-era", String(clamped));
+      scrollCarouselToIndex(clamped);
 
       const root = getFullPageScrollRoot();
       const section = sectionRef.current;
       if (root && section) {
         root.scrollTo({
           top: section.offsetTop,
-          behavior: "smooth",
+          behavior: reduceMotion ? "auto" : "smooth",
         });
       }
     },
-    [eras.length],
+    [eras.length, reduceMotion, scrollCarouselToIndex],
   );
 
   useProjectsVoiceNavigation(raisedIndex, scrollToIndex);
+
+  useEffect(() => {
+    if (!mounted) return;
+    scrollCarouselToIndex(eras.length - 1, "auto");
+  }, [mounted, eras.length, scrollCarouselToIndex]);
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    const onScroll = () => {
+      if (scrollSyncRef.current || !window.matchMedia(MOBILE_MQ).matches) return;
+
+      const slideWidth = carousel.clientWidth;
+      if (!slideWidth) return;
+
+      const index = Math.round(carousel.scrollLeft / slideWidth);
+      const clamped = Math.max(0, Math.min(eras.length - 1, index));
+
+      setRaisedIndex((prev) => {
+        if (prev === clamped) return prev;
+        document.documentElement.setAttribute("data-era", String(clamped));
+        return clamped;
+      });
+    };
+
+    carousel.addEventListener("scroll", onScroll, { passive: true });
+    return () => carousel.removeEventListener("scroll", onScroll);
+  }, [eras.length]);
 
   const renderCards = (animated: boolean) =>
     eras.map((era, index) => {
@@ -121,8 +186,10 @@ export function Projects() {
         <div
           key={era.slug}
           id={`project-${era.slug}`}
+          data-slide-index={index}
           className={wrapClass}
           onMouseEnter={() => {
+            if (isMobile) return;
             setRaisedIndex(index);
             document.documentElement.setAttribute("data-era", String(index));
           }}
@@ -137,6 +204,9 @@ export function Projects() {
         </div>
       );
     });
+
+  const listContent = renderCards(animate);
+  const listClass = styles.list;
 
   return (
     <section
@@ -155,19 +225,44 @@ export function Projects() {
         </header>
 
         <div className={styles.stack}>
-          {animate ? (
-            <motion.div
-              className={styles.list}
-              variants={listVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-8% 0px" }}
-            >
-              {renderCards(true)}
-            </motion.div>
-          ) : (
-            <div className={styles.list}>{renderCards(false)}</div>
-          )}
+          <div
+            ref={carouselRef}
+            className={styles.carousel}
+            aria-roledescription="carousel"
+            aria-label={timeline.heading}
+          >
+            {animate ? (
+              <motion.div
+                className={listClass}
+                variants={listVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-8% 0px" }}
+              >
+                {listContent}
+              </motion.div>
+            ) : (
+              <div className={listClass}>{listContent}</div>
+            )}
+          </div>
+
+          <div
+            className={styles.pagination}
+            role="tablist"
+            aria-label={timeline.heading}
+          >
+            {eras.map((era, index) => (
+              <button
+                key={era.slug}
+                type="button"
+                role="tab"
+                className={styles.dot}
+                aria-selected={raisedIndex === index}
+                aria-label={era.project}
+                onClick={() => scrollToIndex(index)}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

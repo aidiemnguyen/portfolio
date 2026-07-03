@@ -1,6 +1,5 @@
 "use client";
 
-import { DemoAnimation } from "@/components/ProjectModal/DemoAnimation";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary, EraTranslation } from "@/i18n/types";
 import { motion } from "framer-motion";
@@ -78,17 +77,6 @@ export function ProjectPage({ era, locale, chapter }: ProjectPageProps) {
           </p>
           <h1 className={styles.title}>{era.project}</h1>
         </motion.header>
-
-        <motion.div className={styles.demoWrap} variants={section}>
-          <DemoAnimation
-            key={era.slug}
-            type={era.detail.demoType}
-            steps={era.detail.demo.steps}
-            accent={era.accent}
-            variant="hero"
-            caption={`${chapter.demo} — ${era.detail.demo.title}`}
-          />
-        </motion.div>
 
         <motion.section className={styles.section} variants={section}>
           <p className={styles.context}>&ldquo;{era.context}&rdquo;</p>
