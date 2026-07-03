@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { FormEvent, useEffect, useRef } from "react";
+import type { Dictionary } from "@/i18n/types";
 import { TypingText } from "./TypingText";
 import styles from "./VoiceAssistant.module.css";
 
@@ -20,6 +21,7 @@ interface VoiceOverlayProps {
   spokenCharIndex: number;
   showTextInput: boolean;
   textInputValue: string;
+  labels: Dictionary["voice"];
   onTextInputChange: (value: string) => void;
   onTextSubmit: (message: string) => void;
   onClose: () => void;
@@ -56,6 +58,7 @@ export function VoiceOverlay({
   spokenCharIndex,
   showTextInput,
   textInputValue,
+  labels,
   onTextInputChange,
   onTextSubmit,
   onClose,
@@ -96,11 +99,11 @@ export function VoiceOverlay({
   };
 
   const statusLine = showTextInput
-    ? "Type your question below"
+    ? labels.typeQuestion
     : showListeningUi
-      ? transcript || "Speak — I'll send when you pause"
+      ? transcript || labels.speakHint
       : isThinking
-        ? "Thinking…"
+        ? labels.thinking
         : isResponding
           ? isSpeaking || spokenCharIndex > 0
             ? ""
@@ -114,7 +117,7 @@ export function VoiceOverlay({
           className={styles.overlay}
           role="dialog"
           aria-modal="true"
-          aria-label="Voice assistant"
+          aria-label={labels.dialogAria}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -124,20 +127,18 @@ export function VoiceOverlay({
             type="button"
             className={styles.overlayClose}
             onClick={onClose}
-            aria-label="Close voice assistant"
+            aria-label={labels.closeAria}
           >
             <span className={styles.overlayCloseIcon} aria-hidden>
               ×
             </span>
-            <span className={styles.overlayCloseLabel}>Close</span>
+            <span className={styles.overlayCloseLabel}>{labels.close}</span>
           </button>
 
           <div className={styles.overlayContent}>
             {showTextInput ? (
               <div className={styles.overlayFallback}>
-                <p className={styles.overlayHint}>
-                  Microphone unavailable — type instead
-                </p>
+                <p className={styles.overlayHint}>{labels.micUnavailable}</p>
                 <form className={styles.fallbackForm} onSubmit={handleSubmit}>
                   <input
                     ref={inputRef}
@@ -145,11 +146,11 @@ export function VoiceOverlay({
                     className={styles.fallbackInput}
                     value={textInputValue}
                     onChange={(e) => onTextInputChange(e.target.value)}
-                    placeholder="Ask anything about AI Diem…"
-                    aria-label="Ask a question"
+                    placeholder={labels.inputPlaceholder}
+                    aria-label={labels.inputAria}
                   />
                   <button type="submit" className={styles.fallbackSend}>
-                    Send
+                    {labels.send}
                   </button>
                 </form>
               </div>

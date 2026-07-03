@@ -5,6 +5,8 @@ import { useLocaleContext } from "@/contexts/LocaleContext";
 import { useVoiceResponse } from "@/contexts/VoiceResponseContext";
 import { parseLocalVoiceCommand } from "@/lib/voice-commands";
 import { pathForLocale } from "@/lib/locale-path";
+import { openPrintResume } from "@/lib/print-resume";
+import { speechLangForLocale } from "@/lib/speech-locale";
 import type { Locale } from "@/i18n/config";
 import {
   chapterIndexForProjectSlug,
@@ -35,11 +37,6 @@ import styles from "./VoiceAssistant.module.css";
 const TOOLTIP_STORAGE_KEY = "voice-assistant-tooltip-seen";
 const NAV_DELAY_MS = 1000;
 
-const OFFLINE_MESSAGE =
-  "Looks like you're offline — you can still explore the road.";
-const API_ERROR_MESSAGE =
-  "Sorry, I had trouble connecting. Try again or email me directly.";
-
 type AssistantPhase = "idle" | "listening" | "thinking" | "responding";
 
 type VoiceHandlers = {
@@ -52,7 +49,9 @@ type VoiceHandlers = {
 export function VoiceAssistant() {
   const router = useRouter();
   const pathname = usePathname();
-  const { dictionary } = useLocaleContext();
+  const { dictionary, locale } = useLocaleContext();
+  const speechLang = speechLangForLocale(locale);
+  const voice = dictionary.voice;
   const { setTheme } = useTheme();
   const {
     activateSection,
@@ -128,11 +127,10 @@ export function VoiceAssistant() {
     stopListening,
     error: micError,
     setTranscript,
-  } = useSpeechRecognition(onListeningEnd);
+  } = useSpeechRecognition(onListeningEnd, speechLang);
 
   const { speak, cancel, isSpeaking, spokenCharIndex } = useSpeechSynthesis();
 
-  const locale = (pathname.split("/").filter(Boolean)[0] ?? "en") as Locale;
   const homePath = `/${locale}`;
 
   const showTextInput =
@@ -244,6 +242,19 @@ export function VoiceAssistant() {
         case "mailto":
           window.location.href = `mailto:${dictionary.contact.email}`;
           return;
+        case "print_pdf": {
+          const targetLocale = (parsed.locale ?? locale) as Locale;
+          if (parsed.locale && parsed.locale !== locale) {
+            window.open(
+              `/${parsed.locale}/resume?print=1`,
+              "_blank",
+              "noopener,noreferrer",
+            );
+          } else {
+            openPrintResume(locale);
+          }
+          return;
+        }
         default:
           if (isRoadAction(parsed.action)) {
             runRoadNavigation(parsed);
@@ -313,10 +324,10 @@ export function VoiceAssistant() {
 
       if (!navigator.onLine) {
         setAssistantPhase("responding");
-        setStreamText(OFFLINE_MESSAGE);
-        speak(OFFLINE_MESSAGE, () => {
+        setStreamText(voice.offline);
+        speak(voice.offline, () => {
           if (thisTurn === turnIdRef.current) finishTurn();
-        });
+        }, { lang: speechLang });
         return;
       }
 
@@ -345,7 +356,7 @@ export function VoiceAssistant() {
         const res = await fetch("/api/voice", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: trimmed }),
+          body: JSON.stringify({ message: trimmed, locale }),
           signal: controller.signal,
         });
 
@@ -399,12 +410,6 @@ export function VoiceAssistant() {
           return;
         }
 
-        if (isActionOnlyResponse(parsed, trimmed)) {
-          executeVoiceAction(parsed);
-          closeOverlay();
-          return;
-        }
-
         const answer = parsed.text || "…";
 
         if (
@@ -429,7 +434,7 @@ export function VoiceAssistant() {
               sectionNavModeRef.current = false;
               clearSectionResponse();
             }
-          });
+          }, { lang: speechLang });
           return;
         }
 
@@ -442,7 +447,7 @@ export function VoiceAssistant() {
 
         speak(answer, () => {
           if (thisTurn === turnIdRef.current) finishTurn();
-        });
+        }, { lang: speechLang });
 
         scheduleExecution(parsed);
       } catch (err) {
@@ -450,10 +455,10 @@ export function VoiceAssistant() {
         if (thisTurn !== turnIdRef.current) return;
 
         setAssistantPhase("responding");
-        setStreamText(API_ERROR_MESSAGE);
-        speak(API_ERROR_MESSAGE, () => {
+        setStreamText(voice.apiError);
+        speak(voice.apiError, () => {
           if (thisTurn === turnIdRef.current) finishTurn();
-        });
+        }, { lang: speechLang });
       }
     },
     [
@@ -464,12 +469,16 @@ export function VoiceAssistant() {
       enterSectionNavMode,
       executeVoiceAction,
       finishTurn,
+      locale,
       runLocalCommand,
       setAssistantPhase,
       setSectionPhase,
       setSectionText,
       speak,
+      speechLang,
       stopListening,
+      voice.apiError,
+      voice.offline,
     ],
   );
 
@@ -547,13 +556,13 @@ export function VoiceAssistant() {
             exit={{ opacity: 0, y: 4 }}
             transition={{ duration: 0.25 }}
           >
-            Not sure where to start? Ask me anything ↓
+            {voice.tooltip}
           </motion.button>
         )}
       </AnimatePresence>
 
       {!overlayOpen && !isSectionReplyVisible && (
-        <VoiceFab onClick={openOverlay} ariaLabel="Open voice assistant" />
+        <VoiceFab onClick={openOverlay} ariaLabel={voice.fabAria} />
       )}
 
       <SectionVoiceReply />
@@ -569,6 +578,7 @@ export function VoiceAssistant() {
         spokenCharIndex={spokenCharIndex}
         showTextInput={showTextInput}
         textInputValue={textInput}
+        labels={voice}
         onTextInputChange={setTextInput}
         onTextSubmit={(msg) => {
           setTranscript("");

@@ -51,6 +51,8 @@ export interface Dictionary {
     stack: string;
     contact: string;
     mainNav: string;
+    resume: string;
+    resumePrint: string;
   };
   hero: {
     displayName: string;
@@ -110,5 +112,28 @@ export interface Dictionary {
     email: string;
     footer: string;
     formAriaLabel: string;
+  };
+  resume: {
+    pageTitle: string;
+    printAction: string;
+    backToSite: string;
+    downloadPdf: string;
+    downloadDocx: string;
+  };
+  voice: {
+    tooltip: string;
+    fabAria: string;
+    dialogAria: string;
+    close: string;
+    closeAria: string;
+    typeQuestion: string;
+    speakHint: string;
+    thinking: string;
+    micUnavailable: string;
+    inputPlaceholder: string;
+    inputAria: string;
+    send: string;
+    offline: string;
+    apiError: string;
   };
 }

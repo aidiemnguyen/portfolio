@@ -15,26 +15,40 @@ function isCloseCommand(text: string): boolean {
   if (words.length > 8) return false;
 
   const closePhrase =
-    /^(?:please\s+)?(?:close|stop|dismiss|exit|quit|goodbye|bye|done|never\s*mind|that'?s\s*all|turn\s*off|shut\s*down)(?:\s+(?:the\s+)?(?:voice|assistant|overlay|this|mic|it))?$/i;
+    /^(?:please\s+)?(?:close|stop|dismiss|exit|quit|goodbye|bye|done|never\s*mind|that'?s\s*all|turn\s*off|shut\s*down|zamknij|wyjdź|do\s*widzenia|koniec|anuluj)(?:\s+(?:the\s+)?(?:voice|assistant|overlay|this|mic|it|asystenta|asystent|głos|mikrofon))?$/i;
 
   if (closePhrase.test(text)) return true;
 
   if (
     words.length <= 2 &&
-    /^(close|stop|exit|quit|dismiss|đóng|dừng|tắt|thoát|ngừng)$/i.test(text)
+    /^(close|stop|exit|quit|dismiss|đóng|dừng|tắt|thoát|ngừng|zamknij|wyjdź|koniec|stop|anuluj)$/i.test(
+      text,
+    )
   ) {
     return true;
   }
 
   if (words.length <= 3 && /^cancel(?:\s+that)?$/i.test(text)) return true;
 
-  if (words.length <= 5 && /\b(close|closed|đóng|tắt|thoát)\b/i.test(text)) {
+  if (
+    words.length <= 5 &&
+    /\b(close|closed|đóng|tắt|thoát|zamknij|zamknąć|wyjdź|zamknij to)\b/i.test(
+      text,
+    )
+  ) {
+    return true;
+  }
+
+  if (
+    words.length <= 4 &&
+    /\b(goodbye|bye|do widzenia|pa|koniec|do widzenia|żegnaj)\b/i.test(text)
+  ) {
     return true;
   }
 
   if (
     words.length <= 3 &&
-    /\b(stop|exit|quit|dismiss|dừng|ngừng)\b/i.test(text)
+    /\b(stop|exit|quit|dismiss|dừng|ngừng|zatrzymaj)\b/i.test(text)
   ) {
     return true;
   }

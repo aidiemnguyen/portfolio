@@ -4,7 +4,9 @@
 //   VOICE_MODEL=claude-sonnet-4-20250514    (higher quality, ~3–8× cost)
 
 import { getAnthropicApiKey } from "@/lib/anthropic-api-key";
-import { VOICE_SYSTEM_PROMPT } from "@/lib/voice-system-prompt";
+import { loadCvKnowledge } from "@/lib/cv-knowledge";
+import { buildVoiceSystemPrompt } from "@/lib/voice-system-prompt";
+import type { Locale } from "@/i18n/config";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
@@ -13,12 +15,23 @@ const DEFAULT_MODEL = "claude-haiku-4-5-20251001";
 /** ~60 tokens JSON + 2 short sentences — lower cap = lower max bill. */
 const MAX_TOKENS = 160;
 
+const SITE_LOCALES: Locale[] = ["en", "pl"];
+
+function parseSiteLocale(value: unknown): Locale {
+  return SITE_LOCALES.includes(value as Locale) ? (value as Locale) : "en";
+}
+
 export async function POST(request: Request) {
   let message: string;
+  let siteLocale: Locale = "en";
 
   try {
-    const body = (await request.json()) as { message?: string };
+    const body = (await request.json()) as {
+      message?: string;
+      locale?: string;
+    };
     message = typeof body.message === "string" ? body.message.trim() : "";
+    siteLocale = parseSiteLocale(body.locale);
   } catch {
     return NextResponse.json(
       { error: "Invalid request body." },
@@ -44,6 +57,8 @@ export async function POST(request: Request) {
   }
 
   const model = process.env.VOICE_MODEL?.trim() || DEFAULT_MODEL;
+  const cvKnowledge = await loadCvKnowledge();
+  const systemPrompt = buildVoiceSystemPrompt(cvKnowledge, siteLocale);
 
   let anthropicResponse: Response;
 
@@ -62,7 +77,7 @@ export async function POST(request: Request) {
         system: [
           {
             type: "text",
-            text: VOICE_SYSTEM_PROMPT,
+            text: systemPrompt,
             cache_control: { type: "ephemeral" },
           },
         ],

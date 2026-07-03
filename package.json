@@ -6,7 +6,8 @@
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "extract-cv": "node scripts/extract-cv.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.40.0",
@@ -21,6 +22,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
+    "pdf-parse": "^2.4.5",
     "typescript": "^5"
   }
 }

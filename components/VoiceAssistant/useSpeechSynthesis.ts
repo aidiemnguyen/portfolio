@@ -50,7 +50,7 @@ export function useSpeechSynthesis() {
   );
 
   const speak = useCallback(
-    (text: string, onEnd?: () => void) => {
+    (text: string, onEnd?: () => void, options?: { lang?: string }) => {
       if (typeof window === "undefined" || !window.speechSynthesis) {
         onEnd?.();
         return;
@@ -71,7 +71,8 @@ export function useSpeechSynthesis() {
       utterance.rate = SPEECH_RATE;
       utterance.pitch = SPEECH_PITCH;
       utterance.volume = 1;
-      utterance.lang = document.documentElement.lang || "en-US";
+      utterance.lang =
+        options?.lang ?? document.documentElement.lang ?? "en-US";
 
       utterance.onstart = () => {
         setIsSpeaking(true);

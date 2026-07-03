@@ -22,6 +22,9 @@ export function looksLikeUserQuestion(message: string): boolean {
     /\b(tell me|what|who|how|why|when|where|which|explain|describe|can you|could you|would you|do you|are you|is there|anyone|anything)\b/i.test(
       t,
     ) ||
+    /\b(co|jak|gdzie|kiedy|dlaczego|czemu|czy|kto|czym|ile|powiedz|opowiedz|możesz|czy możesz|czy jesteś)\b/i.test(
+      t,
+    ) ||
     /\b(cho (tôi )?biết|kể (cho )?tôi|là gì|như thế nào|tại sao|bao nhiêu|bạn có)\b/i.test(
       t,
     )

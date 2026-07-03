@@ -42,6 +42,8 @@ const pl: Dictionary = {
     stack: "stack",
     contact: "kontakt",
     mainNav: "Nawigacja główna",
+    resume: "CV",
+    resumePrint: "Drukuj lub zapisz jako PDF",
   },
   hero: {
     displayName: "frontend engineer",
@@ -241,6 +243,30 @@ const pl: Dictionary = {
     email: "aidiemnguyen2104@gmail.com",
     footer: "Thi Ai Diem Nguyen · Wrocław, Polska · 2025",
     formAriaLabel: "Formularz kontaktowy",
+  },
+  resume: {
+    pageTitle: "CV — AI Diem",
+    printAction: "Drukuj / Zapisz jako PDF",
+    backToSite: "Wróć do portfolio",
+    downloadPdf: "Pobierz PDF",
+    downloadDocx: "Pobierz DOCX",
+  },
+  voice: {
+    tooltip: "Nie wiesz od czego zacząć? Zapytaj mnie ↓",
+    fabAria: "Otwórz asystenta głosowego",
+    dialogAria: "Asystent głosowy",
+    close: "Zamknij",
+    closeAria: "Zamknij asystenta głosowego",
+    typeQuestion: "Wpisz pytanie poniżej",
+    speakHint: "Mów — wyślę, gdy zrobisz pauzę",
+    thinking: "Myślę…",
+    micUnavailable: "Mikrofon niedostępny — wpisz pytanie",
+    inputPlaceholder: "Zapytaj o cokolwiek dotyczące AI Diem…",
+    inputAria: "Zadaj pytanie",
+    send: "Wyślij",
+    offline: "Wygląda na to, że jesteś offline — nadal możesz przeglądać stronę.",
+    apiError:
+      "Przepraszam, nie udało się połączyć. Spróbuj ponownie lub napisz e-mailem.",
   },
 };
 

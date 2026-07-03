@@ -1,0 +1,76 @@
+Thi Ai Diem Nguyen
+Senior Frontend Engineer · React / Next.js / TypeScript · Wrocław, Poland
+(+48) 514 622 818 · aidiemnguyen2104@gmail.com · LinkedIn
+ABOUT ME
+Senior Frontend Engineer with 7+ years of experience architecting high-performance web applications
+(AI-streaming, WebRTC, SaaS). Currently pursuing a Master’s in Economics & Finance at the University of
+Wrocław to bridge the gap between technical scalability and business value. Expert in transforming
+complex product briefs into robust, reusable architectures, with a proven track record of optimizing system
+performance and engineering efficiency in cross-functional agile teams.
+EXPERIENCE
+Academic Focus · Wrocław, Poland
+Jan 2026 – Present
+– Focused on adapting to the EU tech market, improving English and local language proficiency (Polish),
+and completing core master’s research modules at the University of Wrocław.
+– Engaged in continuous learning of advanced frontend patterns, micro-frontends architectures, and
+data-driven product management frameworks.
+Senior Frontend Developer · Lecle Vietnam
+Feb 2024 – Dec 2025 · Ho Chi Minh City, Vietnam
+Invited back by Lecle to lead frontend across multiple high-stakes products during a challenging period for
+the company. The projects were technically demanding — an AI chat platform, a real-time video calling
+app, and a livestreaming feature — each requiring a high bar for performance and reliability under real
+load.
+– Architected the entire frontend architecture for a WebRTC-based video product. Collaborated with
+Backend teams to implement dynamic stream-quality controls, reducing frontend bandwidth
+consumption and successfully supporting 50+ concurrent users per session with zero lag.
+– Engineered a production-ready AI chat interface featuring real-time response streaming, Markdown
+rendering, and complex conversation state management, significantly improving user retention and UI
+responsiveness.
+– Designed and deployed a core shared module system (chat, payment, auth) reused across 3 distinct
+products, cutting time-to-market for new feature deployment by 30% and ensuring UI/UX consistency.
+– Led and mentored a frontend team of 6, establishing Next.js (SSR/SSG) architectural standards to
+optimize Core Web Vitals and SEO metrics based on specific product scaling demands.
+Senior Frontend Developer · Joblogic
+Oct 2022 – Mar 2023 · Remote (UK SaaS Company)
+Joblogic is a UK SaaS platform used by field service companies to schedule engineers, manage jobs, and
+track assets. Real users, real workflows, a large global team — and a legacy codebase that needed
+modernising without disrupting anyone's workday.
+– Spearheaded the critical migration of a legacy jQuery codebase to Vue.js for a high-traffic UK SaaS
+platform, improving codebase maintainability and reducing developer onboarding time.
+– Developed a centralized design system using Storybook, aligning 50+ engineers and product designers
+onto a single visual standard, which accelerated UI development cycles.
+
+
+– Refactored a bottlenecked multi-factor data filtering system into a clean, reusable module, resolving
+critical runtime performance issues for global users.
+Career Break — Relocation & Independent Learning · Apr 2023 – Jan 2024
+Focused on improving English proficiency and self-directed learning in frontend architecture — preparing
+for international, EU-facing roles.
+Frontend Developer · Lecle Vietnam
+Mar 2019 – Aug 2022 · Ho Chi Minh City, Vietnam
+– Built responsive UIs and reusable modules across multiple client projects — Korean and US-market
+products
+– Implemented interactive features and animations that improved engagement metrics on key products
+Frontend Developer · Libero Vina Co., Ltd
+Apr 2018 – Feb 2019 · Vietnam
+– Developed and customised e-commerce frontends on Magento using HTML, CSS, and JavaScript
+SKILLS
+Core Stack React.js · Next.js (SSR/SSG) · TypeScript · TailwindCSS · SCSS · Vue.js · JavaScript · HTML5 · CSS3
+State & Data Redux · Jotai · SWR · REST APIs · GraphQL · WebSockets · JWT
+Design Systems Storybook · Ant Design · Styled Components · Micro-frontends
+Testing & DX Jest · React Testing Library · ESLint · Husky · Turborepo · Docker · Git · Playwright
+Other Node.js · Firebase · Cursor · Figma (reading designs)
+EDUCATION
+Master of Economics and Finance
+University of Wrocław · Oct 2025 – present · EQF Level 7
+I chose this deliberately — not to pivot away from engineering, but to close the gap between technical
+execution and business thinking. Corporate finance, strategic planning, data-driven decision making. The
+kind of context that helps you build the right thing, not just build the thing right.
+LANGUAGES & AVAILABILITY
+Vietnamese: Native
+English: Professional working proficiency
+Polish: Beginner (actively learning)
+Eligible to work full-time in Poland (no work permit required under student visa conditions)
+Wyrażam zgodę na przetwarzanie moich danych osobowych w celu realizacji procesu rekrutacji.
+I hereby authorize the processing of my personal data for the purpose of the recruitment process in accordance
+with the General Data Protection Regulation (GDPR).

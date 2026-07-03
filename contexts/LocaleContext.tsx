@@ -3,6 +3,7 @@
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/types";
 import { createContext, useContext, useEffect } from "react";
+import { speechLangForLocale } from "@/lib/speech-locale";
 
 interface LocaleContextValue {
   locale: Locale;
@@ -17,7 +18,7 @@ export function LocaleProvider({
   children,
 }: LocaleContextValue & { children: React.ReactNode }) {
   useEffect(() => {
-    document.documentElement.lang = locale;
+    document.documentElement.lang = speechLangForLocale(locale);
   }, [locale]);
 
   return (

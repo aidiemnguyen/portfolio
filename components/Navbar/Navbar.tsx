@@ -5,6 +5,7 @@ import { useLocaleContext } from "@/contexts/LocaleContext";
 import { useTheme } from "@/components/ThemeProvider/ThemeProvider";
 import type { RoadStopId } from "@/data/road-stops";
 import type { FullPageSectionId } from "@/lib/section-scroll";
+import { openPrintResume } from "@/lib/print-resume";
 import { useIsMounted } from "@/hooks/useIsMounted";
 import { motion } from "framer-motion";
 import styles from "./Navbar.module.scss";
@@ -47,6 +48,23 @@ function MoonIcon() {
   );
 }
 
+function PrintIcon() {
+  return (
+    <svg
+      className={styles.icon}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      aria-hidden
+    >
+      <path d="M6 9V4h12v5" />
+      <rect x="6" y="14" width="12" height="7" rx="1" />
+      <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+    </svg>
+  );
+}
+
 interface NavbarProps {
   onScrollToSection?: (id: RoadStopId) => void;
   onScrollToRoad?: () => void;
@@ -60,7 +78,7 @@ export function Navbar({
   activeSection,
   showRoadLinks,
 }: NavbarProps) {
-  const { dictionary } = useLocaleContext();
+  const { dictionary, locale } = useLocaleContext();
   const { nav } = dictionary;
   const { resolvedTheme, setTheme } = useTheme();
   const mounted = useIsMounted();
@@ -104,6 +122,15 @@ export function Navbar({
           <div className={styles.links} aria-hidden />
         )}
         <div className={styles.actions}>
+          <button
+            type="button"
+            className={styles.toggle}
+            onClick={() => openPrintResume(locale)}
+            aria-label={nav.resumePrint}
+            title={nav.resume}
+          >
+            <PrintIcon />
+          </button>
           <LanguageSwitcher />
           <button
             type="button"

@@ -19,6 +19,7 @@ const INITIAL_SILENCE_MS = 9000;
 
 export function useSpeechRecognition(
   onListeningEnd?: (transcript: string) => void,
+  lang = "en-US",
 ) {
   const [transcript, setTranscript] = useState("");
   const [isListening, setIsListening] = useState(false);
@@ -31,10 +32,15 @@ export function useSpeechRecognition(
   const silenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const transcriptRef = useRef("");
   const onListeningEndRef = useRef(onListeningEnd);
+  const langRef = useRef(lang);
 
   useEffect(() => {
     onListeningEndRef.current = onListeningEnd;
   }, [onListeningEnd]);
+
+  useEffect(() => {
+    langRef.current = lang;
+  }, [lang]);
 
   const clearSilenceTimer = useCallback(() => {
     if (silenceTimerRef.current) {
@@ -99,7 +105,7 @@ export function useSpeechRecognition(
     const recognition = new Ctor();
     recognition.continuous = true;
     recognition.interimResults = true;
-    recognition.lang = document.documentElement.lang || "en-US";
+    recognition.lang = langRef.current;
 
     recognition.onresult = (event: SpeechRecognitionEvent) => {
       let combined = "";

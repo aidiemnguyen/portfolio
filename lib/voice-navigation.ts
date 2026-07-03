@@ -25,7 +25,8 @@ export type VoiceSystemAction =
   | "home"
   | "locale"
   | "theme"
-  | "mailto";
+  | "mailto"
+  | "print_pdf";
 
 export type VoiceAction = VoiceSystemAction | null;
 
@@ -62,6 +63,7 @@ const SYSTEM_ACTIONS = new Set<string>([
   "locale",
   "theme",
   "mailto",
+  "print_pdf",
 ]);
 
 export interface VoiceNavigateDetail {

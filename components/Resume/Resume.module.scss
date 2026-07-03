@@ -1,0 +1,92 @@
+@use "../../styles/tokens" as *;
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+
+  @media print {
+    display: none;
+  }
+}
+
+.toolbarActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.backLink {
+  font-size: 0.875rem;
+  color: #534ab7;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.printBtn {
+  padding: 0.55rem 1rem;
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #fafaf8;
+  background: #0f6e56;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+
+  &:hover {
+    background: #0a4a3a;
+  }
+}
+
+.secondaryBtn {
+  padding: 0.55rem 0.85rem;
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  background: transparent;
+  border: 1px solid #e8e8e4;
+  border-radius: 999px;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #534ab7;
+    color: #534ab7;
+  }
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: #525659;
+
+  @media print {
+    min-height: auto;
+    background: #fff;
+  }
+}
+
+.pdfFrame {
+  flex: 1;
+  width: 100%;
+  min-height: calc(100dvh - 4rem);
+  border: none;
+  background: #525659;
+
+  @media print {
+    min-height: 100vh;
+    height: 100vh;
+  }
+}
