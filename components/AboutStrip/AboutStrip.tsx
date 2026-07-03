@@ -1,14 +1,10 @@
 "use client";
 
 import { Mission } from "@/components/Mission/Mission";
-import { StatValue } from "@/components/AboutStrip/StatValue";
 import { useLocaleContext } from "@/contexts/LocaleContext";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { motion } from "framer-motion";
 import styles from "./AboutStrip.module.scss";
-
-const STAT_STAGGER_BASE = 0.12;
-const STAT_STAGGER_STEP = 0.07;
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -43,13 +39,9 @@ export function AboutStrip() {
       <div className={styles.about}>
         <Mission embedded />
         <div className={styles.stats}>
-          {about?.stats?.map((stat, index) => (
+          {about?.stats?.map((stat) => (
             <div key={stat.label} className={styles.stat}>
-              <StatValue
-                value={stat.value}
-                delay={STAT_STAGGER_BASE + index * STAT_STAGGER_STEP}
-                className={styles.statValue}
-              />
+              <span className={styles.statValue}>{stat.value}</span>
               <span className={styles.statLabel}>{stat.label}</span>
             </div>
           ))}
@@ -71,17 +63,9 @@ export function AboutStrip() {
       </motion.div>
 
       <motion.div className={styles.stats} variants={statContainer}>
-        {about.stats.map((stat, index) => (
-          <motion.div
-            key={stat.label}
-            className={styles.stat}
-            variants={fadeUp}
-          >
-            <StatValue
-              value={stat.value}
-              delay={STAT_STAGGER_BASE + index * STAT_STAGGER_STEP}
-              className={styles.statValue}
-            />
+        {about.stats.map((stat) => (
+          <motion.div key={stat.label} className={styles.stat} variants={fadeUp}>
+            <span className={styles.statValue}>{stat.value}</span>
             <span className={styles.statLabel}>{stat.label}</span>
           </motion.div>
         ))}

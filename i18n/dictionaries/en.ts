@@ -218,10 +218,10 @@ const en: Dictionary = {
     ],
   },
   contact: {
-    greetBefore: "Hey! My name is",
-    namePlaceholder: "your name",
-    greetMid: "and I am from",
-    countryPlaceholder: "your country",
+    introBefore: "Hey! My name is",
+    introName: "Diem",
+    introMid: "and I am from",
+    introLocation: "Wrocław, Poland",
     topicBefore: "Let's connect about",
     topics: [
       { id: "collab", label: "Collaboration" },

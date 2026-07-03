@@ -99,10 +99,10 @@ export interface Dictionary {
     }[];
   };
   contact: {
-    greetBefore: string;
-    namePlaceholder: string;
-    greetMid: string;
-    countryPlaceholder: string;
+    introBefore: string;
+    introName: string;
+    introMid: string;
+    introLocation: string;
     topicBefore: string;
     topics: { id: string; label: string }[];
     emailBefore: string;

@@ -18,18 +18,15 @@ interface ContactFormProps {
 function ContactForm({ scrollYProgress }: ContactFormProps) {
   const { dictionary } = useLocaleContext();
   const { contact } = dictionary;
-
-  const [name, setName] = useState("");
-  const [country, setCountry] = useState("");
   const [topic, setTopic] = useState(contact.topics[0]?.id ?? "collab");
 
   const mailtoBody = useMemo(() => {
     const topicLabel =
       contact.topics.find((t) => t.id === topic)?.label ?? topic;
     return encodeURIComponent(
-      `Hi AI Diem,\n\nI'm ${name || "—"} from ${country || "—"}.\nI'd like to connect about: ${topicLabel}.\n`,
+      `Hi AI Diem,\n\nI'd like to connect about: ${topicLabel}.\n`,
     );
-  }, [name, country, topic, contact.topics]);
+  }, [topic, contact.topics]);
 
   return (
     <form
@@ -50,42 +47,10 @@ function ContactForm({ scrollYProgress }: ContactFormProps) {
           <span className={styles.prompt} aria-hidden>
             {"// "}
           </span>
-          {contact.greetBefore}{" "}
-          <span className={styles.fieldWrap}>
-            <input
-              id="contact-name"
-              type="text"
-              className={styles.input}
-              placeholder={contact.namePlaceholder}
-              aria-label={contact.namePlaceholder}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              autoComplete="name"
-            />
-            {!name ? (
-              <span className={styles.fieldGhost} aria-hidden>
-                {contact.namePlaceholder}
-              </span>
-            ) : null}
-          </span>{" "}
-          {contact.greetMid}{" "}
-          <span className={styles.fieldWrap}>
-            <input
-              id="contact-country"
-              type="text"
-              className={styles.input}
-              placeholder={contact.countryPlaceholder}
-              aria-label={contact.countryPlaceholder}
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              autoComplete="country-name"
-            />
-            {!country ? (
-              <span className={styles.fieldGhost} aria-hidden>
-                {contact.countryPlaceholder}
-              </span>
-            ) : null}
-          </span>
+          {contact.introBefore}{" "}
+          <span className={styles.value}>{contact.introName}</span>{" "}
+          {contact.introMid}{" "}
+          <span className={styles.value}>{contact.introLocation}</span>
         </p>
       </ContactLine>
 

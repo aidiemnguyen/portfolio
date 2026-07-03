@@ -226,10 +226,10 @@ const pl: Dictionary = {
     ],
   },
   contact: {
-    greetBefore: "Cześć! Nazywam się",
-    namePlaceholder: "twoje imię",
-    greetMid: "i jestem z",
-    countryPlaceholder: "twój kraj",
+    introBefore: "Cześć! Nazywam się",
+    introName: "Diem",
+    introMid: "i jestem z",
+    introLocation: "Wrocław, Polska",
     topicBefore: "Porozmawiajmy o",
     topics: [
       { id: "collab", label: "Współpraca" },
