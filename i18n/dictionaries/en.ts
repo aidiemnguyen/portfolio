@@ -10,6 +10,7 @@ const en: Dictionary = {
     eyebrow: "My road",
     title: "Pick a stop",
     subtitle: "One road · four chapters · tap a pin to open it full screen.",
+    viewCv: "View CV",
     mapAria: "Portfolio road map — choose a category",
     stops: {
       about: {

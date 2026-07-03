@@ -1,0 +1,209 @@
+@use "../../styles/tokens" as *;
+
+.preview {
+  --preview-accent: var(--color-accent-teal);
+  --preview-accent-soft: color-mix(in srgb, var(--color-accent-teal) 22%, transparent);
+  position: relative;
+  width: 100%;
+  height: 5.5rem;
+  margin-bottom: var(--space-3);
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgb(255 255 255 / 12%);
+  background: rgb(0 0 0 / 28%);
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    height: 6.5rem;
+    margin-bottom: var(--space-4);
+  }
+}
+
+.previewTeal {
+  --preview-accent: var(--color-accent-teal);
+  --preview-accent-soft: color-mix(in srgb, var(--color-accent-teal) 22%, transparent);
+}
+
+.previewPurple {
+  --preview-accent: var(--color-accent-purple);
+  --preview-accent-soft: color-mix(in srgb, var(--color-accent-purple) 24%, transparent);
+}
+
+.videoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.35rem;
+  height: 100%;
+}
+
+.videoTile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background: rgb(255 255 255 / 6%);
+  border: 1px solid rgb(255 255 255 / 10%);
+}
+
+.avatar {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--preview-accent-soft);
+  border: 1px solid var(--preview-accent);
+
+  @media (min-width: 768px) {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+.liveBadge {
+  position: absolute;
+  top: 0.2rem;
+  left: 0.25rem;
+  padding: 0.05rem 0.25rem;
+  font-size: 0.45rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #{$color-ink};
+  background: var(--preview-accent);
+  border-radius: 2px;
+}
+
+.storybook {
+  display: flex;
+  gap: 0.35rem;
+  height: 100%;
+}
+
+.storySidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 1.75rem;
+  padding: 0.15rem;
+  border-radius: 4px;
+  background: rgb(255 255 255 / 5%);
+
+  span {
+    height: 0.35rem;
+    border-radius: 2px;
+    background: rgb(255 255 255 / 12%);
+  }
+}
+
+.storySidebarActive {
+  background: var(--preview-accent-soft) !important;
+  border: 1px solid color-mix(in srgb, var(--preview-accent) 45%, transparent);
+}
+
+.storyCanvas {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.25rem;
+  border-radius: 4px;
+  background: rgb(255 255 255 / 4%);
+}
+
+.storyBtn {
+  width: 2.5rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: var(--preview-accent);
+}
+
+.storyInput {
+  width: 70%;
+  height: 0.45rem;
+  border-radius: 3px;
+  background: rgb(255 255 255 / 10%);
+  border: 1px dashed rgb(255 255 255 / 18%);
+}
+
+.storyRow {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: auto;
+
+  span {
+    flex: 1;
+    height: 0.55rem;
+    border-radius: 3px;
+    background: rgb(255 255 255 / 8%);
+    border: 1px solid rgb(255 255 255 / 10%);
+  }
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  height: 100%;
+  justify-content: center;
+}
+
+.chatBubble {
+  max-width: 88%;
+  padding: 0.3rem 0.45rem;
+  font-size: 0.5625rem;
+  line-height: 1.35;
+  border-radius: 6px;
+
+  @media (min-width: 768px) {
+    font-size: 0.625rem;
+  }
+}
+
+.chatUser {
+  align-self: flex-end;
+  color: rgb(255 255 255 / 85%);
+  background: rgb(255 255 255 / 10%);
+}
+
+.chatAi {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  color: rgb(255 255 255 / 92%);
+  background: var(--preview-accent-soft);
+  border: 1px solid color-mix(in srgb, var(--preview-accent) 35%, transparent);
+}
+
+.chatLine {
+  display: block;
+  height: 0.3rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 35%);
+}
+
+.chatUser .chatLine {
+  background: rgb(255 255 255 / 45%);
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.35rem;
+  height: 0.65em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background: var(--preview-accent);
+  animation: previewBlink 1s step-end infinite;
+}
+
+@keyframes previewBlink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    animation: none;
+    opacity: 0.7;
+  }
+}

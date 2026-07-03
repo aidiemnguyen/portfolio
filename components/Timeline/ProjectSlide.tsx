@@ -3,6 +3,7 @@
 import type { Locale } from "@/i18n/config";
 import type { EraTranslation } from "@/i18n/types";
 import Link from "next/link";
+import { ProjectPreview } from "./ProjectPreview";
 import styles from "./ProjectSlide.module.scss";
 
 interface ProjectSlideProps {
@@ -32,6 +33,12 @@ export function ProjectSlide({ era, locale, openLabel }: ProjectSlideProps) {
           {era.year}
         </span>
 
+        <ProjectPreview
+          type={era.detail.demoType}
+          accent={era.accent}
+          label={era.detail.demo.title}
+        />
+
         <div className={styles.meta}>
           {era.detail.company && (
             <span className={styles.company}>{era.detail.company}</span>
@@ -44,12 +51,6 @@ export function ProjectSlide({ era, locale, openLabel }: ProjectSlideProps) {
         </div>
 
         <h3 className={styles.title}>{era.project}</h3>
-
-        <blockquote className={styles.quote}>
-          &ldquo;{era.context}&rdquo;
-        </blockquote>
-
-        <p className={styles.insight}>{era.insight}</p>
 
         <Link
           href={href}

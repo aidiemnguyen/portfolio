@@ -9,6 +9,8 @@ interface ContactLineProps {
   index: number;
   lineCount: number;
   scrollYProgress: MotionValue<number>;
+  /** Skip scroll-driven fade — use when section has no scroll progress. */
+  instant?: boolean;
 }
 
 export function ContactLine({
@@ -16,6 +18,7 @@ export function ContactLine({
   index,
   lineCount,
   scrollYProgress,
+  instant = false,
 }: ContactLineProps) {
   const reduceMotion = usePrefersReducedMotion();
   const start = index / lineCount;
@@ -24,13 +27,17 @@ export function ContactLine({
   const opacity = useTransform(
     scrollYProgress,
     [start, start + (end - start) * 0.35],
-    reduceMotion ? [1, 1] : [0, 1]
+    [0, 1],
   );
   const y = useTransform(
     scrollYProgress,
     [start, start + (end - start) * 0.35],
-    reduceMotion ? [0, 0] : [48, 0]
+    [48, 0],
   );
+
+  if (instant || reduceMotion) {
+    return <div className={styles.line}>{children}</div>;
+  }
 
   return (
     <motion.div className={styles.line} style={{ opacity, y }}>

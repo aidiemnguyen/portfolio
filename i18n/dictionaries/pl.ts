@@ -11,6 +11,7 @@ const pl: Dictionary = {
     title: "Wybierz przystanek",
     subtitle:
       "Jedna droga · cztery rozdziały · kliknij pin, by otworzyć pełny ekran.",
+    viewCv: "Zobacz CV",
     mapAria: "Mapa portfolio — wybierz kategorię",
     stops: {
       about: {

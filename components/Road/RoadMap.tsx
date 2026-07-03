@@ -7,6 +7,7 @@ import { RoadTraveler } from "@/components/Road/RoadTraveler";
 import { useLocaleContext } from "@/contexts/LocaleContext";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import styles from "./RoadMap.module.scss";
 
 interface RoadMapProps {
@@ -14,7 +15,7 @@ interface RoadMapProps {
 }
 
 export function RoadMap({ onSelect }: RoadMapProps) {
-  const { dictionary } = useLocaleContext();
+  const { dictionary, locale } = useLocaleContext();
   const { hero, road, nav } = dictionary;
   const { width: vbW, height: vbH } = ROAD_VIEWBOX;
   const reduceMotion = usePrefersReducedMotion();
@@ -30,6 +31,9 @@ export function RoadMap({ onSelect }: RoadMapProps) {
         <p className={styles.eyebrow}>{road.eyebrow}</p>
         <p className={styles.pickTitle}>{road.title}</p>
         <p className={styles.subtitle}>{road.subtitle}</p>
+        <Link href={`/${locale}/resume`} className={styles.cvCta}>
+          {road.viewCv}
+        </Link>
       </header>
 
       <div className={styles.scene} role="img" aria-label={road.mapAria}>

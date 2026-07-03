@@ -23,12 +23,18 @@ export function StatValue({ value, delay = 0, className }: StatValueProps) {
   const reduceMotion = usePrefersReducedMotion();
   const { prefix, target, suffix } = useMemo(
     () => parseStatValue(value),
-    [value]
+    [value],
   );
-  const [count, setCount] = useState(0);
+  // SSR / static fetch: show final value; animate after mount.
+  const [count, setCount] = useState(target);
 
   useEffect(() => {
-    if (reduceMotion) return;
+    if (reduceMotion) {
+      requestAnimationFrame(() => {
+        setCount(target);
+      });
+      return;
+    }
 
     const delayMs = delay * 1000;
     const durationMs = 1400;

@@ -37,6 +37,7 @@ export interface Dictionary {
     eyebrow: string;
     title: string;
     subtitle: string;
+    viewCv: string;
     mapAria: string;
     stops: Record<RoadStopId, { district: string; hint: string }>;
   };

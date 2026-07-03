@@ -44,29 +44,48 @@ function ContactForm({ scrollYProgress }: ContactFormProps) {
         index={0}
         lineCount={LINE_COUNT}
         scrollYProgress={scrollYProgress}
+        instant
       >
         <p className={styles.sentence}>
           <span className={styles.prompt} aria-hidden>
             {"// "}
           </span>
           {contact.greetBefore}{" "}
-          <input
-            type="text"
-            className={styles.input}
-            placeholder={contact.namePlaceholder}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            autoComplete="name"
-          />{" "}
+          <span className={styles.fieldWrap}>
+            <input
+              id="contact-name"
+              type="text"
+              className={styles.input}
+              placeholder={contact.namePlaceholder}
+              aria-label={contact.namePlaceholder}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              autoComplete="name"
+            />
+            {!name ? (
+              <span className={styles.fieldGhost} aria-hidden>
+                {contact.namePlaceholder}
+              </span>
+            ) : null}
+          </span>{" "}
           {contact.greetMid}{" "}
-          <input
-            type="text"
-            className={styles.input}
-            placeholder={contact.countryPlaceholder}
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            autoComplete="country-name"
-          />
+          <span className={styles.fieldWrap}>
+            <input
+              id="contact-country"
+              type="text"
+              className={styles.input}
+              placeholder={contact.countryPlaceholder}
+              aria-label={contact.countryPlaceholder}
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              autoComplete="country-name"
+            />
+            {!country ? (
+              <span className={styles.fieldGhost} aria-hidden>
+                {contact.countryPlaceholder}
+              </span>
+            ) : null}
+          </span>
         </p>
       </ContactLine>
 
@@ -74,6 +93,7 @@ function ContactForm({ scrollYProgress }: ContactFormProps) {
         index={1}
         lineCount={LINE_COUNT}
         scrollYProgress={scrollYProgress}
+        instant
       >
         <p className={styles.sentence}>
           <span className={styles.prompt} aria-hidden>
@@ -100,6 +120,7 @@ function ContactForm({ scrollYProgress }: ContactFormProps) {
         index={2}
         lineCount={LINE_COUNT}
         scrollYProgress={scrollYProgress}
+        instant
       >
         <div className={styles.emailBlock}>
           <p className={styles.sentence}>
@@ -118,6 +139,7 @@ function ContactForm({ scrollYProgress }: ContactFormProps) {
         index={3}
         lineCount={LINE_COUNT}
         scrollYProgress={scrollYProgress}
+        instant
       >
         <div className={styles.socialBlock}>
           <p className={styles.sentence}>
@@ -154,6 +176,7 @@ function ContactForm({ scrollYProgress }: ContactFormProps) {
         index={4}
         lineCount={LINE_COUNT}
         scrollYProgress={scrollYProgress}
+        instant
       >
         <p className={styles.footer}>{contact.footer}</p>
       </ContactLine>
