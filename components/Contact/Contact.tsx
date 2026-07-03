@@ -8,8 +8,7 @@ import styles from "./Contact.module.scss";
 
 const LINE_COUNT = 5;
 
-const LINKEDIN_URL =
-  "https://www.linkedin.com/in/thi-ai-diem-nguyen-408878194";
+const LINKEDIN_URL = "https://www.linkedin.com/in/ai-diem-nguyen-408878194";
 const GITHUB_URL = "https://github.com/aidiemnguyen";
 
 interface ContactFormProps {
