@@ -121,7 +121,6 @@ export interface Dictionary {
     downloadDocx: string;
   };
   voice: {
-    tooltip: string;
     fabAria: string;
     dialogAria: string;
     close: string;
@@ -135,5 +134,16 @@ export interface Dictionary {
     send: string;
     offline: string;
     apiError: string;
+    welcome: {
+      badge: string;
+      title: string;
+      description: string;
+      highlight: string;
+      hint: string;
+      example: string;
+      tryCta: string;
+      skipCta: string;
+      closeAria: string;
+    };
   };
 }

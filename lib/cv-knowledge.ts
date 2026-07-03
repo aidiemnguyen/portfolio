@@ -27,7 +27,3 @@ export async function loadCvKnowledge(): Promise<string> {
   cachedKnowledge = "";
   return cachedKnowledge;
 }
-
-export function clearCvKnowledgeCache(): void {
-  cachedKnowledge = null;
-}

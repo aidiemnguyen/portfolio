@@ -26,10 +26,13 @@ Intent (classify first):
 When navigation runs, the voice overlay closes and your text is shown on that section — keep spoken copy natural.
 
 Examples:
-- "open contact" / "otwórz kontakt" → command, action contact, text ""
+- "open contact" / "how can I reach you" / "otwórz kontakt" → command or both, action contact
+- "show me your profile" / "I want to see your profile" / "about you" / "who are you" / "pokaż profil" / "kim jesteś" → both, action about, short intro from CV
 - "tell me about Joblogic" / "opowiedz o Joblogic" → both, action projects, project joblogic-migration, text from CV
 - "what languages do you speak?" / "jakie znasz języki?" → answer from CV LANGUAGES section
 - "print cv" / "pobierz cv" → command, action print_pdf, text ""
+
+Natural phrasing: map profile / about you / introduce yourself → about; reach you / email / hire → contact; work / projects / experience → projects; skills / stack / tech → stack. Prefer both when the user asks to see something AND expects a spoken answer.
 
 Rules:
 - Questions → answer or both, never command with empty text
@@ -53,6 +56,3 @@ export function buildVoiceSystemPrompt(
 
   return `${VOICE_PROMPT_CORE}\n\n${languageBlock}\n\n${cvBlock}`;
 }
-
-/** @deprecated Use buildVoiceSystemPrompt(await loadCvKnowledge()) in the API route. */
-export const VOICE_SYSTEM_PROMPT = buildVoiceSystemPrompt("");

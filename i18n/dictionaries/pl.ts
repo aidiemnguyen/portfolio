@@ -252,7 +252,6 @@ const pl: Dictionary = {
     downloadDocx: "Pobierz DOCX",
   },
   voice: {
-    tooltip: "Nie wiesz od czego zacząć? Zapytaj mnie ↓",
     fabAria: "Otwórz asystenta głosowego",
     dialogAria: "Asystent głosowy",
     close: "Zamknij",
@@ -267,6 +266,18 @@ const pl: Dictionary = {
     offline: "Wygląda na to, że jesteś offline — nadal możesz przeglądać stronę.",
     apiError:
       "Przepraszam, nie udało się połączyć. Spróbuj ponownie lub napisz e-mailem.",
+    welcome: {
+      badge: "Nowość · Voice AI",
+      title: "Porozmawiaj z AI Diem",
+      description: "To portfolio ma wbudowanego asystenta głosowego.",
+      highlight: "Angielski i polski",
+      hint: "Poproś o to, czego potrzebujesz — profil, projekty, stack, kontakt lub CV.",
+      example:
+        'np. „Chcę zobaczyć twój profil” lub „Opowiedz o projektach”',
+      tryCta: "Wypróbuj teraz",
+      skipCta: "Przeglądam sam/a",
+      closeAria: "Zamknij wprowadzenie",
+    },
   },
 };
 

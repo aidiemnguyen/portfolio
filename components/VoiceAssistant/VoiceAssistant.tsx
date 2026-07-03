@@ -24,17 +24,17 @@ import {
   type ParsedVoiceResponse,
   type VoiceNavigateDetail,
 } from "@/lib/voice-navigation";
-import { AnimatePresence, motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSpeechRecognition } from "./useSpeechRecognition";
 import { useSpeechSynthesis } from "./useSpeechSynthesis";
+import { useVoiceWelcome } from "./useVoiceWelcome";
 import { VoiceFab } from "./VoiceFab";
 import { VoiceOverlay, type OverlayPhase } from "./VoiceOverlay";
 import { SectionVoiceReply } from "./SectionVoiceReply";
+import { VoiceWelcomeModal } from "./VoiceWelcomeModal";
 import styles from "./VoiceAssistant.module.css";
 
-const TOOLTIP_STORAGE_KEY = "voice-assistant-tooltip-seen";
 const NAV_DELAY_MS = 1000;
 
 type AssistantPhase = "idle" | "listening" | "thinking" | "responding";
@@ -66,7 +66,6 @@ export function VoiceAssistant() {
   const [overlayOpen, setOverlayOpen] = useState(false);
   const [streamText, setStreamText] = useState("");
   const [typingKey, setTypingKey] = useState(0);
-  const [showTooltip, setShowTooltip] = useState(false);
   const [textInput, setTextInput] = useState("");
 
   const navTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -132,6 +131,8 @@ export function VoiceAssistant() {
   const { speak, cancel, isSpeaking, spokenCharIndex } = useSpeechSynthesis();
 
   const homePath = `/${locale}`;
+  const isHomePage =
+    pathname === homePath || pathname === `${homePath}/`;
 
   const showTextInput =
     !isSupported || micError === "Microphone permission denied.";
@@ -193,10 +194,7 @@ export function VoiceAssistant() {
         ...(chapterIndex !== undefined ? { chapterIndex } : {}),
       };
 
-      const onHome =
-        pathname === homePath || pathname === `${homePath}/`;
-
-      if (!onHome) {
+      if (!isHomePage) {
         sessionStorage.setItem(VOICE_PENDING_NAV_KEY, JSON.stringify(detail));
         router.push(homePath);
         return;
@@ -204,7 +202,7 @@ export function VoiceAssistant() {
 
       dispatchVoiceNavigate(detail);
     },
-    [homePath, pathname, router],
+    [homePath, isHomePage, pathname, router],
   );
 
   const executeVoiceAction = useCallback(
@@ -224,9 +222,7 @@ export function VoiceAssistant() {
           dispatchVoiceRoadBack();
           return;
         case "home": {
-          const onHome =
-            pathname === homePath || pathname === `${homePath}/`;
-          if (!onHome) router.push(homePath);
+          if (!isHomePage) router.push(homePath);
           dispatchVoiceRoadBack();
           return;
         }
@@ -243,7 +239,6 @@ export function VoiceAssistant() {
           window.location.href = `mailto:${dictionary.contact.email}`;
           return;
         case "print_pdf": {
-          const targetLocale = (parsed.locale ?? locale) as Locale;
           if (parsed.locale && parsed.locale !== locale) {
             window.open(
               `/${parsed.locale}/resume?print=1`,
@@ -261,7 +256,7 @@ export function VoiceAssistant() {
           }
       }
     },
-    [dictionary.contact.email, homePath, pathname, router, runRoadNavigation, setTheme],
+    [dictionary.contact.email, homePath, isHomePage, locale, pathname, router, runRoadNavigation, setTheme],
   );
 
   const enterSectionNavMode = useCallback(
@@ -491,42 +486,36 @@ export function VoiceAssistant() {
     };
   }, [sendMessage, closeOverlay, resumeListening, runLocalCommand]);
 
+  const openOverlayRef = useRef<() => void>(() => {});
+
   const openOverlay = useCallback(() => {
     hasHadTurnRef.current = false;
     turnIdRef.current += 1;
     setOverlayOpen(true);
     setStreamText("");
     setTextInput("");
-
-    if (showTextInput) {
-      setAssistantPhase("listening");
-      return;
-    }
-
     setAssistantPhase("listening");
-    startListening();
+    if (!showTextInput) startListening();
   }, [setAssistantPhase, showTextInput, startListening]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (localStorage.getItem(TOOLTIP_STORAGE_KEY)) return;
+    openOverlayRef.current = openOverlay;
+  }, [openOverlay]);
 
-    const showTimer = setTimeout(() => setShowTooltip(true), 4000);
-    const hideTimer = setTimeout(() => {
-      setShowTooltip(false);
-      localStorage.setItem(TOOLTIP_STORAGE_KEY, "1");
-    }, 9000);
-
-    return () => {
-      clearTimeout(showTimer);
-      clearTimeout(hideTimer);
-    };
+  const openOverlayFromQuery = useCallback(() => {
+    openOverlayRef.current();
   }, []);
 
-  const dismissTooltip = useCallback(() => {
-    setShowTooltip(false);
-    localStorage.setItem(TOOLTIP_STORAGE_KEY, "1");
-  }, []);
+  const { showWelcome, dismissWelcome } = useVoiceWelcome(
+    isHomePage,
+    pathname,
+    openOverlayFromQuery,
+  );
+
+  const tryVoiceFromWelcome = useCallback(() => {
+    dismissWelcome();
+    openOverlay();
+  }, [dismissWelcome, openOverlay]);
 
   useEffect(() => {
     if (!sectionNavModeRef.current) return;
@@ -545,23 +534,14 @@ export function VoiceAssistant() {
 
   return (
     <div className={styles.root}>
-      <AnimatePresence>
-        {showTooltip && !overlayOpen && (
-          <motion.button
-            type="button"
-            className={styles.tooltip}
-            onClick={dismissTooltip}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 4 }}
-            transition={{ duration: 0.25 }}
-          >
-            {voice.tooltip}
-          </motion.button>
-        )}
-      </AnimatePresence>
+      <VoiceWelcomeModal
+        open={showWelcome && !overlayOpen}
+        labels={voice.welcome}
+        onTry={tryVoiceFromWelcome}
+        onDismiss={dismissWelcome}
+      />
 
-      {!overlayOpen && !isSectionReplyVisible && (
+      {!overlayOpen && !isSectionReplyVisible && !showWelcome && (
         <VoiceFab onClick={openOverlay} ariaLabel={voice.fabAria} />
       )}
 

@@ -244,7 +244,6 @@ const en: Dictionary = {
     downloadDocx: "Download DOCX",
   },
   voice: {
-    tooltip: "Not sure where to start? Ask me anything ↓",
     fabAria: "Open voice assistant",
     dialogAria: "Voice assistant",
     close: "Close",
@@ -259,6 +258,18 @@ const en: Dictionary = {
     offline: "Looks like you're offline — you can still explore the road.",
     apiError:
       "Sorry, I had trouble connecting. Try again or email me directly.",
+    welcome: {
+      badge: "New · Voice AI",
+      title: "Talk to AI Diem",
+      description: "This portfolio has a built-in voice assistant.",
+      highlight: "English & Polish",
+      hint: "Ask for whatever you need — profile, projects, stack, contact, or my CV.",
+      example:
+        'e.g. “I want to see your profile” or “Tell me about your projects”',
+      tryCta: "Try it now",
+      skipCta: "Explore on my own",
+      closeAria: "Close voice introduction",
+    },
   },
 };
 
