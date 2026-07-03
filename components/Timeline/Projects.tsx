@@ -1,6 +1,7 @@
 "use client";
 
 import { useLocaleContext } from "@/contexts/LocaleContext";
+import { useIsMounted } from "@/hooks/useIsMounted";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { getFullPageScrollRoot } from "@/lib/section-scroll";
 import {
@@ -16,7 +17,6 @@ import {
   useEffect,
   useRef,
   useState,
-  useSyncExternalStore,
 } from "react";
 import { ProjectSlide } from "./ProjectSlide";
 import styles from "./Projects.module.scss";
@@ -37,14 +37,6 @@ const cardVariants: Variants = {
     transition: { duration: 0.5, ease },
   },
 };
-
-function useIsMounted() {
-  return useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
-}
 
 function useProjectsVoiceNavigation(
   activeIndex: number,
@@ -120,10 +112,8 @@ export function Projects() {
       const slide = (
         <ProjectSlide
           era={era}
-          index={index}
           locale={locale}
           openLabel={timeline.openChapter}
-          layout="grid"
         />
       );
 
@@ -156,27 +146,29 @@ export function Projects() {
       className={styles.section}
       aria-labelledby="projects-section-title"
     >
-      <header className={styles.header}>
-        <h2 id="projects-section-title" className={styles.title}>
-          {timeline.heading}
-        </h2>
-        <p className={styles.sub}>{timeline.subheading}</p>
-      </header>
+      <div className={styles.inner}>
+        <header className={styles.header}>
+          <h2 id="projects-section-title" className={styles.title}>
+            {timeline.heading}
+          </h2>
+          <p className={styles.sub}>{timeline.subheading}</p>
+        </header>
 
-      <div className={styles.stack}>
-        {animate ? (
-          <motion.div
-            className={styles.list}
-            variants={listVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-8% 0px" }}
-          >
-            {renderCards(true)}
-          </motion.div>
-        ) : (
-          <div className={styles.list}>{renderCards(false)}</div>
-        )}
+        <div className={styles.stack}>
+          {animate ? (
+            <motion.div
+              className={styles.list}
+              variants={listVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-8% 0px" }}
+            >
+              {renderCards(true)}
+            </motion.div>
+          ) : (
+            <div className={styles.list}>{renderCards(false)}</div>
+          )}
+        </div>
       </div>
     </section>
   );

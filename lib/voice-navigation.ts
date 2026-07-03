@@ -92,11 +92,6 @@ export function isRoadAction(
   return action !== null && ROAD_ACTIONS.has(action);
 }
 
-export function actionToStopId(action: VoiceAction): RoadStopId | null {
-  if (!action || !ROAD_ACTIONS.has(action)) return null;
-  return action as RoadStopId;
-}
-
 export function chapterIndexForProjectSlug(
   slug: VoiceProjectSlug | null | undefined,
 ): number | undefined {
@@ -384,9 +379,6 @@ export function canExecuteFromParsed(parsed: ParsedVoiceResponse): boolean {
       return true;
   }
 }
-
-/** @deprecated use canExecuteFromParsed */
-export const canNavigateFromParsed = canExecuteFromParsed;
 
 export function extractStreamingText(accumulated: string): string {
   return extractTextFieldFromJson(accumulated) ?? "";

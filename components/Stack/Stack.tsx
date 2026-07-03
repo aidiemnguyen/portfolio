@@ -234,7 +234,7 @@ export function Stack() {
   const reduceMotion = usePrefersReducedMotion();
   const interactive = !reduceMotion;
 
-  const timeline = (
+  const tierList = (
     <div className={styles.timeline}>
       {stack.groups.map((group, index) => (
         <StackTier
@@ -288,10 +288,10 @@ export function Stack() {
               whileInView="visible"
               viewport={{ once: true, margin: "-40px" }}
             >
-              {timeline}
+              {tierList}
             </motion.div>
           ) : (
-            timeline
+            tierList
           )}
         </div>
       </div>

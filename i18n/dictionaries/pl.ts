@@ -4,14 +4,13 @@ const pl: Dictionary = {
   metadata: {
     title: "AI Diem — Zbudowane przez historię",
     description:
-      "Portfolio Senior Frontend Engineer. Projekty powiązane z realnymi momentami w czasie — od WebRTC po interfejsy AI i przeprowadzkę do Polski.",
+      "Portfolio Senior Frontend Engineer — WebRTC, migracja SaaS i interfejsy AI.",
   },
   road: {
     eyebrow: "Moje przystanki",
     title: "Wybierz przystanek",
     subtitle:
       "Jedna droga · cztery rozdziały · kliknij pin, by otworzyć pełny ekran.",
-    back: "Wróć na mapę",
     mapAria: "Mapa portfolio — wybierz kategorię",
     stops: {
       about: {
@@ -48,30 +47,17 @@ const pl: Dictionary = {
     displayName: "frontend engineer",
     titleLine1: "zbudowane przez",
     titleLine2: "historię.",
-    subtitle:
-      "W 2025 roku spakowałam 7 lat pracy we frontendzie do dwóch walizek i przeprowadziłam się do Polski. Nie po to, by zaczynać od zera — ale by zbliżyć się do tego, dlaczego w ogóle tworzę rzeczy.",
-    ctaWork: "zobacz projekty",
-    ctaCv: "pobierz cv",
-    scrollToWork: "Przewiń do projektów",
-    originLabel: "Pochodzenie",
-    originValue: "Wietnam",
-    nowLabel: "Teraz",
-    nowValue: "Wrocław, Polska",
-    focusLabel: "Fokus",
-    focusValue: "React · Next.js · Motion",
   },
   mission: {
-    eyebrow: "Misja · 2025",
     lines: ["Tworzę", "przez", "prawdziwe"],
     highlights: ["momenty.", "nie", "slajdy."],
     withLabel: "zbudowane przez",
     pills: ["TypeScript", "WEBRTC", "Myślenie produktowe"],
   },
   about: {
-    title: "krótko o mnie",
     stats: [
       { value: "7+", label: "Lat wysyłania produktów" },
-      { value: "4", label: "Epoki, przez które przeszłam" },
+      { value: "3", label: "Rozdziały projektów" },
       {
         value: "50+",
         label: "Inżynierów, którzy korzystają z mojego design systemu",

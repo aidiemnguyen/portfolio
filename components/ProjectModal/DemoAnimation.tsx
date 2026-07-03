@@ -39,7 +39,6 @@ export function DemoAnimation({
         {type === "video-call" && <VideoCallVisual step={stepIndex} />}
         {type === "design-system" && <DesignSystemVisual step={stepIndex} />}
         {type === "ai-stream" && <AiStreamVisual step={stepIndex} />}
-        {type === "relocation" && <RelocationVisual step={stepIndex} />}
       </div>
       <AnimatePresence mode="wait">
         <motion.p
@@ -143,27 +142,6 @@ function AiStreamVisual({ step }: { step: number }) {
         </motion.span>
         {step >= 1 && step < 3 && <span className={styles.cursor}>|</span>}
       </div>
-    </div>
-  );
-}
-
-function RelocationVisual({ step }: { step: number }) {
-  return (
-    <div className={styles.relocation}>
-      <motion.div
-        className={styles.suitcase}
-        animate={{ x: step * 28, y: step % 2 === 0 ? 0 : -6 }}
-        transition={{ type: "spring", stiffness: 120 }}
-      />
-      <motion.div
-        className={styles.mapPin}
-        animate={{ opacity: step >= 1 ? 1 : 0.2, scale: step >= 1 ? 1 : 0.8 }}
-      />
-      <motion.div
-        className={styles.path}
-        animate={{ scaleX: Math.min(1, step / 3) }}
-        style={{ transformOrigin: "left" }}
-      />
     </div>
   );
 }

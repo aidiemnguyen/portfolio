@@ -1,14 +1,14 @@
 @use "mixins" as *;
+@use "tokens" as *;
 
 @mixin section-shell {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  width: 100%;
+  max-width: $section-max-width;
+  margin-inline: auto;
+  padding-inline: $section-padding-x;
 
   @include from-md {
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding-inline: $section-padding-x-md;
   }
 }
 
@@ -27,13 +27,5 @@
   line-height: 0.95;
   letter-spacing: -0.04em;
   text-transform: lowercase;
-  color: var(--text-primary);
-}
-
-@mixin section-eyebrow {
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
+  color: var(--color-text-primary);
 }

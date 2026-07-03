@@ -20,8 +20,8 @@
   padding: 0.55rem 0.75rem;
   font-size: 0.8125rem;
   line-height: 1.35;
-  background: var(--btn-primary-bg);
-  color: var(--btn-primary-text);
+  background: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
   border-radius: 10px;
   box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
   border: none;
@@ -37,7 +37,7 @@
   bottom: -6px;
   width: 10px;
   height: 10px;
-  background: var(--btn-primary-bg);
+  background: var(--color-btn-primary-bg);
   transform: rotate(45deg);
 }
 
@@ -50,8 +50,8 @@
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  background: var(--btn-primary-bg);
-  color: var(--btn-primary-text);
+  background: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
   box-shadow: 0 8px 28px rgb(0 0 0 / 20%);
 }
 
@@ -228,7 +228,7 @@
   display: inline-block;
   margin-left: 1px;
   font-weight: 400;
-  color: var(--accent-teal);
+  color: var(--color-accent-teal);
   animation: typingCaretBlink 0.85s step-end infinite;
 }
 
@@ -279,7 +279,7 @@
 }
 
 .fallbackInput:focus {
-  outline: 2px solid var(--accent-teal);
+  outline: 2px solid var(--color-accent-teal);
   outline-offset: 2px;
 }
 
@@ -291,7 +291,7 @@
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  background: var(--accent-teal);
+  background: var(--color-accent-teal);
   color: #fff;
   white-space: nowrap;
 }

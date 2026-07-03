@@ -1,5 +1,6 @@
 @use "../../styles/mixins" as *;
 @use "../../styles/section" as *;
+@use "../../styles/tokens" as *;
 
 .mission {
   @include section-shell;
@@ -8,20 +9,14 @@
 .embedded {
   max-width: none;
   margin: 0;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.eyebrow {
-  @include section-eyebrow;
-  margin-bottom: 2rem;
+  padding-inline: 0;
 }
 
 .stack {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.1rem;
+  gap: var(--space-1);
 }
 
 .line {
@@ -32,34 +27,34 @@
 .highlightRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem 0.75rem;
-  margin-top: 0.35rem;
+  gap: var(--space-2) var(--space-3);
+  margin-top: var(--space-2);
 }
 
 .highlight {
   @include section-display-title;
-  color: var(--accent-purple);
+  color: var(--color-accent-purple);
 }
 
 .with {
   display: block;
-  margin-top: 1.25rem;
+  margin-top: var(--space-5);
   font-size: 1.25rem;
 
   @include from-md {
-    font-size: 2rem;
+    font-size: var(--space-8);
   }
   font-weight: 500;
   letter-spacing: -0.03em;
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   text-transform: lowercase;
 }
 
 .pillRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
 }
 
 .pill {
@@ -67,17 +62,9 @@
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0.5rem 0.875rem;
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  color: var(--text-primary);
-  background: color-mix(in srgb, var(--text-primary) 4%, var(--bg));
-}
-
-.note {
-  margin-top: 2.5rem;
-  max-width: 36rem;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--text-secondary);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-text-primary);
+  background: color-mix(in srgb, var(--color-text-primary) 4%, var(--color-bg));
 }

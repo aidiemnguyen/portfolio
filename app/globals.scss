@@ -1,4 +1,6 @@
 @use "../styles/mixins" as *;
+@use "../styles/tokens" as *;
+@use "sass:map";
 
 *,
 *::before,
@@ -22,15 +24,56 @@ html {
 }
 
 :root {
-  --bg: #b8c1f5;
-  --text-primary: #1a1a1a;
-  --text-secondary: #6b6b6b;
-  --border: #e8e8e4;
-  --accent-purple: #534ab7;
-  --accent-teal: #0f6e56;
-  --btn-primary-bg: #1a1a1a;
-  --btn-primary-text: #fafaf8;
-  --transition-theme: 300ms ease;
+  // Colors — semantic
+  --color-bg: #{$color-bg};
+  --color-text-primary: #{$color-text-primary};
+  --color-text-secondary: #{$color-text-secondary};
+  --color-border: #{$color-border};
+  --color-accent-purple: #{$color-accent-purple};
+  --color-accent-teal: #{$color-accent-teal};
+  --color-btn-primary-bg: #{$color-btn-primary-bg};
+  --color-btn-primary-text: #{$color-btn-primary-text};
+  --color-surface-projects: #{$color-neutral-950};
+  --color-surface-stack: #{$color-surface-stack};
+  --color-surface-contact: #{$color-surface-contact};
+  --color-slide-text: #{$color-slide-text};
+  --color-slide-teal: #{$color-teal-400};
+  --color-slide-teal-deep: #{$color-teal-500};
+  --color-slide-purple: #{$color-purple-400};
+  --color-slide-purple-deep: #{$color-purple-500};
+  --color-contact-fg: var(--color-text-primary);
+  --color-contact-muted: var(--color-text-secondary);
+  --color-contact-accent: var(--color-accent-teal);
+
+  // Spacing
+  @each $step, $value in $spacing {
+    --space-#{$step}: #{$value};
+  }
+
+  // Radius
+  @each $size, $value in $radius {
+    --radius-#{$size}: #{$value};
+  }
+
+  // Layout
+  --layout-section-max-width: #{$section-max-width};
+  --layout-section-padding-x: #{$section-padding-x};
+  --layout-section-padding-x-md: #{$section-padding-x-md};
+
+  // Motion
+  --motion-theme: #{$motion-theme};
+  --motion-bg: #{$motion-bg};
+
+  // Legacy aliases (prefer --color-* in new code)
+  --bg: var(--color-bg);
+  --text-primary: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --border: var(--color-border);
+  --accent-purple: var(--color-accent-purple);
+  --accent-teal: var(--color-accent-teal);
+  --btn-primary-bg: var(--color-btn-primary-bg);
+  --btn-primary-text: var(--color-btn-primary-text);
+  --transition-theme: var(--motion-theme);
 }
 
 [data-theme="dark"] body {
@@ -38,39 +81,26 @@ html {
 }
 
 [data-theme="dark"] {
-  --bg: #111110;
-  --text-primary: #f0efe9;
-  --text-secondary: #9a9a94;
-  --border: #2c2c2a;
-  --accent-purple: #afa9ec;
-  --accent-teal: #5dcaa5;
-  --btn-primary-bg: #f0efe9;
-  --btn-primary-text: #111110;
+  --color-bg: #{$color-neutral-900};
+  --color-text-primary: #{$color-neutral-100};
+  --color-text-secondary: #{$color-neutral-400};
+  --color-border: #{$color-neutral-800};
+  --color-accent-purple: #{$color-purple-400};
+  --color-accent-teal: #{$color-teal-400};
+  --color-btn-primary-bg: #{$color-neutral-100};
+  --color-btn-primary-text: #{$color-neutral-900};
+  --color-contact-fg: #{$color-contact-fg-dark};
+  --color-contact-muted: #{$color-contact-muted-dark};
+  --color-contact-accent: #{$color-blue-accent};
 }
 
 @for $i from 0 through 2 {
   [data-era="#{$i}"] {
-    @if $i == 0 {
-      --bg: #d5bdf8;
-    } @else if $i == 1 {
-      --bg: #b8c1f5;
-    } @else if $i == 2 {
-      --bg: #94bdf7;
-    } @else {
-      --bg: #b8c1f5;
-    }
+    --color-bg: #{map.get($era-bg-light, $i)};
   }
 
   [data-theme="dark"][data-era="#{$i}"] {
-    @if $i == 0 {
-      --bg: #111110;
-    } @else if $i == 1 {
-      --bg: #121110;
-    } @else if $i == 2 {
-      --bg: #101211;
-    } @else {
-      --bg: #111210;
-    }
+    --color-bg: #{map.get($era-bg-dark, $i)};
   }
 }
 
@@ -79,28 +109,28 @@ body {
   font-weight: 400;
   font-size: 1rem;
   line-height: 1.6;
-  color: var(--text-primary);
-  background-color: var(--bg);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
   background-image: linear-gradient(
     270deg,
-    #d5bdf8,
-    #b8c1f5,
-    #94bdf7,
-    #b8c1f5,
-    #d5bdf8
+    #{$color-purple-100},
+    #{$color-purple-200},
+    #{$color-purple-300},
+    #{$color-purple-200},
+    #{$color-purple-100}
   );
   transition:
-    background-color 600ms ease,
-    color var(--transition-theme),
-    border-color var(--transition-theme);
+    background-color var(--motion-bg),
+    color var(--motion-theme),
+    border-color var(--motion-theme);
   -webkit-font-smoothing: antialiased;
 
   &,
   * {
     transition:
-      background-color var(--transition-theme),
-      color var(--transition-theme),
-      border-color var(--transition-theme);
+      background-color var(--motion-theme),
+      color var(--motion-theme),
+      border-color var(--motion-theme);
   }
 }
 

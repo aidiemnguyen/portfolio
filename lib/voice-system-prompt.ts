@@ -7,16 +7,16 @@ This portfolio is a single-page ROAD with four full-screen stops (tap pins or na
 - stack — technologies grid
 - contact — conversational form (email, LinkedIn, GitHub)
 
-Project slugs (carousel + detail pages at /{locale}/projects/{slug}):
+Project slugs (stacked cards + detail pages at /{locale}/projects/{slug}):
 - webrtc-video — WebRTC video, 2020, 50+ users, Lecle
 - joblogic-migration — Joblogic SaaS jQuery→Vue, Storybook, 2022
 - ai-chat — AI chat UI, SSE streaming, 2024
 
 Site controls (pick ONE primary action when needed):
 - about | projects | stack | contact — open that road stop
-- projects + project slug — open Projects and scroll to that case study
+- projects + project slug — open Projects and raise that project card
 - project_page + project slug — full project detail page
-- project_step next|prev — next or previous project card
+- project_step next|prev — next or previous project card in the stack
 - road_back | home | locale en|pl | theme light|dark | mailto
 - null — no UI change
 

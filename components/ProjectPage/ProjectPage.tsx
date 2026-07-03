@@ -12,7 +12,6 @@ const YEAR_TO_ERA: Record<number, number> = {
   2020: 0,
   2022: 1,
   2024: 2,
-  2025: 3,
 };
 
 interface ProjectPageProps {
@@ -62,7 +61,7 @@ export function ProjectPage({ era, locale, chapter }: ProjectPageProps) {
     >
       <div className={styles.inner}>
         <motion.div variants={section}>
-          <Link href={`/${locale}#timeline`} className={styles.back}>
+          <Link href={`/${locale}#projects`} className={styles.back}>
             <span className={styles.backArrow} aria-hidden>
               ←
             </span>
@@ -133,24 +132,6 @@ export function ProjectPage({ era, locale, chapter }: ProjectPageProps) {
             ))}
           </ul>
         </motion.section>
-
-        {era.detail.links && era.detail.links.length > 0 && (
-          <motion.nav className={styles.links} variants={section}>
-            {era.detail.links.map((link) => (
-              <Link
-                key={link.href}
-                href={
-                  link.href.startsWith("#")
-                    ? `/${locale}${link.href}`
-                    : link.href
-                }
-                className={styles.link}
-              >
-                {link.label} →
-              </Link>
-            ))}
-          </motion.nav>
-        )}
       </div>
     </motion.article>
   );

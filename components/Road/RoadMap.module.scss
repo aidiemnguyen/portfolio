@@ -1,4 +1,5 @@
 @use "../../styles/mixins" as *;
+@use "../../styles/tokens" as *;
 
 .map {
   position: relative;
@@ -7,28 +8,28 @@
   flex-direction: column;
   height: 100%;
   min-height: 0;
-  padding: 0 0 1rem;
+  padding: 0 0 var(--space-4);
 }
 
 .intro {
   position: relative;
   z-index: 2;
   flex-shrink: 0;
-  padding: 0.25rem 1.25rem 0.75rem;
+  padding: var(--space-1) var(--space-5) var(--space-3);
 
   @include from-md {
-    padding: 0.5rem 2.5rem 1rem;
+    padding: var(--space-2) var(--space-10) var(--space-4);
   }
 }
 
 .role {
-  padding-top: 3rem;
+  padding-top: var(--space-12);
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--text-secondary);
-  margin-bottom: 0.35rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2);
 }
 
 .title {
@@ -40,12 +41,12 @@
   font-weight: 500;
   line-height: 1.1;
   letter-spacing: -0.03em;
-  color: var(--text-primary);
-  margin-bottom: 0.65rem;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
 }
 
 .accent {
-  color: var(--accent-purple);
+  color: var(--color-accent-purple);
 }
 
 .eyebrow {
@@ -53,8 +54,8 @@
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--text-secondary);
-  margin-bottom: 0.25rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-1);
 }
 
 .pickTitle {
@@ -65,14 +66,14 @@
   }
   font-weight: 500;
   letter-spacing: -0.02em;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
 }
 
 .subtitle {
-  margin-top: 0.25rem;
+  margin-top: var(--space-1);
   font-size: 0.8125rem;
   line-height: 1.45;
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
 }
 
 .scene {
@@ -86,11 +87,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5.5rem 0 2.5rem;
+  padding: var(--space-12) 0 var(--space-10);
   isolation: isolate;
 
   @include from-md {
-    padding: 3rem 0 1.75rem;
+    padding: var(--space-12) 0 var(--space-8);
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
   }
@@ -113,7 +114,7 @@
 }
 
 .pathGlow {
-  stroke: color-mix(in srgb, var(--accent-purple) 50%, transparent);
+  stroke: color-mix(in srgb, var(--color-accent-purple) 50%, transparent);
   stroke-width: 40;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -122,7 +123,7 @@
 }
 
 .pathShadow {
-  stroke: color-mix(in srgb, var(--text-primary) 14%, transparent);
+  stroke: color-mix(in srgb, var(--color-text-primary) 14%, transparent);
   stroke-width: 36;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -139,7 +140,7 @@
 }
 
 .pathDash {
-  stroke: color-mix(in srgb, var(--text-primary) 28%, transparent);
+  stroke: color-mix(in srgb, var(--color-text-primary) 28%, transparent);
   stroke-width: 3;
   stroke-dasharray: 10 14;
   stroke-linecap: round;
@@ -157,14 +158,14 @@
 }
 
 .travelerGlow {
-  fill: color-mix(in srgb, var(--accent-teal) 35%, transparent);
+  fill: color-mix(in srgb, var(--color-accent-teal) 35%, transparent);
   filter: blur(2px);
 }
 
 .traveler {
-  fill: var(--accent-teal);
+  fill: var(--color-accent-teal);
   filter: drop-shadow(
-    0 0 6px color-mix(in srgb, var(--accent-teal) 70%, transparent)
+    0 0 6px color-mix(in srgb, var(--color-accent-teal) 70%, transparent)
   );
 }
 
@@ -174,11 +175,11 @@
   z-index: 2;
   list-style: none;
   margin: 0;
-  padding: 0 0.5rem;
+  padding: 0 var(--space-2);
   pointer-events: none;
 
   @include from-md {
-    padding: 0 1.25rem;
+    padding: 0 var(--space-5);
   }
 }
 
@@ -217,7 +218,7 @@
 
 .stopAbove {
   transform: translate(-50%, -100%);
-  padding-bottom: 0.65rem;
+  padding-bottom: var(--space-3);
 
   &[data-stop-id="contact"] {
     transform: translate(50%, -100%);
@@ -231,13 +232,13 @@
 
   .pinWrap {
     margin-top: 0;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--space-2);
   }
 }
 
 .stopBelow {
   transform: translate(-50%, 0%);
-  padding-top: 0.65rem;
+  padding-top: var(--space-3);
 
   .stop {
     flex-direction: column;
@@ -247,26 +248,26 @@
 
   .pinWrap {
     margin-top: 0;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--space-2);
   }
 }
 
 .stop {
   display: flex;
   gap: 0;
-  padding: 0.5rem 0.75rem;
-  border-radius: 14px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
   white-space: nowrap;
   transition:
     background-color 0.2s ease,
     transform 0.2s ease;
 
   &:hover {
-    background: color-mix(in srgb, var(--text-primary) 7%, transparent);
+    background: color-mix(in srgb, var(--color-text-primary) 7%, transparent);
   }
 
   &:focus-visible {
-    outline: 2px solid var(--accent-purple);
+    outline: 2px solid var(--color-accent-purple);
     outline-offset: 4px;
   }
 
@@ -295,10 +296,10 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--accent-purple) 18%, var(--bg));
-  border: 2px solid color-mix(in srgb, var(--accent-purple) 45%, transparent);
+  background: color-mix(in srgb, var(--color-accent-purple) 18%, var(--color-bg));
+  border: 2px solid color-mix(in srgb, var(--color-accent-purple) 45%, transparent);
   box-shadow: 0 4px 16px
-    color-mix(in srgb, var(--text-primary) 12%, transparent);
+    color-mix(in srgb, var(--color-text-primary) 12%, transparent);
   transform-origin: center center;
 }
 
@@ -306,7 +307,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 2px solid color-mix(in srgb, var(--accent-purple) 50%, transparent);
+  border: 2px solid color-mix(in srgb, var(--color-accent-purple) 50%, transparent);
   transform-origin: center center;
   pointer-events: none;
 }
@@ -322,8 +323,8 @@
     height: 1.125rem;
   }
   border-radius: 50%;
-  background: var(--accent-purple);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--bg) 90%, transparent);
+  background: var(--color-accent-purple);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-bg) 90%, transparent);
 }
 
 .stopBody {
@@ -342,7 +343,7 @@
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent-teal);
+  color: var(--color-accent-teal);
 }
 
 .stopLabel {
@@ -353,7 +354,7 @@
   }
   font-weight: 500;
   letter-spacing: -0.02em;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   text-transform: lowercase;
 }
 
@@ -363,7 +364,7 @@
   @include from-md {
     font-size: 0.75rem;
   }
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   margin-top: 0.1rem;
 
   @include until-md {

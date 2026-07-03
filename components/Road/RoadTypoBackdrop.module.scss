@@ -1,4 +1,5 @@
 @use "../../styles/mixins" as *;
+@use "../../styles/tokens" as *;
 
 .backdrop {
   position: absolute;
@@ -14,16 +15,16 @@
   z-index: 1;
   background: linear-gradient(
     105deg,
-    color-mix(in srgb, var(--bg) 92%, transparent) 0%,
-    color-mix(in srgb, var(--bg) 50%, transparent) 42%,
+    color-mix(in srgb, var(--color-bg) 92%, transparent) 0%,
+    color-mix(in srgb, var(--color-bg) 50%, transparent) 42%,
     transparent 68%
   );
 
   [data-theme="dark"] & {
     background: linear-gradient(
       105deg,
-      color-mix(in srgb, var(--bg) 94%, transparent) 0%,
-      color-mix(in srgb, var(--bg) 55%, transparent) 42%,
+      color-mix(in srgb, var(--color-bg) 94%, transparent) 0%,
+      color-mix(in srgb, var(--color-bg) 55%, transparent) 42%,
       transparent 68%
     );
   }
@@ -36,17 +37,17 @@
   display: flex;
   align-items: flex-start;
   justify-content: flex-end;
-  padding-top: 2.5rem;
-  padding-right: 3rem;
+  padding-top: var(--space-10);
+  padding-right: var(--space-12);
 
   @include from-md {
-    padding-top: 4.5rem;
+    padding-top: var(--space-12);
   }
 
   @include until-md {
     justify-content: center;
     align-items: flex-start;
-    padding-top: 2rem;
+    padding-top: var(--space-8);
   }
 }
 
@@ -104,7 +105,7 @@
 }
 
 .lineFront {
-  color: color-mix(in srgb, var(--text-primary) 22%, transparent);
+  color: color-mix(in srgb, var(--color-text-primary) 22%, transparent);
 }
 
 .rule {
@@ -113,7 +114,7 @@
   width: 100%;
   height: 1px;
   margin: 0.12em 0 0.08em;
-  background: color-mix(in srgb, var(--text-primary) 18%, var(--border));
+  background: color-mix(in srgb, var(--color-text-primary) 18%, var(--color-border));
   overflow: hidden;
 
   &::after {
@@ -123,7 +124,7 @@
     background: linear-gradient(
       90deg,
       transparent,
-      color-mix(in srgb, var(--accent-purple) 70%, transparent),
+      color-mix(in srgb, var(--color-accent-purple) 70%, transparent),
       transparent
     );
     transform: translateX(-100%);
@@ -137,7 +138,7 @@
 }
 
 .lineName {
-  color: color-mix(in srgb, var(--accent-purple) 55%, transparent);
+  color: color-mix(in srgb, var(--color-accent-purple) 55%, transparent);
 }
 
 .cursor {
@@ -146,7 +147,7 @@
   height: 0.78em;
   margin-left: 0.06em;
   vertical-align: -0.06em;
-  background: color-mix(in srgb, var(--accent-purple) 80%, var(--text-primary));
+  background: color-mix(in srgb, var(--color-accent-purple) 80%, var(--color-text-primary));
   animation: cursorBlink 0.95s step-end infinite;
 }
 

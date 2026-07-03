@@ -4,13 +4,12 @@ const en: Dictionary = {
   metadata: {
     title: "AI Diem — Built through history",
     description:
-      "Senior Frontend Engineer portfolio. Projects tied to real moments in time — from WebRTC to AI interfaces, and a move to Poland.",
+      "Senior Frontend Engineer portfolio — WebRTC, SaaS migration, and AI chat interfaces.",
   },
   road: {
     eyebrow: "My road",
     title: "Pick a stop",
     subtitle: "One road · four chapters · tap a pin to open it full screen.",
-    back: "Back to the road",
     mapAria: "Portfolio road map — choose a category",
     stops: {
       about: {
@@ -47,30 +46,17 @@ const en: Dictionary = {
     displayName: "frontend engineer",
     titleLine1: "built through",
     titleLine2: "history.",
-    subtitle:
-      "In 2025, I packed 7 years of frontend work into two suitcases and moved to Poland. Not to start over — but to get closer to why I build things in the first place.",
-    ctaWork: "view projects",
-    ctaCv: "download cv",
-    scrollToWork: "Scroll to projects",
-    originLabel: "Origin",
-    originValue: "Vietnam",
-    nowLabel: "Now",
-    nowValue: "Wrocław, Poland",
-    focusLabel: "Focus",
-    focusValue: "React · Next.js · Motion",
   },
   mission: {
-    eyebrow: "Mission · 2025",
     lines: ["I build", "through", "real"],
     highlights: ["moments.", "not", "slides."],
     withLabel: "built with",
     pills: ["TypeScript", "WEBRTC", "Product sense"],
   },
   about: {
-    title: "simply about",
     stats: [
       { value: "7+", label: "Years shipping real products" },
-      { value: "4", label: "Eras I built through" },
+      { value: "3", label: "Shipped project chapters" },
       { value: "50+", label: "Engineers using my design system" },
       { value: "3", label: "Products sharing 1 shared module system" },
     ],

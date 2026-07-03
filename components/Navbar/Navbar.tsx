@@ -5,8 +5,8 @@ import { useLocaleContext } from "@/contexts/LocaleContext";
 import { useTheme } from "@/components/ThemeProvider/ThemeProvider";
 import type { RoadStopId } from "@/data/road-stops";
 import type { FullPageSectionId } from "@/lib/section-scroll";
+import { useIsMounted } from "@/hooks/useIsMounted";
 import { motion } from "framer-motion";
-import { useSyncExternalStore } from "react";
 import styles from "./Navbar.module.scss";
 
 const roadNavKeys: { key: RoadStopId; navKey: RoadStopId }[] = [
@@ -63,11 +63,7 @@ export function Navbar({
   const { dictionary } = useLocaleContext();
   const { nav } = dictionary;
   const { resolvedTheme, setTheme } = useTheme();
-  const mounted = useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
+  const mounted = useIsMounted();
 
   const theme = resolvedTheme ?? "light";
   const isDark = mounted && theme === "dark";

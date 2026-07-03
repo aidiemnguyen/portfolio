@@ -7,34 +7,17 @@ import styles from "./ProjectSlide.module.scss";
 
 interface ProjectSlideProps {
   era: EraTranslation;
-  index: number;
   locale: Locale;
   openLabel: string;
-  isActive?: boolean;
-  layout?: "full" | "timeline" | "grid";
 }
 
-export function ProjectSlide({
-  era,
-  index,
-  locale,
-  openLabel,
-  isActive = true,
-  layout = "full",
-}: ProjectSlideProps) {
+export function ProjectSlide({ era, locale, openLabel }: ProjectSlideProps) {
   const accentClass =
     era.accent === "teal" ? styles.slideTeal : styles.slidePurple;
-  const chapterNum = String(index + 1).padStart(2, "0");
   const href = `/${locale}/projects/${era.slug}`;
-  const isGrid = layout === "grid";
-  const isTimeline = layout === "timeline";
 
   return (
-    <article
-      className={`${styles.slide} ${accentClass} ${isTimeline ? styles.slideTimeline : ""} ${isGrid ? styles.slideGrid : ""} ${isActive ? styles.slideActive : ""}`}
-      data-era-index={index}
-      aria-hidden={!isActive}
-    >
+    <article className={`${styles.slide} ${accentClass}`}>
       <div
         className={`${styles.canvas} ${era.accent === "teal" ? styles.canvasTeal : styles.canvasPurple}`}
         aria-hidden
@@ -44,20 +27,10 @@ export function ProjectSlide({
         aria-hidden
       />
 
-      {!isTimeline && !isGrid && (
-        <span className={styles.yearGhost} aria-hidden>
+      <div className={styles.content}>
+        <span className={styles.yearBadge} aria-hidden>
           {era.year}
         </span>
-      )}
-
-      <div
-        className={`${styles.content} ${isTimeline ? styles.contentTimeline : ""} ${isGrid ? styles.contentGrid : ""}`}
-      >
-        {isGrid && (
-          <span className={styles.yearBadge} aria-hidden>
-            {era.year}
-          </span>
-        )}
 
         <div className={styles.meta}>
           {era.detail.company && (
@@ -82,7 +55,6 @@ export function ProjectSlide({
           href={href}
           className={styles.cta}
           aria-label={`${openLabel}: ${era.project}`}
-          tabIndex={isActive ? 0 : -1}
         >
           <span>{openLabel}</span>
           <span className={styles.ctaArrow} aria-hidden>

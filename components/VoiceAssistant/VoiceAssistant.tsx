@@ -1,6 +1,7 @@
 "use client";
 
 import { useTheme } from "@/components/ThemeProvider/ThemeProvider";
+import { useLocaleContext } from "@/contexts/LocaleContext";
 import { parseLocalVoiceCommand } from "@/lib/voice-commands";
 import { pathForLocale } from "@/lib/locale-path";
 import type { Locale } from "@/i18n/config";
@@ -29,7 +30,6 @@ import styles from "./VoiceAssistant.module.css";
 
 const TOOLTIP_STORAGE_KEY = "voice-assistant-tooltip-seen";
 const NAV_DELAY_MS = 1000;
-const CONTACT_EMAIL = "aidiemnguyen2104@gmail.com";
 
 const OFFLINE_MESSAGE =
   "Looks like you're offline — you can still explore the road.";
@@ -48,6 +48,7 @@ type VoiceHandlers = {
 export function VoiceAssistant() {
   const router = useRouter();
   const pathname = usePathname();
+  const { dictionary } = useLocaleContext();
   const { setTheme } = useTheme();
 
   const [phase, setPhase] = useState<AssistantPhase>("idle");
@@ -219,7 +220,7 @@ export function VoiceAssistant() {
           else if (parsed.step === "prev") dispatchVoiceProjectStep(-1);
           return;
         case "mailto":
-          window.location.href = `mailto:${CONTACT_EMAIL}`;
+          window.location.href = `mailto:${dictionary.contact.email}`;
           return;
         default:
           if (isRoadAction(parsed.action)) {
@@ -227,7 +228,7 @@ export function VoiceAssistant() {
           }
       }
     },
-    [homePath, pathname, router, runRoadNavigation, setTheme],
+    [dictionary.contact.email, homePath, pathname, router, runRoadNavigation, setTheme],
   );
 
   const runLocalCommand = useCallback(() => {

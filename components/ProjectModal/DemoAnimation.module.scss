@@ -1,19 +1,21 @@
+@use "../../styles/tokens" as *;
+
 .demo {
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--bg) 92%, var(--text-primary));
-  padding: 1.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-bg) 92%, var(--color-text-primary));
+  padding: var(--space-5);
   min-height: 200px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 .demoHero {
   min-height: 260px;
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--demo-accent) 6%, var(--bg));
-  border-color: color-mix(in srgb, var(--demo-accent) 22%, var(--border));
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--demo-accent) 6%, var(--color-bg));
+  border-color: color-mix(in srgb, var(--demo-accent) 22%, var(--color-border));
 
   .stage {
     min-height: 180px;
@@ -25,15 +27,15 @@
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
 }
 
 .accentTeal {
-  --demo-accent: var(--accent-teal);
+  --demo-accent: var(--color-accent-teal);
 }
 
 .accentPurple {
-  --demo-accent: var(--accent-purple);
+  --demo-accent: var(--color-accent-purple);
 }
 
 .stage {
@@ -46,11 +48,11 @@
 
 .stepLabel {
   font-size: 0.8125rem;
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   line-height: 1.5;
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .stepNum {
@@ -61,7 +63,7 @@
 
 .dots {
   display: flex;
-  gap: 0.375rem;
+  gap: var(--space-2);
   justify-content: center;
 }
 
@@ -69,7 +71,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--border);
+  background: var(--color-border);
   transition: background-color 0.3s ease, transform 0.3s ease;
 
   &Active {
@@ -83,23 +85,23 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
+  gap: var(--space-2);
   width: 100%;
   max-width: 220px;
 }
 
 .videoTile {
   aspect-ratio: 4 / 3;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   background: color-mix(in srgb, var(--demo-accent) 25%, transparent);
   border: 1px solid color-mix(in srgb, var(--demo-accent) 40%, transparent);
 }
 
 .videoPulse {
   position: absolute;
-  inset: -8px;
+  inset: calc(var(--space-2) * -1);
   border: 2px solid var(--demo-accent);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   opacity: 0.4;
   animation: pulseRing 2s ease-in-out infinite;
 }
@@ -119,7 +121,7 @@
 // Design system
 .storybook {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--space-3);
   width: 100%;
   max-width: 260px;
 }
@@ -127,27 +129,27 @@
 .storybookSidebar {
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  gap: var(--space-2);
   min-width: 3.5rem;
 }
 
 .storyItem {
   font-size: 0.625rem;
   font-weight: 500;
-  padding: 0.25rem 0.375rem;
+  padding: var(--space-1) var(--space-2);
   border-radius: 3px;
-  background: var(--border);
-  color: var(--text-secondary);
+  background: var(--color-border);
+  color: var(--color-text-secondary);
 }
 
 .storybookCanvas {
   flex: 1;
-  border: 1px dashed var(--border);
-  border-radius: 6px;
-  padding: 0.75rem;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-2);
   justify-content: center;
 }
 
@@ -162,7 +164,7 @@
   height: 8px;
   width: 50%;
   border-radius: 3px;
-  background: var(--text-secondary);
+  background: var(--color-text-secondary);
   opacity: 0.35;
 }
 
@@ -172,26 +174,26 @@
   max-width: 260px;
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
+  gap: var(--space-3);
 }
 
 .chatBubbleUser {
   align-self: flex-end;
   font-size: 0.75rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px 8px 2px 8px;
-  background: var(--border);
-  color: var(--text-primary);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm) var(--radius-sm) 2px var(--radius-sm);
+  background: var(--color-border);
+  color: var(--color-text-primary);
   max-width: 85%;
 }
 
 .chatBubbleAi {
   align-self: flex-start;
   font-size: 0.75rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px 8px 8px 2px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm) var(--radius-sm) var(--radius-sm) 2px;
   border: 1px solid color-mix(in srgb, var(--demo-accent) 50%, transparent);
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   min-height: 2.25rem;
 }
 
@@ -205,60 +207,4 @@
   50% {
     opacity: 0;
   }
-}
-
-// Relocation
-.relocation {
-  position: relative;
-  width: 100%;
-  max-width: 220px;
-  height: 80px;
-}
-
-.suitcase {
-  position: absolute;
-  left: 0;
-  bottom: 12px;
-  width: 32px;
-  height: 24px;
-  border-radius: 4px;
-  border: 2px solid var(--demo-accent);
-  background: color-mix(in srgb, var(--demo-accent) 15%, transparent);
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 14px;
-    height: 10px;
-    border: 2px solid var(--demo-accent);
-    border-bottom: none;
-    border-radius: 4px 4px 0 0;
-  }
-}
-
-.mapPin {
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  width: 14px;
-  height: 14px;
-  background: var(--demo-accent);
-  border-radius: 50% 50% 50% 0;
-  transform: rotate(-45deg);
-}
-
-.path {
-  position: absolute;
-  left: 36px;
-  right: 28px;
-  bottom: 22px;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    var(--demo-accent),
-    color-mix(in srgb, var(--demo-accent) 30%, transparent)
-  );
 }

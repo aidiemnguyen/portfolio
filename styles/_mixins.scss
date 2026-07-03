@@ -1,6 +1,5 @@
 $breakpoint-sm: 640px;
 $breakpoint-md: 768px;
-$breakpoint-xs: 480px;
 
 @mixin from-sm {
   @media (min-width: $breakpoint-sm) {
@@ -16,12 +15,6 @@ $breakpoint-xs: 480px;
 
 @mixin until-md {
   @media (max-width: $breakpoint-md) {
-    @content;
-  }
-}
-
-@mixin until-xs {
-  @media (max-width: $breakpoint-xs) {
     @content;
   }
 }

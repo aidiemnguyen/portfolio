@@ -1,11 +1,8 @@
-import type { EraAccent } from "@/data/eras";
 import type { RoadStopId } from "@/data/road-stops";
 
-export type DemoAnimationType =
-  | "video-call"
-  | "design-system"
-  | "ai-stream"
-  | "relocation";
+export type EraAccent = "teal" | "purple";
+
+export type DemoAnimationType = "video-call" | "design-system" | "ai-stream";
 
 export interface EraDetail {
   role: string;
@@ -16,7 +13,6 @@ export interface EraDetail {
     steps: string[];
   };
   demoType: DemoAnimationType;
-  links?: { label: string; href: string }[];
   company?: string;
 }
 
@@ -41,7 +37,6 @@ export interface Dictionary {
     eyebrow: string;
     title: string;
     subtitle: string;
-    back: string;
     mapAria: string;
     stops: Record<RoadStopId, { district: string; hint: string }>;
   };
@@ -61,29 +56,16 @@ export interface Dictionary {
     displayName: string;
     titleLine1: string;
     titleLine2: string;
-    subtitle: string;
-    ctaWork: string;
-    ctaCv: string;
-    scrollToWork: string;
-    originLabel: string;
-    originValue: string;
-    nowLabel: string;
-    nowValue: string;
-    focusLabel: string;
-    focusValue: string;
   };
   mission: {
-    eyebrow: string;
     lines: string[];
     highlights: string[];
     withLabel: string;
     pills: string[];
   };
   about: {
-    title: string;
     stats: { value: string; label: string }[];
     bio: string;
-    skillGroups?: { label: string; items: string[] }[];
   };
   timeline: {
     heading: string;

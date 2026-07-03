@@ -1,37 +1,38 @@
 @use "../../styles/mixins" as *;
+@use "../../styles/section" as *;
+@use "../../styles/tokens" as *;
 
 .page {
   min-height: 100vh;
-  padding-bottom: 4rem;
+  padding-bottom: var(--space-16);
 }
 
 .pageTeal {
-  --page-accent: var(--accent-teal);
+  --page-accent: var(--color-accent-teal);
 }
 
 .pagePurple {
-  --page-accent: var(--accent-purple);
+  --page-accent: var(--color-accent-purple);
 }
 
 .inner {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 1.5rem 1.5rem 0;
+  @include section-shell;
+  padding-block: var(--space-6) 0;
 
   @include from-md {
-    padding: 2.5rem 3rem 0;
+    padding-block: var(--space-10) 0;
   }
 }
 
 .back {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--text-secondary);
-  margin-bottom: 2.5rem;
-  transition: color var(--transition-theme);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-10);
+  transition: color var(--motion-theme);
 
   &:hover {
     color: var(--page-accent);
@@ -47,7 +48,7 @@
 }
 
 .hero {
-  margin-bottom: 2.5rem;
+  margin-bottom: var(--space-10);
 }
 
 .chapterMeta {
@@ -67,9 +68,9 @@
   font-weight: 500;
   line-height: 0.9;
   letter-spacing: -0.04em;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   opacity: 0.08;
-  margin-top: 0.5rem;
+  margin-top: var(--space-2);
 }
 
 .title {
@@ -80,13 +81,13 @@
   }
   font-weight: 500;
   letter-spacing: -0.03em;
-  color: var(--text-primary);
-  margin-top: -2.5rem;
+  color: var(--color-text-primary);
+  margin-top: calc(var(--space-10) * -1);
   line-height: 1.15;
 }
 
 .section {
-  margin-bottom: 2.5rem;
+  margin-bottom: var(--space-10);
 }
 
 .sectionLabel {
@@ -94,8 +95,8 @@
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-secondary);
-  margin-bottom: 0.5rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2);
 }
 
 .context {
@@ -105,7 +106,7 @@
     font-size: 1.5rem;
   }
   font-style: italic;
-  color: var(--text-secondary);
+  color: var(--color-text-secondary);
   line-height: 1.5;
   letter-spacing: -0.01em;
 }
@@ -113,62 +114,44 @@
 .narrativeBlock {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: var(--space-5);
 }
 
 .narrativeItem {
-  padding-left: 1rem;
-  border-left: 2px solid var(--border);
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--color-border);
 }
 
 .narrativeValue {
   font-size: 1.0625rem;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   line-height: 1.6;
-  margin-top: 0.25rem;
+  margin-top: var(--space-1);
 }
 
 .insight {
   font-size: 1.125rem;
-  color: var(--text-primary);
+  color: var(--color-text-primary);
   line-height: 1.65;
-  padding: 1.25rem 0 1.25rem 1.25rem;
+  padding: var(--space-5) 0 var(--space-5) var(--space-5);
   border-left: 3px solid var(--page-accent);
 }
 
 .demoWrap {
-  margin-bottom: 2.5rem;
+  margin-bottom: var(--space-10);
 }
 
 .techList {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--space-2);
   list-style: none;
 }
 
 .techTag {
   font-size: 0.875rem;
-  padding: 0.5rem 1rem;
-  border-radius: 100px;
-  border: 1px solid var(--border);
-  color: var(--text-primary);
-}
-
-.links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-  padding-top: 1rem;
-}
-
-.link {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--page-accent);
-
-  &:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
 }
