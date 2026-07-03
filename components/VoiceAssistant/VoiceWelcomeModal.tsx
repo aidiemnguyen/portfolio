@@ -100,14 +100,22 @@ export function VoiceWelcomeModal({
               </div>
             </div>
 
-            <span className={styles.badge}>{labels.badge}</span>
+            {labels.badge ? (
+              <span className={styles.badge}>{labels.badge}</span>
+            ) : null}
             <h2 id="voice-welcome-title" className={styles.title}>
               {labels.title}
             </h2>
-            <p className={styles.description}>{labels.description}</p>
-            <p className={styles.highlight}>{labels.highlight}</p>
-            <p className={styles.hint}>{labels.hint}</p>
-            <p className={styles.example}>{labels.example}</p>
+            {labels.description ? (
+              <p className={styles.description}>{labels.description}</p>
+            ) : null}
+            {labels.highlight ? (
+              <p className={styles.highlight}>{labels.highlight}</p>
+            ) : null}
+            {labels.hint ? <p className={styles.hint}>{labels.hint}</p> : null}
+            {labels.example ? (
+              <p className={styles.example}>{labels.example}</p>
+            ) : null}
 
             <div className={styles.actions}>
               <button type="button" className={styles.tryBtn} onClick={onTry}>

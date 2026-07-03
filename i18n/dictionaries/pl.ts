@@ -267,13 +267,13 @@ const pl: Dictionary = {
     apiError:
       "Przepraszam, nie udało się połączyć. Spróbuj ponownie lub napisz e-mailem.",
     welcome: {
-      badge: "Nowość · Voice AI",
-      title: "Porozmawiaj z AI Diem",
-      description: "To portfolio ma wbudowanego asystenta głosowego.",
-      highlight: "Angielski i polski",
-      hint: "Poproś o to, czego potrzebujesz — profil, projekty, stack, kontakt lub CV.",
-      example:
-        'np. „Chcę zobaczyć twój profil” lub „Opowiedz o projektach”',
+      badge: "",
+      title: "Hej, jestem AI bliźniaczką Diem 👋",
+      description:
+        "Zapytaj o cokolwiek — moje projekty, stack albo po prostu przywitaj się.",
+      highlight: '"Co ostatnio zbudowałaś?" / "Pokaż mi swoje CV"',
+      hint: "🇬🇧 🇵🇱",
+      example: "",
       tryCta: "Wypróbuj teraz",
       skipCta: "Przeglądam sam/a",
       closeAria: "Zamknij wprowadzenie",

@@ -259,13 +259,13 @@ const en: Dictionary = {
     apiError:
       "Sorry, I had trouble connecting. Try again or email me directly.",
     welcome: {
-      badge: "New · Voice AI",
-      title: "Talk to AI Diem",
-      description: "This portfolio has a built-in voice assistant.",
-      highlight: "English & Polish",
-      hint: "Ask for whatever you need — profile, projects, stack, contact, or my CV.",
-      example:
-        'e.g. “I want to see your profile” or “Tell me about your projects”',
+      badge: "",
+      title: "Hey, I'm Diem's AI twin 👋",
+      description:
+        "Ask me anything — my projects, my stack, or just say hi.",
+      highlight: '"What have you built recently?" / "Show me your CV"',
+      hint: "🇬🇧 🇵🇱",
+      example: "",
       tryCta: "Try it now",
       skipCta: "Explore on my own",
       closeAria: "Close voice introduction",
