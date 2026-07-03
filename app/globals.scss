@@ -48,7 +48,7 @@ html {
   --btn-primary-text: #111110;
 }
 
-@for $i from 0 through 3 {
+@for $i from 0 through 2 {
   [data-era="#{$i}"] {
     @if $i == 0 {
       --bg: #d5bdf8;

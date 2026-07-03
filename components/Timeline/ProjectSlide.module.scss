@@ -11,6 +11,143 @@
   isolation: isolate;
 }
 
+.slideGrid {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border-radius: 10px;
+  overflow: hidden;
+
+  @include from-md {
+    border-radius: 12px;
+  }
+}
+
+.yearBadge {
+  display: inline-flex;
+  width: fit-content;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--slide-accent);
+}
+
+.contentGrid {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.45rem;
+  height: 100%;
+  min-height: 0;
+  padding: 1rem 0.85rem 1.1rem;
+
+  @include from-md {
+    gap: 0.65rem;
+    padding: 1.35rem 1.25rem 1.45rem;
+  }
+
+  .yearBadge {
+    font-size: 1.25rem;
+    margin-bottom: 0;
+
+    @include from-md {
+      font-size: 1.75rem;
+    }
+  }
+
+  .meta {
+    gap: 0.35rem 0.5rem;
+  }
+
+  .chapter {
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+
+    @include from-md {
+      font-size: 0.625rem;
+    }
+  }
+
+  .company {
+    display: block;
+    font-size: 0.625rem;
+  }
+
+  .tags li {
+    padding: 0.15rem 0.4rem;
+    font-size: 0.5rem;
+
+    @include from-md {
+      padding: 0.25rem 0.55rem;
+      font-size: 0.625rem;
+    }
+  }
+
+  .title {
+    font-size: 1.35rem;
+    line-height: 1.05;
+    max-width: none;
+
+    @include from-md {
+      font-size: 2rem;
+    }
+  }
+
+  .quote {
+    display: -webkit-box;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    @include from-md {
+      font-size: 0.9375rem;
+      -webkit-line-clamp: 3;
+    }
+  }
+
+  .insight {
+    display: -webkit-box;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    @include from-md {
+      font-size: 0.8125rem;
+    }
+  }
+
+  .cta {
+    margin-top: auto;
+    padding: 0.55rem 0.85rem;
+    font-size: 0.5625rem;
+
+    @include from-md {
+      padding: 0.7rem 1.1rem;
+      font-size: 0.625rem;
+    }
+  }
+
+  .orb {
+    width: 10rem;
+    height: 10rem;
+    opacity: 0.35;
+
+    @include from-md {
+      width: 14rem;
+      height: 14rem;
+      opacity: 0.4;
+    }
+  }
+}
+
 .slideTimeline {
   border-radius: 0;
 

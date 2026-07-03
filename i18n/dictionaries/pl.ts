@@ -85,7 +85,7 @@ const pl: Dictionary = {
   },
   timeline: {
     heading: "projekty",
-    subheading: "Każda era to realny moment — wybierz rozdział.",
+    subheading: "Trzy rozdziały z ostatnich lat — WebRTC, migracja SaaS i chat AI.",
     openChapter: "Otwórz rozdział",
   },
   chapter: {
@@ -190,45 +190,6 @@ const pl: Dictionary = {
             "Stan rozmowy jest zachowany",
           ],
         },
-      },
-    },
-    {
-      year: 2025,
-      slug: "poland-move",
-      context: "Nowy kraj. Świadomy wybór.",
-      project: "Przeprowadzka do Polski",
-      description:
-        "Przeprowadziłam się do Wrocławia. Rozpoczęłam studia magisterskie z Ekonomii i Finansów na Uniwersytecie Wrocławskim — nie po to, by odejść od inżynierii, ale by rozumieć kontekst biznesowy każdej decyzji produktowej.",
-      insight:
-        "Chcę wiedzieć, czy budujemy właściwą rzecz. Nie tylko budować rzecz dobrze.",
-      tags: ["Wrocław", "Ekonomia i Finanse", "Otwarta na pracę"],
-      accent: "purple",
-      detail: {
-        company: "Wrocław, Polska · Uniwersytet Wrocławski",
-        role: "Frontend Engineer · student studiów magisterskich",
-        team: "Osobny rozdział — most między kodem a biznesem",
-        technologies: [
-          "Ekonomia i Finanse",
-          "Myślenie produktowe",
-          "Next.js (projekty własne)",
-          "Otwarta na role senior frontend",
-        ],
-        demoType: "relocation",
-        demo: {
-          title: "Przeprowadzka w ruchu",
-          steps: [
-            "7 lat frontendu → dwie walizki",
-            "Lądowanie we Wrocławiu",
-            "Studia + inżynieria równolegle",
-            "Gotowa na kolejny zespół produktowy",
-          ],
-        },
-        links: [
-          {
-            label: "Napisz do mnie",
-            href: "#contact",
-          },
-        ],
       },
     },
   ],

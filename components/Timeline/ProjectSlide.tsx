@@ -10,8 +10,8 @@ interface ProjectSlideProps {
   index: number;
   locale: Locale;
   openLabel: string;
-  isActive: boolean;
-  layout?: "full" | "timeline";
+  isActive?: boolean;
+  layout?: "full" | "timeline" | "grid";
 }
 
 export function ProjectSlide({
@@ -19,18 +19,19 @@ export function ProjectSlide({
   index,
   locale,
   openLabel,
-  isActive,
+  isActive = true,
   layout = "full",
 }: ProjectSlideProps) {
   const accentClass =
     era.accent === "teal" ? styles.slideTeal : styles.slidePurple;
   const chapterNum = String(index + 1).padStart(2, "0");
   const href = `/${locale}/projects/${era.slug}`;
+  const isGrid = layout === "grid";
   const isTimeline = layout === "timeline";
 
   return (
     <article
-      className={`${styles.slide} ${accentClass} ${isTimeline ? styles.slideTimeline : ""} ${isActive ? styles.slideActive : ""}`}
+      className={`${styles.slide} ${accentClass} ${isTimeline ? styles.slideTimeline : ""} ${isGrid ? styles.slideGrid : ""} ${isActive ? styles.slideActive : ""}`}
       data-era-index={index}
       aria-hidden={!isActive}
     >
@@ -43,19 +44,22 @@ export function ProjectSlide({
         aria-hidden
       />
 
-      {!isTimeline && (
+      {!isTimeline && !isGrid && (
         <span className={styles.yearGhost} aria-hidden>
           {era.year}
         </span>
       )}
 
       <div
-        className={`${styles.content} ${isTimeline ? styles.contentTimeline : ""}`}
+        className={`${styles.content} ${isTimeline ? styles.contentTimeline : ""} ${isGrid ? styles.contentGrid : ""}`}
       >
-        <div className={styles.meta}>
-          <span className={styles.chapter}>
-            {openLabel} · {chapterNum}
+        {isGrid && (
+          <span className={styles.yearBadge} aria-hidden>
+            {era.year}
           </span>
+        )}
+
+        <div className={styles.meta}>
           {era.detail.company && (
             <span className={styles.company}>{era.detail.company}</span>
           )}

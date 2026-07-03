@@ -78,7 +78,7 @@ const en: Dictionary = {
   },
   timeline: {
     heading: "projects",
-    subheading: "Each era is a real moment in time — pick a chapter.",
+    subheading: "Three shipped chapters — WebRTC, SaaS migration, and AI chat.",
     openChapter: "Open chapter",
   },
   chapter: {
@@ -182,45 +182,6 @@ const en: Dictionary = {
             "Conversation state persists",
           ],
         },
-      },
-    },
-    {
-      year: 2025,
-      slug: "poland-move",
-      context: "A new country. A deliberate choice.",
-      project: "The move to Poland",
-      description:
-        "Relocated to Wrocław. Started a Master's in Economics & Finance at University of Wrocław — not to leave engineering, but to understand the business context behind every product decision.",
-      insight:
-        "I want to know if we're building the right thing. Not just build the thing right.",
-      tags: ["Wrocław", "Economics & Finance", "Open to work"],
-      accent: "purple",
-      detail: {
-        company: "Wrocław, Poland · University of Wrocław",
-        role: "Frontend Engineer · Master's student",
-        team: "Solo chapter — building bridges between code & business",
-        technologies: [
-          "Economics & Finance",
-          "Product thinking",
-          "Next.js (personal projects)",
-          "Open to senior frontend roles",
-        ],
-        demoType: "relocation",
-        demo: {
-          title: "The move in motion",
-          steps: [
-            "7 years of frontend → two suitcases",
-            "Land in Wrocław",
-            "Studies + engineering in parallel",
-            "Ready for the next product team",
-          ],
-        },
-        links: [
-          {
-            label: "Get in touch",
-            href: "#contact",
-          },
-        ],
       },
     },
   ],

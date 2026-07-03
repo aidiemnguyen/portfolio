@@ -6,7 +6,7 @@ import { Navbar } from "@/components/Navbar/Navbar";
 import { RoadMap } from "@/components/Road/RoadMap";
 import { RoadTypoBackdrop } from "@/components/Road/RoadTypoBackdrop";
 import { Stack } from "@/components/Stack/Stack";
-import { ProjectsHorizontalScroll } from "@/components/Timeline/ProjectsHorizontalScroll";
+import { Projects } from "@/components/Timeline/Projects";
 import type { RoadStopId } from "@/data/road-stops";
 import {
   FULLPAGE_SCROLL_ROOT_ID,
@@ -155,7 +155,7 @@ export function RoadExperience() {
           </div>
         </section>
 
-        <ProjectsHorizontalScroll />
+        <Projects />
 
         <section
           id="stack"

@@ -10,7 +10,6 @@ export const VOICE_PROJECT_SLUGS = [
   "webrtc-video",
   "joblogic-migration",
   "ai-chat",
-  "poland-move",
 ] as const;
 
 export type VoiceProjectSlug = (typeof VOICE_PROJECT_SLUGS)[number];
@@ -44,7 +43,6 @@ const CHAPTER_BY_SLUG: Record<VoiceProjectSlug, number> = {
   "webrtc-video": 0,
   "joblogic-migration": 1,
   "ai-chat": 2,
-  "poland-move": 3,
 };
 
 const ROAD_ACTIONS = new Set<string>([

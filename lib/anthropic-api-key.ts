@@ -8,7 +8,7 @@ export function getAnthropicApiKey(): string {
   const apiKey = process.env.ANTHROPIC_API_KEY?.trim();
   if (!apiKey) {
     throw new Error(
-      "ANTHROPIC_API_KEY is missing. Add it to .env.local (see .env.example)."
+      "ANTHROPIC_API_KEY is missing. Add it to .env.local (see .env.example).",
     );
   }
   return apiKey;
