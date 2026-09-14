@@ -33,6 +33,20 @@ function patchCssModuleLocalIdent(rules: any[], dev: boolean) {
 }
 
 const nextConfig: NextConfig = {
+  // PostHog runs in the browser; values are inlined at build time (not server-only secrets).
+  env: {
+    POSTHOG_PROJECT_TOKEN:
+      process.env.POSTHOG_PROJECT_TOKEN ??
+      process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN,
+    POSTHOG_HOST:
+      process.env.POSTHOG_HOST ??
+      process.env.NEXT_PUBLIC_POSTHOG_HOST ??
+      "https://eu.i.posthog.com",
+    POSTHOG_ENABLE_ON_LOCALHOST:
+      process.env.POSTHOG_ENABLE_ON_LOCALHOST ??
+      process.env.NEXT_PUBLIC_POSTHOG_ENABLE_ON_LOCALHOST ??
+      "",
+  },
   sassOptions: {
     includePaths: ["./styles"],
   },
