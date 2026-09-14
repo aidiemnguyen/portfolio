@@ -1,120 +1,34 @@
 @use "../../styles/mixins" as *;
 
 .avatar {
-  --voice-guide-shirt-top: #3ecfba;
-  --voice-guide-shirt-bottom: #0f6e56;
-  --voice-guide-hair-top: #2c2c2a;
-  --voice-guide-hair-bottom: #111110;
-  --voice-guide-skin: #f0c9a8;
-  --voice-guide-skin-shadow: #ddb08a;
-  --voice-guide-cheek: rgb(255 120 100 / 22%);
-
   display: block;
-  width: 100%;
-  height: auto;
+  width: 20rem;
+  height: 20rem;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: var(--radius-full);
+  border: 2px solid
+    color-mix(in srgb, var(--color-text-primary) 12%, transparent);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+  background: var(--color-bg);
 
   [data-theme="dark"] & {
-    --voice-guide-shirt-top: #5dcaa5;
-    --voice-guide-shirt-bottom: #0a4a3a;
-    --voice-guide-hair-top: #1a1a1a;
-    --voice-guide-hair-bottom: #060807;
-    --voice-guide-skin: #e8b896;
-    --voice-guide-skin-shadow: #c99572;
-    --voice-guide-cheek: rgb(255 140 120 / 18%);
+    border-color: rgb(255 255 255 / 12%);
+    box-shadow: 0 12px 28px rgb(0 0 0 / 32%);
+  }
+
+  &[data-speaking] {
+    animation: speakBounce 3s ease-in-out infinite;
   }
 }
 
-.shadow {
-  fill: rgb(0 0 0 / 12%);
-
-  [data-theme="dark"] & {
-    fill: rgb(0 0 0 / 28%);
-  }
-}
-
-.body {
-  filter: drop-shadow(0 4px 8px rgb(0 0 0 / 12%));
-}
-
-.neck,
-.head {
-  fill: var(--voice-guide-skin);
-}
-
-.head {
-  filter: drop-shadow(0 2px 4px rgb(0 0 0 / 8%));
-}
-
-.hair,
-.bangs {
-  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 18%));
-}
-
-.face {
-  .eye {
-    fill: #1a1a1a;
-  }
-
-  .eyeShine {
-    fill: #fff;
-  }
-
-  .glasses {
-    stroke: rgb(15 110 86 / 85%);
-    stroke-width: 2;
-    stroke-linecap: round;
-
-    [data-theme="dark"] & {
-      stroke: rgb(93 202 165 / 90%);
-    }
-  }
-
-  .mouth {
-    stroke: #9a5540;
-    stroke-width: 2;
-    stroke-linecap: round;
-  }
-
-  .mouthSpeaking {
-    fill: #9a5540;
-    transform-origin: 60px 66px;
-    animation: talk 0.32s ease-in-out infinite alternate;
-  }
-
-  .thinkDot {
-    fill: #9a5540;
-    animation: thinkBlink 1s ease-in-out infinite;
-  }
-}
-
-.cheek {
-  fill: var(--voice-guide-cheek);
-}
-
-@keyframes talk {
-  from {
-    transform: scaleY(0.75);
-  }
-
-  to {
-    transform: scaleY(1.15);
-  }
-}
-
-@keyframes thinkBlink {
+@keyframes speakBounce {
   0%,
   100% {
-    opacity: 0.35;
+    transform: translateY(0);
   }
 
   50% {
-    opacity: 1;
-  }
-}
-
-@include reduced-motion {
-  .mouthSpeaking,
-  .thinkDot {
-    animation: none;
+    transform: translateY(-4px);
   }
 }
