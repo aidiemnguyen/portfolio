@@ -1,7 +1,6 @@
 import posthog from "posthog-js";
 
 const token = process.env.POSTHOG_PROJECT_TOKEN;
-const host = process.env.POSTHOG_HOST ?? "https://eu.i.posthog.com";
 
 const isLocalhost =
   typeof window !== "undefined" &&
@@ -12,8 +11,13 @@ const enableOnLocalhost =
   process.env.POSTHOG_ENABLE_ON_LOCALHOST === "true";
 
 if (token && (!isLocalhost || enableOnLocalhost)) {
+  const apiHost =
+    typeof window !== "undefined"
+      ? `${window.location.origin}/ingest`
+      : "/ingest";
+
   posthog.init(token, {
-    api_host: host,
+    api_host: apiHost,
     ui_host: "https://eu.posthog.com",
     defaults: "2026-05-30",
     person_profiles: "identified_only",
